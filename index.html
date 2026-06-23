@@ -5,206 +5,449 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crimson Casino | Torn City</title>
     <style>
-        /* إعدادات الخلفية: استخدام رابط الصورة المباشر لضمان ظهورها فوراً */
+        /* الأساسيات والألوان المستوحاة من xanflip */
+        :root {
+            --bg-main: #0d0e12;
+            --bg-card: #181a21;
+            --primary: #ff0033;
+            --primary-hover: #cc0029;
+            --text-muted: #94a3b8;
+            --green: #10b981;
+        }
+
         body {
-            background-color: #050000;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://raw.githubusercontent.com/noorelldin/Crimson-Oracle/main/file_00000000_d45899.png');
-            /* ملحوظة: لو جيت هاب مظهرش الصورة، الكود تحت مستخدم نسخة احتياطية سريعة عشان تشوف التصميم فوراً */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('https://i.ibb.co/vxsYg3C/1000151008.png'); 
+            background-color: var(--bg-main);
+            background-image: linear-gradient(rgba(13, 14, 18, 0.85), rgba(13, 14, 18, 0.95)), url('https://i.ibb.co/vxsYg3C/1000151008.png');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
             box-sizing: border-box;
         }
 
-        /* رصيد اللاعب العلوي المتوهج */
-        .balance-card {
-            background: rgba(255, 0, 51, 0.25);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid #ff0033;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        .balance-card span {
-            color: #4caf50;
-            text-shadow: 0 0 10px #4caf50;
-        }
-
-        /* الحاوية الزجاجية الشفافة الفخمة لتبان الخلفية من ورائها */
-        .casino-container {
-            background: rgba(10, 3, 4, 0.75); /* تقليل التعتيم لتظهر ملامح الملك وراء المينيو */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 0, 51, 0.4);
-            border-radius: 20px;
-            padding: 30px 20px;
-            width: 100%;
-            max-width: 360px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 0, 51, 0.15);
-            box-sizing: border-box;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin: 0 0 8px 0;
-            color: #ff0033;
-            text-shadow: 0 0 10px #ff0033, 0 0 25px #ff0033;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .subtitle {
-            color: #b3b3b3;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-        }
-
-        /* تأثيرات الشاشات */
-        .screen {
-            display: none;
-        }
-        .screen.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        /* أزرار القائمة الرئيسية المحسنة جداً بمؤثرات النيون */
-        .menu-btn {
-            width: 100%;
-            background: rgba(30, 10, 12, 0.6);
-            color: white;
-            border: 1.5px solid rgba(255, 0, 51, 0.6);
-            padding: 16px 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            text-align: left;
+        /* الشريط العلوي المميز (Top Navbar) */
+        .top-navbar {
+            background: #13151c;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-sizing: border-box;
-        }
-        .menu-btn:hover {
-            background: rgba(255, 0, 51, 0.8);
-            border-color: #ff0033;
-            box-shadow: 0 0 20px #ff0033;
-            transform: translateY(-3px);
-        }
-        .menu-btn span {
-            font-size: 1.4rem;
-            transition: 0.3s;
-        }
-        .menu-btn:hover span {
-            transform: translateX(5px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* أزرار اللعب وحقول الإدخال */
-        input[type="number"] {
-            width: 85%;
-            background: #0a0203;
-            border: 1.5px solid #ff0033;
+        .brand-logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 0, 51, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* محفظة الرصيد الفخمة شبه xanflip */
+        .wallet-zone {
+            background: #1e212b;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 4px 4px 4px 12px;
+        }
+
+        .wallet-balance {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+        .wallet-balance span {
+            color: var(--green);
+        }
+
+        .wallet-icon-btn {
+            background: var(--green);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* حاوية المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            padding-bottom: 90px; /* مساحة للشريط السفلي */
+        }
+
+        /* الهيدر الترحيبي */
+        .hero-banner {
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+        .hero-banner h2 {
+            margin: 0 0 5px 0;
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+        .hero-banner p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* شبكة كروت الألعاب (PVP Originals Grid) */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        /* تصميم كرت اللعبة المودرن */
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 1 / 1.1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 0, 51, 0.4);
+        }
+
+        /* البانر الملون داخل الكرت */
+        .game-img-fallback {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        /* ألوان خلفيات مميزة للكروت لجعلها حية */
+        .card-oracle { background: linear-gradient(135deg, #2e1065, #1e1b4b); }
+        .card-blackjack { background: linear-gradient(135deg, #064e3b, #022c22); }
+        .card-lottery { background: linear-gradient(135deg, #7c2d12, #451a03); }
+
+        .game-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .game-info {
             padding: 12px;
+            background: #11131a;
+            text-align: center;
+        }
+
+        .game-title {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* شاشات اللعب الفردية داخل لوحة مودرن */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .game-play-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* المدخلات والأزرار الاحترافية */
+        input[type="number"] {
+            width: 90%;
+            max-width: 280px;
+            background: #0d0e12;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 14px;
             color: #fff;
             text-align: center;
             font-size: 1.1rem;
             margin-bottom: 15px;
             outline: none;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            transition: border-color 0.2s;
         }
+        input[type="number"]:focus { border-color: var(--primary); }
+
         .action-btn {
-            width: 85%;
-            background: #ff0033;
+            width: 90%;
+            max-width: 280px;
+            background: var(--primary);
             color: white;
             border: none;
             padding: 14px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 0, 51, 0.4);
-            margin: 8px 0;
+            transition: background 0.2s;
         }
-        .action-btn:hover {
-            background: #cc0029;
-            box-shadow: 0 6px 20px rgba(255, 0, 51, 0.7);
-            transform: translateY(-1px);
-        }
+        .action-btn:hover { background: var(--primary-hover); }
 
-        /* زرار الرجوع الفخم أسفل شاشات الألعاب */
-        .back-btn {
-            background: rgba(255, 0, 51, 0.1);
-            border: 1px solid rgba(255, 0, 51, 0.5);
-            color: #ff0033;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 20px;
+        /* زرار الرجوع المودرن المطلبق */
+        .back-btn-container {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .back-nav-btn {
+            background: #1e212b;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 25px;
-            display: inline-block;
             font-size: 0.85rem;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 600;
         }
-        .back-btn:hover {
-            background: #ff0033;
-            color: white;
-            box-shadow: 0 0 15px #ff0033;
-        }
+        .back-nav-btn:hover { background: #2a2e3d; }
 
-        /* ستايلات الجيمز */
-        .bj-zone {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
+        /* مناطق اللعب الخاصة */
+        .bj-board {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .bj-row {
+            background: #11131a;
             padding: 12px;
             border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
-        .cards { font-size: 1.3rem; color: #ff0033; font-weight: bold; margin-top: 5px; text-shadow: 0 0 5px rgba(255,0,51,0.5); }
-        .lottery-info { font-size: 0.95rem; color: #ccc; line-height: 1.5; margin-bottom: 20px; }
+        .bj-row-val { font-size: 1.4rem; color: #fff; font-weight: bold; margin-top: 4px; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* شريط التنقل السفلي الاحترافي (Bottom Tab Bar) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #13151c;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
         }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-item-icon { font-size: 1.3rem; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-    <div class="balance-card" id="balance-card">
-        Your Balance: <span id="balance-display">50</span> Xanax
+    <div class="top-navbar">
+        <div class="brand-logo">Crimson</div>
+        <div class="wallet-zone">
+            <div class="wallet-balance"><span id="balance-display">50</span> Xanax</div>
+            <button class="wallet-icon-btn">Wallet</button>
+        </div>
     </div>
 
-    <div class="casino-container">
-        <h1>Crimson Casino</h1>
-        <div class="subtitle" id="casino-subtitle">The Oracle Awaits Your Fate</div>
+    <div class="main-content">
 
         <div id="main-menu" class="screen active">
-            <button class="menu-btn" onclick="goToScreen('oracle')">
-                🔮 Crimson Oracle <span>→
-                    
+            <div class="hero-banner">
+                <h2>CASINO ORIGINALS</h2>
+                <p>Win rate is set to 60% in your favor</p>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card" onclick="goToScreen('oracle')">
+                    <div class="game-img-fallback card-oracle">
+                        🔮
+                        <div class="game-badge">PVP</div>
+                    </div>
+                    <div class="game-info">
+                        <h4 class="game-title">Crimson Oracle</h4>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="goToScreen('blackjack')">
+                    <div class="game-img-fallback card-blackjack">
+                        🃏
+                        <div class="game-badge">SOLO</div>
+                    </div>
+                    <div class="game-info">
+                        <h4 class="game-title">Blackjack</h4>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="goToScreen('lottery')">
+                    <div class="game-img-fallback card-lottery">
+                        🎫
+                        <div class="game-badge">RAFFLES</div>
+                    </div>
+                    <div class="game-info">
+                        <h4 class="game-title">Weekly Lottery</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-oracle" class="screen">
+            <div class="back-btn-container">
+                <button class="back-nav-btn" onclick="goToMenu()">← Back to Games</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0; color:var(--primary)">🔮 CRIMSON ORACLE</h3>
+                <p style="color: var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Double your Xanax instantly.</p>
+                <input type="number" id="oracle-bet" min="1" value="5">
+                <button class="action-btn" onclick="playOracle()">Shake The Oracle</button>
+                <p id="oracle-result" style="font-weight: bold; margin-top: 15px; min-height:20px;"></p>
+            </div>
+        </div>
+
+        <div id="screen-blackjack" class="screen">
+            <div class="back-btn-container">
+                <button class="back-nav-btn" onclick="goToMenu()">← Back to Games</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0; color:var(--primary)">🃏 BLACKJACK</h3>
+                <div id="bj-setup">
+                    <p style="color: var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Bet your Xanax against the house.</p>
+                    <input type="number" id="bj-bet" min="1" value="5">
+                    <button class="action-btn" onclick="startBlackjack()">Deal Cards</button>
+                </div>
+                <div id="bj-play" style="display: none;">
+                    <div class="bj-board">
+                        <div class="bj-row">Oracle Hand <div class="bj-row-val" id="dealer-cards">?</div></div>
+                        <div class="bj-row">Your Hand <div class="bj-row-val" id="player-cards">0</div></div>
+                    </div>
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button class="action-btn" style="width:120px;" onclick="bjHit()">Hit</button>
+                        <button class="action-btn" style="width:120px; background:#334155;" onclick="bjStand()">Stand</button>
+                    </div>
+                </div>
+                <p id="bj-result" style="font-weight: bold; margin-top: 15px; min-height:20px;"></p>
+            </div>
+        </div>
+
+        <div id="screen-lottery" class="screen">
+            <div class="back-btn-container">
+                <button class="back-nav-btn" onclick="goToMenu()">← Back to Games</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0; color:var(--primary)">🎫 MEGA RAFFLE</h3>
+                <p style="color: var(--text-muted); font-size:0.9rem;">Ticket Cost: 1 Xanax | Pool: <span style="color:var(--primary)">142 Xanax</span></p>
+                <input type="number" id="ticket-count" min="1" value="1">
+                <button class="action-btn" onclick="buyLottery()">Buy Tickets</button>
+                <p id="lottery-result" style="font-weight: bold; margin-top: 15px; min-height:20px;"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="goToMenu()">
+            <div class="nav-item-icon">⚔️</div>
+            <div>PVP</div>
+        </div>
+        <div class="nav-item" onclick="alert('Profile section coming soon!')">
+            <div class="nav-item-icon">👤</div>
+            <div>PROFILE</div>
+        </div>
+        <div class="nav-item" onclick="alert('Chat is empty right now.')">
+            <div class="nav-item-icon">💬</div>
+            <div>CHAT</div>
+        </div>
+    </div>
+
+    <script>
+        let balance = 50;
+        let currentBjBet = 0;
+        let playerHand = [];
+        let dealerHand = [];
+
+        function goToScreen(screenName) {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('screen-' + screenName).classList.add('active');
+        }
+
+        function goToMenu() {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('main-menu').classList.add('active');
+            document.getElementById('oracle-result').innerText = "";
+            document.getElementById('bj-result').innerText = "";
+            document.getElementById('lottery-result').innerText = "";
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('balance-display').innerText = balance;
+        }
+
+        function playOracle() {
+            let bet = parseInt(document.getElementById('oracle-bet').value);
+            let resultText = document.getElementById('oracle-result');
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Invalid bet!"; return;
+            }
+            let win = Math.random() < 0.60; 
+            if (win) {
+                balance += bet; resultText.style.color = "#10b981";
+                resultText.innerText = `🔮 Win! (+${bet} Xanax)`;
+            } else {
+                balance -= bet; resultText.style.color = "#ff0033";
+                resultText.innerText = `🔥 Lost! (-${bet} Xanax)`;
+            }
+            updateBalanceDisplay();
+        }
+
+        function getCardValue() { return Math.floor(Math.random() * 10) + 2; }
+        function sumHand(hand) { return hand.reduce((a, b) => a + b, 0); }
+
+        function startBlackjack() {
+        
