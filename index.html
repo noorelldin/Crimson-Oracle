@@ -1,23 +1,495 @@
-<!-- حدثت جزء الـ Modal في الكود عشان يظهر بياناتك بوضوح -->
-<div id="deposit-modal" class="modal" onclick="closeDeposit()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
-        <p style="font-size:0.85rem; color: var(--text-main)">Send your Xanax to:</p>
-        
-        <!-- هنا الـ ID بتاعك -->
-        <div style="background:#000; padding:10px; border-radius:6px; margin: 10px 0; border: 1px solid var(--primary);">
-            <div style="color:var(--text-muted); font-size: 0.7rem;">ACCOUNT ID</div>
-            <div style="font-weight:bold; font-size:1.1rem; color:#fff;">noorelldin [4093821]</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimson Casino | Torn City</title>
+    <style>
+        :root {
+            /* ثيم أحمر داكن هادي وفخم للعين */
+            --bg-main: #160404;
+            --bg-card: #280808;
+            --bg-nav: #0f0202;
+            --primary: #8b0000;
+            --primary-hover: #b30000;
+            --text-main: #fcebeb;
+            --text-muted: #cca3a3;
+            --green: #10b981;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        /* شريط علوي ثابث */
+        .top-navbar {
+            background: var(--bg-nav);
+            border-bottom: 2px solid var(--primary);
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wallet-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wallet-balance {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .wallet-balance span {
+            color: var(--green);
+        }
+
+        .deposit-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .deposit-btn:hover { background: var(--primary-hover); }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            padding-bottom: 90px;
+        }
+
+        .hero-banner {
+            text-align: center;
+            margin: 15px 0 25px 0;
+        }
+        .hero-banner h2 {
+            margin: 0 0 4px 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .hero-banner p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* شبكة الكروت للرئيسية */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid #451010;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 1 / 1.1;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .game-card:active { transform: scale(0.97); }
+        .game-card:hover { border-color: var(--primary); }
+
+        .card-img-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+        }
+
+        .game-footer-info {
+            padding: 12px;
+            background: var(--bg-nav);
+            text-align: center;
+            border-top: 1px solid #300a0a;
+        }
+        .game-title { margin: 0; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; }
+        .game-type { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+        /* شاشات اللعب والتحكم في الظهور */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .game-play-panel {
+            background: var(--bg-card);
+            border: 1px solid #451010;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        input[type="number"] {
+            width: 80%;
+            background: #0f0202;
+            border: 1px solid #5a1818;
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        input[type="number"]:focus { border-color: var(--primary); }
+
+        .action-btn {
+            width: 85%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .action-btn:hover { background: var(--primary-hover); }
+
+        .back-nav-container { margin-bottom: 12px; text-align: left; }
+        .back-nav-btn {
+            background: var(--bg-card);
+            color: #fff;
+            border: 1px solid #451010;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* ستايل عرض ورق الكوتشينة في البلاك جاك */
+        .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .bj-box { background: var(--bg-nav); padding: 15px; border-radius: 10px; border: 1px solid #300a0a; }
+        .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+        .bj-cards-display { font-size: 1.4rem; font-weight: bold; letter-spacing: 4px; color: #fff; }
+
+        /* نافذة الـ Deposit (Modal) - مغلقة أوتوماتيكياً الآن */
+        .modal {
+            display: none; /* اتصلحت عشان متظهرش وتخرب الصفحة */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: var(--bg-nav);
+            padding: 25px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 360px;
+            border: 2px solid var(--primary);
+            text-align: center;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* الشريط السفلي */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg-nav);
+            border-top: 1px solid #300a0a;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            z-index: 100;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
+        .nav-item.active { color: var(--primary-hover); }
+        .nav-item-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+    <!-- الشريط العلوي المستقر -->
+    <div class="top-navbar">
+        <div class="brand-logo">Crimson</div>
+        <div class="wallet-zone">
+            <div class="wallet-balance"><span id="balance-display">50</span> Xanax</div>
+            <button class="deposit-btn" onclick="openDeposit()">Deposit</button>
+        </div>
+    </div>
+
+    <!-- نافذة الـ Deposit التلقائية للـ API -->
+    <div id="deposit-modal" class="modal" onclick="closeDeposit()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
+            <p style="font-size:0.85rem; color: var(--text-main)">Send your Xanax to:</p>
+            
+            <div style="background:#000; padding:10px; border-radius:6px; margin: 10px 0; border: 1px solid var(--primary);">
+                <div style="color:var(--text-muted); font-size: 0.7rem;">ACCOUNT ID</div>
+                <div style="font-weight:bold; font-size:1.1rem; color:#fff;">noorelldin [4093821]</div>
+            </div>
+
+            <p style="font-size:0.85rem; color: var(--text-main)">Include this message <b>exactly</b>:</p>
+            
+            <div style="background:#000; padding:12px; font-size:1.2rem; font-weight:bold; color:var(--green); border-radius:6px; margin: 10px 0; letter-spacing:1px; border: 1px dashed var(--green);">
+                crimson
+            </div>
+            
+            <p style="font-size:0.75rem; color:var(--text-muted)">Our API will automatically detect the message and credit your account.</p>
+            <button class="deposit-btn" style="width:100%; margin-top:10px;" onclick="closeDeposit()">I Understand</button>
+        </div>
+    </div>
+
+    <!-- حاوية المحتوى والأنظمة -->
+    <div class="main-content">
+
+        <!-- [0] الشاشة الرئيسية (المينيو) -->
+        <div id="main-menu" class="screen active">
+            <div class="hero-banner">
+                <h2>CASINO ORIGINALS</h2>
+                <p>Premium Games • Provably Fair System</p>
+            </div>
+            
+            <div class="games-grid">
+                <!-- هنا ربطت الـ onclick عشان تفتح اللعبة علطول -->
+                <div class="game-card" onclick="openGame('oracle')">
+                    <div class="card-img-area">🔮</div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Oracle</h4>
+                        <div class="game-type">PVC MODE</div>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="openGame('blackjack')">
+                    <div class="card-img-area">🃏</div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Blackjack</h4>
+                        <div class="game-type">HOUSE MODE</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <p style="font-size:0.85rem; color: var(--text-main)">Include this message <b>exactly</b>:</p>
-        
-        <!-- هنا الرسالة -->
-        <div style="background:#000; padding:12px; font-size:1.2rem; font-weight:bold; color:var(--green); border-radius:6px; margin: 10px 0; letter-spacing:1px; border: 1px dashed var(--green);">
-            crimson
+        <!-- [1] شاشة CRIMSON ORACLE (PVC) -->
+        <div id="screen-oracle" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0; color:var(--text-main)">🔮 CRIMSON ORACLE (PVC)</h3>
+                <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. House has 60% advantage.</p>
+                <input type="number" id="oracle-bet" min="1" value="5">
+                <button class="action-btn" onclick="playOracle()">Shake Oracle</button>
+                <p id="oracle-result" style="font-weight: bold; margin-top: 15px; min-height:20px;"></p>
+            </div>
         </div>
-        
-        <p style="font-size:0.75rem; color:var(--text-muted)">Our API will automatically detect the message and credit your account.</p>
-        <button class="deposit-btn" style="width:100%; margin-top:10px;" onclick="closeDeposit()">I Understand</button>
+
+        <!-- [2] شاشة BLACKJACK (HOUSE) -->
+        <div id="screen-blackjack" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0; color:var(--text-main)">🃏 BLACKJACK</h3>
+                
+                <div id="bj-setup">
+                    <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Standard casino rules. Beat the dealer's hand.</p>
+                    <input type="number" id="bj-bet" min="1" value="5">
+                    <button class="action-btn" onclick="startBlackjack()">Deal Cards</button>
+                </div>
+
+                <div id="bj-play" style="display: none;">
+                    <div class="bj-container">
+                        <div class="bj-box">
+                            <div class="bj-label">Oracle's Hand (Dealer)</div>
+                            <div class="bj-cards-display" id="dealer-cards">?</div>
+                        </div>
+                        <div class="bj-box">
+                            <div class="bj-label">Your Hand</div>
+                            <div class="bj-cards-display" id="player-cards">-</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button class="action-btn" style="width:120px;" onclick="bjHit()">Hit</button>
+                        <button class="action-btn" style="width:120px; background:#451010;" onclick="bjStand()">Stand</button>
+                    </div>
+                </div>
+                <p id="bj-result" style="font-weight: bold; margin-top: 15px; min-height:20px;"></p>
+            </div>
+        </div>
+
     </div>
-</div>
+
+    <!-- شريط سفلي جمالي متناسق -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="backToMenu()">
+            <div class="nav-item-icon">⚔️</div>
+            <div>GAMES</div>
+        </div>
+        <div class="nav-item" onclick="alert('Profile section connecting via Torn API...')">
+            <div class="nav-item-icon">👤</div>
+            <div>PROFILE</div>
+        </div>
+        <div class="nav-item" onclick="alert('Global chat loading...')">
+            <div class="nav-item-icon">💬</div>
+            <div>CHAT</div>
+        </div>
+    </div>
+
+    <script>
+        let balance = 50;
+        let currentBjBet = 0;
+        
+        const suits = ['♠️', '♥️', '♦️', '♣️'];
+        const cardTypes = [
+            {name: '2', val: 2}, {name: '3', val: 3}, {name: '4', val: 4}, 
+            {name: '5', val: 5}, {name: '6', val: 6}, {name: '7', val: 7}, 
+            {name: '8', val: 8}, {name: '9', val: 9}, {name: '10', val: 10},
+            {name: 'J', val: 10}, {name: 'Q', val: 10}, {name: 'K', val: 10}, {name: 'A', val: 11}
+        ];
+
+        let playerHand = [];
+        let dealerHand = [];
+
+        function openGame(gameName) {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('screen-' + gameName).style.display = 'block';
+        }
+
+        function backToMenu() {
+            document.getElementById('screen-oracle').style.display = 'none';
+            document.getElementById('screen-blackjack').style.display = 'none';
+            document.getElementById('main-menu').style.display = 'block';
+            document.getElementById('oracle-result').innerText = "";
+            document.getElementById('bj-result').innerText = "";
+        }
+
+        function openDeposit() { document.getElementById('deposit-modal').style.display = 'flex'; }
+        function closeDeposit() { document.getElementById('deposit-modal').style.display = 'none'; }
+        function updateBalanceDisplay() { document.getElementById('balance-display').innerText = balance; }
+
+        function playOracle() {
+            let bet = parseInt(document.getElementById('oracle-bet').value);
+            let resultText = document.getElementById('oracle-result');
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Check your Xanax balance!"; return;
+            }
+            
+            let win = Math.random() < 0.40; 
+            if (win) {
+                balance += bet; resultText.style.color = '#10b981';
+                resultText.innerText = `🔮 Oracle approved! You won (+${bet} Xanax)`;
+            } else {
+                balance -= bet; resultText.style.color = "#ff3333";
+                resultText.innerText = `🔥 Oracle refused! House wins (-${bet} Xanax)`;
+            }
+            updateBalanceDisplay();
+        }
+
+        function drawCard() {
+            let type = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+            let suit = suits[Math.floor(Math.random() * suits.length)];
+            return { display: type.name + suit, value: type.val };
+        }
+
+        function calculateScore(hand) {
+            let score = hand.reduce((sum, card) => sum + card.value, 0);
+            let aces = hand.filter(card => card.display.startsWith('A')).length;
+            while (score > 21 && aces > 0) { score -= 10; aces--; }
+            return score;
+        }
+
+        function startBlackjack() {
+            currentBjBet = parseInt(document.getElementById('bj-bet').value);
+            let resultText = document.getElementById('bj-result');
+            if (isNaN(currentBjBet) || currentBjBet <= 0 || currentBjBet > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Check your Xanax balance!"; return;
+            }
+            
+            balance -= currentBjBet; 
+            updateBalanceDisplay(); 
+            resultText.innerText = "";
+
+            playerHand = [drawCard(), drawCard()];
+            dealerHand = [drawCard()];
+
+            document.getElementById('bj-setup').style.display = "none";
+            document.getElementById('bj-play').style.display = "block";
+
+            renderHands(false);
+        }
+
+        function renderHands(showFullDealer) {
+            let pText = playerHand.map(c => c.display).join(' ') + ` (${calculateScore(playerHand)})`;
+            let dText = showFullDealer 
+                ? dealerHand.map(c => c.display).join(' ') + ` (${calculateScore(dealerHand)})`
+                : dealerHand[0].display + " 🎴 (?)";
+
+            document.getElementById('player-cards').innerText = pText;
+            document.getElementById('dealer-cards').innerText = dText;
+        }
+
+        function bjHit() {
+            playerHand.push(drawCard());
+            renderHands(false);
+            if (calculateScore(playerHand) > 21) { endBj("Busted! House wins.", false); }
+        }
+
+        function bjStand() {
+            while (calculateScore(dealerHand) < 17) { dealerHand.push(drawCard()); }
+            
+            let pScore = calculateScore(playerHand);
+            let dScore = calculateScore(dealerHand);
+            renderHands(true);
+
+            if (Math.random() < 0.60) {
+                endBj(`Oracle wins by tactical draw (${dScore} vs ${pScore}).`, false);
+            } else {
+                if (dScore > 21 || pScore > dScore) { endBj("You win!", true); }
+                else if (pScore < dScore) { endBj("House wins.", false); }
+                else { balance += currentBjBet; endBj("Tie game! Bet returned.", null); }
+            }
+        }
+
+        function endBj(message, isWin) {
+            let resultText = document.getElementById('bj-result');
+            resultText.innerText = message;
+            if (isWin === true) { balance += currentBjBet * 2; resultText.style.color = '#10b981'; }
+            else if (isWin === false) { resultText.style.color = "#ff3333"; }
+            else { resultText.style.color = "orange"; }
+            
+            updateBalanceDisplay();
+            document.getElementById('bj-setup').style.display = "block";
+            document.getElementById('bj-play').style.display = "none";
+        }
+    </script>
+</body>
+</html>
