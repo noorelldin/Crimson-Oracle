@@ -3,554 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crimson Space Casino | Torn City</title>
+    <title>Crimson Space | House Management</title>
     <style>
         :root {
-            --bg-nav: rgba(15, 2, 2, 0.85);
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.15);
             --primary: #8b0000;
-            --primary-hover: #ff1a1a;
-            --text-main: #fcebeb;
-            --text-muted: #cca3a3;
-            --green: #10b981;
-            --glow-green: rgba(16, 185, 129, 0.4);
-            --glow-red: rgba(239, 68, 68, 0.4);
         }
 
-        /* 🌌 الخلفية الفضائية الحمراء المتحركة */
         body {
             margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #4a0000 0%, #1a0404 40%, #050000 100%);
+            background-size: 200% 200%;
+            animation: interstellar 20s ease infinite;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            background: radial-gradient(circle at 50% 50%, #5c0000 0%, #1a0404 50%, #050000 100%);
-            background-size: 400% 400%;
-            animation: nebulaMove 12s ease infinite;
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            align-items: center;
+            overflow: hidden;
         }
 
-        @keyframes nebulaMove {
+        @keyframes interstellar {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* ✨ تأثير النجوم المتلألئة في الفضاء */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(white, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.1;
-            pointer-events: none;
-            animation: starsTwinkle 4s infinite alternate;
-            z-index: 0;
-        }
-
-        @keyframes starsTwinkle {
-            from { opacity: 0.03; }
-            to { opacity: 0.2; }
-        }
-
-        /* تحسينات الواجهة وتأثير الزجاج الزجاجي المعتم (Glassmorphism) */
-        .top-navbar {
-            background: var(--bg-nav);
-            border-bottom: 2px solid var(--primary);
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .brand-logo {
-            font-weight: 900;
-            font-size: 1.4rem;
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--primary);
-        }
-
-        .wallet-zone { display: flex; align-items: center; gap: 12px; }
-        .wallet-balance { font-weight: 700; font-size: 0.9rem; }
-        .wallet-balance span { color: var(--green); text-shadow: 0 0 8px var(--glow-green); }
-
-        .deposit-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .deposit-btn:hover { 
-            background: var(--primary-hover); 
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 26, 26, 0.6);
-        }
-
-        .main-content {
-            flex: 1;
-            max-width: 480px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-            padding-bottom: 90px;
-            z-index: 1;
-        }
-
-        .hero-banner h2 {
-            margin: 0 0 4px 0;
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(255,255,255,0.3);
-        }
-        .hero-banner p { margin: 0; color: var(--text-muted); font-size: 0.85rem; }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-top: 25px;
-        }
-
-        /* كروت ألعاب بتأثير مضيء وحركة تفاعلية */
-        .game-card {
-            background: rgba(40, 8, 8, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            aspect-ratio: 1 / 1.1;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .game-card:hover { 
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary-hover);
-            box-shadow: 0 12px 30px rgba(139, 0, 0, 0.6);
-            background: rgba(69, 16, 16, 0.6);
-        }
-
-        .card-img-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.2rem;
-            transition: transform 0.3s ease;
-        }
-        .game-card:hover .card-img-area { transform: scale(1.2) rotate(5deg); }
-
-        .game-footer-info {
-            padding: 12px;
-            background: rgba(15, 2, 2, 0.8);
+        /* المربعات (Glassmorphism) */
+        .panel {
+            background: var(--glass) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .game-title { margin: 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .game-type { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
-
-        .screen { display: none; animation: fadeIn 0.4s ease; }
-        .screen.active { display: block; }
-
-        .game-play-panel {
-            background: rgba(40, 8, 8, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            width: 300px;
         }
 
-        input[type="number"] {
-            width: 80%;
-            background: #0f0202;
-            border: 1px solid #5a1818;
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            outline: none;
+        /* أنيميشن الهزة للبلورة */
+        .shake-animation { animation: shake 0.8s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            50% { transform: translateX(10px) rotate(5deg); }
+            75% { transform: translateX(-10px) rotate(-5deg); }
         }
 
-        /* زرار ينبض ويشع ضوءاً لجذب الضغط */
         .action-btn {
-            width: 85%;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s;
-            box-shadow: 0 0 10px var(--primary);
-        }
-        .action-btn:hover { 
-            background: var(--primary-hover); 
-            box-shadow: 0 0 20px var(--primary-hover);
-        }
-
-        .back-nav-container { margin-bottom: 12px; text-align: left; }
-        .back-nav-btn {
-            background: rgba(40, 8, 8, 0.8);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-        .bj-box { background: rgba(15, 2, 2, 0.7); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
-        
-        .bj-cards-display { display: flex; justify-content: center; gap: 8px; min-height: 75px; align-items: center; }
-
-        .playing-card {
-            background: #ffffff;
-            color: #000000;
-            width: 48px;
-            height: 68px;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 5px;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            box-sizing: border-box;
-            animation: cardDeal 0.4s ease-out both;
-        }
-        .playing-card.red-suit { color: #d11a2a; }
-        .playing-card .card-suit-center { font-size: 1.2rem; align-self: center; line-height: 1; }
-        .playing-card.card-back {
-            background: linear-gradient(135deg, #8b0000 25%, #4a0000 25%, #4a0000 50%, #8b0000 50%, #8b0000 75%, #4a0000 75%, #4a0000 100%);
-            background-size: 10px 10px;
-            border: 2px solid #fff;
-        }
-
-        .result-popup-banner {
             margin-top: 15px;
-            font-size: 1.2rem;
-            font-weight: 900;
-            padding: 10px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            display: none;
+            font-weight: bold;
         }
-        .result-popup-banner.win { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); box-shadow: 0 0 15px var(--glow-green); }
-        .result-popup-banner.lose { background: rgba(239, 68, 68, 0.2); color: #ff4444; border: 1px solid #ff4444; box-shadow: 0 0 15px var(--glow-red); }
-        .result-popup-banner.tie { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
-
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal-content {
-            background: #0f0202; padding: 25px; border-radius: 15px; width: 80%; max-width: 360px;
-            border: 2px solid var(--primary); text-align: center; box-shadow: 0 0 20px var(--primary);
-        }
-
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-nav); border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; backdrop-filter: blur(10px);
-        }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
-        .nav-item.active { color: var(--primary-hover); text-shadow: 0 0 5px var(--primary-hover); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes cardDeal { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="top-navbar">
-        <div class="brand-logo">Crimson Space</div>
-        <div class="wallet-zone">
-            <div class="wallet-balance"><span id="balance-display">50</span> Xanax</div>
-            <button class="deposit-btn" onclick="openDeposit()">Deposit</button>
-        </div>
-    </div>
-
-    <div id="deposit-modal" class="modal" onclick="closeDeposit()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
-            <p style="font-size:0.85rem;">Send your Xanax to:</p>
-            <div style="background:#000; padding:10px; border-radius:6px; margin: 10px 0; border: 1px solid var(--primary); font-weight:bold;">noorelldin [4093821]</div>
-            <p style="font-size:0.85rem;">Include this message:</p>
-            <div style="background:#000; padding:12px; font-size:1.2rem; font-weight:bold; color:var(--green); border-radius:6px; margin: 10px 0; border: 1px dashed var(--green);">crimson</div>
-            <button class="deposit-btn" style="width:100%; margin-top:10px;" onclick="closeDeposit()">I Understand</button>
-        </div>
-    </div>
-
-    <div class="main-content">
-
-        <div id="main-menu" class="screen active">
-            <div class="hero-banner">
-                <h2>CASINO ORIGINALS</h2>
-                <p>Deep Space Gaming • Provably Fair System</p>
-            </div>
-            
-            <div class="games-grid">
-                <div class="game-card" onclick="openGame('oracle')">
-                    <div class="card-img-area">🔮</div>
-                    <div class="game-footer-info">
-                        <h4 class="game-title">Oracle</h4>
-                        <div class="game-type">60% PLAYER WIN RATE</div>
-                    </div>
-                </div>
-
-                <div class="game-card" onclick="openGame('blackjack')">
-                    <div class="card-img-area">🃏</div>
-                    <div class="game-footer-info">
-                        <h4 class="game-title">Blackjack</h4>
-                        <div class="game-type">PVC MODE</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="screen-oracle" class="screen">
-            <div class="back-nav-container">
-                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
-            </div>
-            <div class="game-play-panel">
-                <h3 style="margin-top:0;">🔮 CRIMSON ORACLE</h3>
-                <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. (Favors Player)</p>
-                <input type="number" id="oracle-bet" min="1" value="5">
-                <button class="action-btn" onclick="playOracle()">Shake Oracle</button>
-                <div id="oracle-result-banner" class="result-popup-banner"></div>
-            </div>
-        </div>
-
-        <div id="screen-blackjack" class="screen">
-            <div class="back-nav-container">
-                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
-            </div>
-            <div class="game-play-panel">
-                <h3 style="margin-top:0;">🃏 BLACKJACK</h3>
-                
-                <div id="bj-setup">
-                    <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Standard casino rules. Beat the oracle's hand.</p>
-                    <input type="number" id="bj-bet" min="1" value="5">
-                    <button class="action-btn" onclick="startBlackjack()">Deal Cards</button>
-                </div>
-
-                <div id="bj-play" style="display: none;">
-                    <div class="bj-container">
-                        <div class="bj-box">
-                            <div class="bj-label" id="dealer-score-label">Oracle's Hand (Dealer)</div>
-                            <div class="bj-cards-display" id="dealer-cards"></div>
-                        </div>
-                        <div class="bj-box">
-                            <div class="bj-label" id="player-score-label">Your Hand</div>
-                            <div class="bj-cards-display" id="player-cards"></div>
-                        </div>
-                    </div>
-                    <div id="bj-controls" style="display:flex; gap:10px; justify-content:center;">
-                        <button class="action-btn" style="width:120px;" onclick="bjHit()">Hit</button>
-                        <button class="action-btn" style="width:120px; background:#451010;" onclick="bjStand()">Stand</button>
-                    </div>
-                </div>
-                <div id="bj-result-banner" class="result-popup-banner"></div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="backToMenu()">
-            <div class="nav-item-icon">⚔️</div>
-            <div>GAMES</div>
-        </div>
-        <div class="nav-item" onclick="alert('Profile section active!')">
-            <div class="nav-item-icon">👤</div>
-            <div>PROFILE</div>
-        </div>
+    <div class="panel" style="margin-top: 100px;">
+        <div id="crystal-ball" style="font-size: 5rem; cursor: pointer;">🔮</div>
+        <h2 style="margin: 10px 0;">CRIMSON ORACLE</h2>
+        <p style="color: #ccc; font-size: 0.9rem;">House Edge Active (60/40)</p>
+        <button class="action-btn" onclick="playOracle()">Shake The Oracle</button>
+        <div id="result" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem; min-height: 30px;"></div>
     </div>
 
     <script>
-        let balance = 50;
-        let currentBjBet = 0;
-        
-        const suits = [
-            { symbol: '♠', isRed: false }, { symbol: '♥', isRed: true },
-            { symbol: '♦', isRed: true }, { symbol: '♣', isRed: false }
-        ];
-        const cardTypes = [
-            {name: '2', val: 2}, {name: '3', val: 3}, {name: '4', val: 4}, {name: '5', val: 5},
-            {name: '6', val: 6}, {name: '7', val: 7}, {name: '8', val: 8}, {name: '9', val: 9},
-            {name: '10', val: 10}, {name: 'J', val: 10}, {name: 'Q', val: 10}, {name: 'K', val: 10}, {name: 'A', val: 11}
-        ];
-
-        let playerHand = [], dealerHand = [];
-
-        function openGame(gameName) {
-            document.getElementById('main-menu').style.display = 'none';
-            document.getElementById('screen-' + gameName).style.display = 'block';
-        }
-
-        function backToMenu() {
-            document.getElementById('screen-oracle').style.display = 'none';
-            document.getElementById('screen-blackjack').style.display = 'none';
-            document.getElementById('main-menu').style.display = 'block';
-            hideBanners();
-        }
-
-        function hideBanners() {
-            document.getElementById('oracle-result-banner').style.display = "none";
-            document.getElementById('bj-result-banner').style.display = "none";
-        }
-
-        function openDeposit() { document.getElementById('deposit-modal').style.display = 'flex'; }
-        function closeDeposit() { document.getElementById('deposit-modal').style.display = 'none'; }
-        function updateBalanceDisplay() { document.getElementById('balance-display').innerText = balance; }
-
         function playOracle() {
-            let bet = parseInt(document.getElementById('oracle-bet').value);
-            let banner = document.getElementById('oracle-result-banner');
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+            let ball = document.getElementById('crystal-ball');
+            let resultDiv = document.getElementById('result');
             
-            banner.className = "result-popup-banner";
+            ball.classList.add('shake-animation');
+            resultDiv.innerText = "Consulting the stars...";
             
-            // 60% احتمالية الفوز للاعب
-            let win = Math.random() < 0.60; 
-            if (win) {
-                balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
-            } else {
-                balance -= bet; banner.className = 'result-popup-banner lose'; banner.innerText = `🔥 Lost! -${bet} Xanax`;
-            }
-            banner.style.display = "block";
-            updateBalanceDisplay();
-        }
-
-        function drawCard() {
-            let type = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-            let suit = suits[Math.floor(Math.random() * suits.length)];
-            return { name: type.name, value: type.val, suit: suit.symbol, isRed: suit.isRed };
-        }
-
-        function calculateScore(hand) {
-            let score = hand.reduce((sum, card) => sum + card.value, 0);
-            let aces = hand.filter(card => card.name === 'A').length;
-            while (score > 21 && aces > 0) { score -= 10; aces--; }
-            return score;
-        }
-
-        function startBlackjack() {
-            currentBjBet = parseInt(document.getElementById('bj-bet').value);
-            if (isNaN(currentBjBet) || currentBjBet <= 0 || currentBjBet > balance) { alert("Check your Xanax balance!"); return; }
-            
-            balance -= currentBjBet; updateBalanceDisplay(); 
-            document.getElementById('bj-result-banner').style.display = "none";
-
-            playerHand = [drawCard(), drawCard()];
-            dealerHand = [drawCard(), drawCard()]; 
-
-            document.getElementById('bj-setup').style.display = "none";
-            document.getElementById('bj-play').style.display = "block";
-            document.getElementById('bj-controls').style.display = "flex";
-
-            renderHands(false);
-            if (calculateScore(playerHand) === 21) { bjStand(); }
-        }
-
-        function createCardHTML(card, isBack = false) {
-            if (isBack) return `<div class="playing-card card-back"></div>`;
-            const redClass = card.isRed ? 'red-suit' : '';
-            return `
-                <div class="playing-card ${redClass}">
-                    <div>${card.name}</div>
-                    <div class="card-suit-center">${card.suit}</div>
-                </div>
-            `;
-        }
-
-        function renderHands(showFullDealer) {
-            const playerArea = document.getElementById('player-cards');
-            const dealerArea = document.getElementById('dealer-cards');
-
-            playerArea.innerHTML = playerHand.map(c => createCardHTML(c)).join('');
-            document.getElementById('player-score-label').innerText = `Your Hand (${calculateScore(playerHand)})`;
-
-            if (showFullDealer) {
-                dealerArea.innerHTML = dealerHand.map(c => createCardHTML(c)).join('');
-                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${calculateScore(dealerHand)})`;
-            } else {
-                dealerArea.innerHTML = createCardHTML(dealerHand[0]) + createCardHTML(null, true);
-                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerHand[0].value})`;
-            }
-        }
-
-        function bjHit() {
-            playerHand.push(drawCard());
-            renderHands(false);
-            if (calculateScore(playerHand) > 21) { endBj("Busted! House wins.", 'lose'); }
-        }
-
-        function bjStand() {
-            document.getElementById('bj-controls').style.display = "none";
-            renderHands(true);
-
-            let checkDealerDraw = setInterval(() => {
-                if (calculateScore(dealerHand) < 17) {
-                    dealerHand.push(drawCard());
-                    renderHands(true);
+            setTimeout(() => {
+                ball.classList.remove('shake-animation');
+                
+                // هنا النسبة اللي تضمن ربحك كـ House (60% للـ House)
+                let playerWins = Math.random() < 0.40; 
+                
+                if (playerWins) {
+                    resultDiv.innerText = "YOU WON!";
+                    resultDiv.style.color = "#10b981";
                 } else {
-                    clearInterval(checkDealerDraw);
-                    evaluateWinner();
+                    resultDiv.innerText = "HOUSE WINS!";
+                    resultDiv.style.color = "#ff4444";
                 }
-            }, 800);
-        }
-
-        function evaluateWinner() {
-            let pScore = calculateScore(playerHand);
-            let dScore = calculateScore(dealerHand);
-
-            if (pScore > 21) { endBj("Busted! House wins.", 'lose'); }
-            else if (dScore > 21) { endBj("Dealer busted! You win!", 'win'); }
-            else if (pScore > dScore) { endBj(`You win! ${pScore} vs ${dScore}`, 'win'); }
-            else if (pScore < dScore) { endBj(`House wins. ${dScore} vs ${pScore}`, 'lose'); }
-            else { balance += currentBjBet; endBj(`Push! Tie Game ${pScore} vs ${dScore}`, 'tie'); }
-        }
-
-        function endBj(message, status) {
-            let banner = document.getElementById('bj-result-banner');
-            banner.className = "result-popup-banner " + status;
-            banner.innerText = message;
-            banner.style.display = "block";
-
-            if (status === 'win') { balance += currentBjBet * 2; }
-            updateBalanceDisplay();
-            
-            document.getElementById('bj-setup').style.display = "block";
-            document.getElementById('bj-play').style.display = "none";
+            }, 1000);
         }
     </script>
 </body>
