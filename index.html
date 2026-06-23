@@ -1,164 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crimson Casino | Torn City</title>
-    <style>
-        :root {
-            /* لون أحمر هادي وعميق (Deep Crimson Theme) */
-            --bg-main: #1a0505;
-            --bg-card: #2d0a0a;
-            --bg-nav: #120303;
-            --primary: #8b0000;
-            --primary-hover: #a50000;
-            --text-main: #f8e1e1;
-            --text-muted: #d1a9a9;
-            --green: #10b981;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .top-navbar {
-            background: var(--bg-nav);
-            border-bottom: 2px solid var(--primary);
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand-logo {
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            text-transform: uppercase;
-        }
-
-        /* تعديلات الـ Wallet والـ Deposit */
-        .wallet-zone {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .wallet-balance {
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
+<!-- حدثت جزء الـ Modal في الكود عشان يظهر بياناتك بوضوح -->
+<div id="deposit-modal" class="modal" onclick="closeDeposit()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
+        <p style="font-size:0.85rem; color: var(--text-main)">Send your Xanax to:</p>
         
-        .deposit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .main-content {
-            flex: 1;
-            max-width: 480px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .game-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #451515;
-            transition: 0.3s;
-        }
-        .game-card:hover { border-color: var(--primary); }
-
-        .game-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .game-title { font-weight: 700; text-transform: uppercase; margin: 0; }
-        .game-type { font-size: 0.7rem; color: var(--text-muted); }
-
-        /* ستايل المودال بتاع الـ Deposit */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: var(--bg-nav);
-            padding: 25px;
-            border-radius: 15px;
-            width: 80%;
-            border: 1px solid var(--primary);
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="top-navbar">
-        <div class="brand-logo">Crimson</div>
-        <div class="wallet-zone">
-            <div class="wallet-balance"><span id="balance-display">50</span> Xanax</div>
-            <button class="deposit-btn" onclick="toggleDeposit()">Deposit</button>
+        <!-- هنا الـ ID بتاعك -->
+        <div style="background:#000; padding:10px; border-radius:6px; margin: 10px 0; border: 1px solid var(--primary);">
+            <div style="color:var(--text-muted); font-size: 0.7rem;">ACCOUNT ID</div>
+            <div style="font-weight:bold; font-size:1.1rem; color:#fff;">noorelldin [4093821]</div>
         </div>
-    </div>
 
-    <!-- نافذة الـ Deposit -->
-    <div id="deposit-modal" class="modal" onclick="toggleDeposit()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="color:var(--primary)">Deposit Xanax</h3>
-            <p style="font-size:0.9rem">Send Xanax to the account with message:</p>
-            <div style="background:#000; padding:10px; font-weight:bold; color:var(--green); border-radius:5px; margin: 15px 0;">
-                crimson
-            </div>
-            <p style="font-size:0.75rem; color:var(--text-muted)">The API will credit your balance automatically.</p>
+        <p style="font-size:0.85rem; color: var(--text-main)">Include this message <b>exactly</b>:</p>
+        
+        <!-- هنا الرسالة -->
+        <div style="background:#000; padding:12px; font-size:1.2rem; font-weight:bold; color:var(--green); border-radius:6px; margin: 10px 0; letter-spacing:1px; border: 1px dashed var(--green);">
+            crimson
         </div>
+        
+        <p style="font-size:0.75rem; color:var(--text-muted)">Our API will automatically detect the message and credit your account.</p>
+        <button class="deposit-btn" style="width:100%; margin-top:10px;" onclick="closeDeposit()">I Understand</button>
     </div>
-
-    <div class="main-content">
-        <div class="games-grid">
-            <div class="game-card">
-                <div class="game-icon">🔮</div>
-                <h4 class="game-title">Oracle</h4>
-                <div class="game-type">PVC MODE</div>
-            </div>
-            <div class="game-card">
-                <div class="game-icon">🃏</div>
-                <h4 class="game-title">Blackjack</h4>
-                <div class="game-type">HOUSE MODE</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function toggleDeposit() {
-            const modal = document.getElementById('deposit-modal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        }
-    </script>
-</body>
-</html>
+</div>
