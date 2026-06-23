@@ -1,84 +1,74 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>Crimson Casino | Official</title>
+    <title>Crimson Casino</title>
     <style>
-        /* الأساسيات والخلفية المتحركة */
-        body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 50% 50%, #4a0000 0%, #1a0404 40%, #050000 100%); background-size: 200% 200%; animation: interstellar 20s ease infinite; color: white; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        body { margin: 0; height: 100vh; background: radial-gradient(circle at 50% 50%, #4a0000 0%, #1a0404 40%, #050000 100%); background-size: 200% 200%; animation: interstellar 20s ease infinite; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
         @keyframes interstellar { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* الـ Navigation Bar */
-        .top-nav { width: 100%; padding: 20px; display: flex; justify-content: space-around; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-bottom: 1px solid #8b0000; }
-        .wallet { color: #10b981; font-weight: bold; font-size: 1.1rem; }
-        .deposit-btn { background: #8b0000; border: none; color: white; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .top-nav { width: 100%; padding: 20px; display: flex; justify-content: space-around; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-bottom: 1px solid #8b0000; }
+        .casino-grid { display: flex; gap: 30px; margin-top: 50px; }
+        .panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: center; width: 250px; }
+        
+        .btn { background: #8b0000; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #ff1a1a; transform: scale(1.05); box-shadow: 0 0 15px #ff1a1a; }
 
-        /* منطقة الألعاب */
-        .casino-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; width: 90%; max-width: 1000px; }
-        .game-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: center; transition: 0.3s; }
-        .game-card:hover { transform: translateY(-10px); border-color: #8b0000; }
-        .btn { background: #8b0000; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: bold; }
-
-        /* نافذة الإيداع */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: #1a0404; padding: 40px; border-radius: 20px; border: 1px solid #8b0000; text-align: center; width: 80%; max-width: 400px; }
+        /* أنيميشن الكارت */
+        .deal-card { animation: slideAndRotate 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes slideAndRotate { 0% { transform: translate(-200px, -200px) rotate(-45deg); opacity: 0; } 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; } }
+        
+        .card-box { width: 50px; height: 70px; background: white; color: black; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; margin: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
-        <div style="font-size: 1.5rem; font-weight: bold; color: #8b0000;">CRIMSON CASINO</div>
-        <div class="wallet">Balance: <span id="user-bal">50</span> Xanax</div>
-        <button class="deposit-btn" onclick="document.getElementById('modal').style.display='flex'">Deposit</button>
+        <div style="font-weight: bold; color: #8b0000; font-size: 1.3rem;">CRIMSON CASINO</div>
+        <div>Balance: <span id="bal">50</span> Xanax</div>
     </nav>
 
-    <div id="modal" class="modal" onclick="this.style.display='none'">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2>DEPOSIT</h2>
-            <p>Send to: <b>noorelldin [4093821]</b></p>
-            <p>Message: <b>crimson</b></p>
-            <button class="btn" onclick="document.getElementById('modal').style.display='none'">Close</button>
-        </div>
-    </div>
-
     <div class="casino-grid">
-        <!-- لعبة الـ Oracle -->
-        <div class="game-card">
-            <div style="font-size: 4rem;">🔮</div>
-            <h3>CRIMSON ORACLE</h3>
-            <p>PVC Mode | Provably Fair</p>
-            <button class="btn" onclick="playGame('oracle')">Play Now</button>
-            <div id="oracle-res" style="margin-top: 15px; font-weight: bold;"></div>
+        <div class="panel">
+            <div id="ball" style="font-size: 4rem;">🔮</div>
+            <h3>ORACLE</h3>
+            <button class="btn" onclick="playOracle()">Shake</button>
+            <div id="res" style="margin-top: 15px;"></div>
         </div>
 
-        <!-- لعبة الـ Blackjack -->
-        <div class="game-card">
+        <div class="panel">
             <div style="font-size: 4rem;">🃏</div>
             <h3>BLACKJACK</h3>
-            <p>PVC Mode | Dealer Logic</p>
-            <button class="btn" onclick="playGame('blackjack')">Play Now</button>
+            <button class="btn" onclick="dealBlackjack()">Deal Card</button>
+            <div id="bj-area" style="margin-top: 15px;"></div>
         </div>
     </div>
 
     <script>
         let balance = 50;
-        function playGame(game) {
-            if(game === 'oracle') {
-                let res = document.getElementById('oracle-res');
-                res.innerText = "Consulting...";
-                setTimeout(() => {
-                    // نسبة الفوز للـ House هي 60%
-                    let win = Math.random() < 0.40;
-                    if(win) {
-                        balance += 10;
-                        res.innerText = "YOU WIN!"; res.style.color = "#10b981";
-                    } else {
-                        balance -= 10;
-                        res.innerText = "HOUSE WINS!"; res.style.color = "#ff4444";
-                    }
-                    document.getElementById('user-bal').innerText = balance;
-                }, 1000);
-            }
+        
+        // Oracle
+        function playOracle() {
+            let res = document.getElementById('res');
+            let ball = document.getElementById('ball');
+            ball.style.animation = "shake 0.8s";
+            setTimeout(() => {
+                ball.style.animation = "";
+                let win = Math.random() < 0.40; // House wins 60%
+                res.innerText = win ? "YOU WIN!" : "HOUSE WINS!";
+                res.style.color = win ? "#10b981" : "#ff4444";
+                if(win) balance += 10; else balance -= 10;
+                document.getElementById('bal').innerText = balance;
+            }, 1000);
+        }
+
+        // Blackjack Deal
+        function dealBlackjack() {
+            let area = document.getElementById('bj-area');
+            let card = document.createElement('div');
+            card.className = 'card-box deal-card';
+            card.innerText = "A♠";
+            area.appendChild(card);
         }
     </script>
 </body>
