@@ -195,15 +195,56 @@
             font-size: 0.85rem;
         }
 
-        /* ستايل عرض ورق الكوتشينة في البلاك جاك */
+        /* ستايل عرض ورق الكوتشينة بشكل حقيقي */
         .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .bj-box { background: var(--bg-nav); padding: 15px; border-radius: 10px; border: 1px solid #300a0a; }
-        .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
-        .bj-cards-display { font-size: 1.4rem; font-weight: bold; letter-spacing: 4px; color: #fff; }
+        .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+        
+        /* حاوية أوراق اللعب */
+        .bj-cards-display { 
+            display: flex; 
+            justify-content: center; 
+            gap: 8px; 
+            min-height: 70px; 
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-        /* نافذة الـ Deposit (Modal) - مغلقة أوتوماتيكياً الآن */
+        /* تصميم الكارت الحقيقي */
+        .playing-card {
+            background: #ffffff;
+            color: #000000;
+            width: 45px;
+            height: 65px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        .playing-card.red-suit {
+            color: #d11a2a; /* لون أحمر زاهي للكوتشينة */
+        }
+        .playing-card .card-suit-center {
+            font-size: 1.1rem;
+            align-self: center;
+            line-height: 1;
+        }
+
+        /* تصميم ظهر الكارت المخفي للموزع */
+        .playing-card.card-back {
+            background: linear-gradient(135deg, #8b0000 25%, #4a0000 25%, #4a0000 50%, #8b0000 50%, #8b0000 75%, #4a0000 75%, #4a0000 100%);
+            background-size: 10px 10px;
+            border: 2px solid #fff;
+        }
+
+        /* نافذة الـ Deposit (Modal) */
         .modal {
-            display: none; /* اتصلحت عشان متظهرش وتخرب الصفحة */
+            display: none; 
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
@@ -279,7 +320,6 @@
             </div>
             
             <div class="games-grid">
-                <!-- هنا ربطت الـ onclick عشان تفتح اللعبة علطول -->
                 <div class="game-card" onclick="openGame('oracle')">
                     <div class="card-img-area">🔮</div>
                     <div class="game-footer-info">
@@ -329,12 +369,12 @@
                 <div id="bj-play" style="display: none;">
                     <div class="bj-container">
                         <div class="bj-box">
-                            <div class="bj-label">Oracle's Hand (Dealer)</div>
-                            <div class="bj-cards-display" id="dealer-cards">?</div>
+                            <div class="bj-label" id="dealer-score-label">Oracle's Hand (Dealer)</div>
+                            <div class="bj-cards-display" id="dealer-cards"></div>
                         </div>
                         <div class="bj-box">
-                            <div class="bj-label">Your Hand</div>
-                            <div class="bj-cards-display" id="player-cards">-</div>
+                            <div class="bj-label" id="player-score-label">Your Hand</div>
+                            <div class="bj-cards-display" id="player-cards"></div>
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; justify-content:center;">
@@ -368,7 +408,14 @@
         let balance = 50;
         let currentBjBet = 0;
         
-        const suits = ['♠️', '♥️', '♦️', '♣️'];
+        // الأشكال والألوان المربوطة بها
+        const suits = [
+            { symbol: '♠', name: 'spades', isRed: false },
+            { symbol: '♥', name: 'hearts', isRed: true },
+            { symbol: '♦', name: 'diamonds', isRed: true },
+            { symbol: '♣', name: 'clubs', isRed: false }
+        ];
+
         const cardTypes = [
             {name: '2', val: 2}, {name: '3', val: 3}, {name: '4', val: 4}, 
             {name: '5', val: 5}, {name: '6', val: 6}, {name: '7', val: 7}, 
@@ -417,12 +464,12 @@
         function drawCard() {
             let type = cardTypes[Math.floor(Math.random() * cardTypes.length)];
             let suit = suits[Math.floor(Math.random() * suits.length)];
-            return { display: type.name + suit, value: type.val };
+            return { name: type.name, value: type.val, suit: suit.symbol, isRed: suit.isRed };
         }
 
         function calculateScore(hand) {
             let score = hand.reduce((sum, card) => sum + card.value, 0);
-            let aces = hand.filter(card => card.display.startsWith('A')).length;
+            let aces = hand.filter(card => card.name === 'A').length;
             while (score > 21 && aces > 0) { score -= 10; aces--; }
             return score;
         }
@@ -439,7 +486,7 @@
             resultText.innerText = "";
 
             playerHand = [drawCard(), drawCard()];
-            dealerHand = [drawCard()];
+            dealerHand = [drawCard(), drawCard()]; // بنسحب كارتين للموزع من الأول
 
             document.getElementById('bj-setup').style.display = "none";
             document.getElementById('bj-play').style.display = "block";
@@ -447,14 +494,37 @@
             renderHands(false);
         }
 
-        function renderHands(showFullDealer) {
-            let pText = playerHand.map(c => c.display).join(' ') + ` (${calculateScore(playerHand)})`;
-            let dText = showFullDealer 
-                ? dealerHand.map(c => c.display).join(' ') + ` (${calculateScore(dealerHand)})`
-                : dealerHand[0].display + " 🎴 (?)";
+        // دالة إنشاء كود الـ HTML لكل كارت بناءً على بياناته
+        function createCardHTML(card, isBack = false) {
+            if (isBack) {
+                return `<div class="playing-card card-back"></div>`;
+            }
+            const redClass = card.isRed ? 'red-suit' : '';
+            return `
+                <div class="playing-card ${redClass}">
+                    <div>${card.name}</div>
+                    <div class="card-suit-center">${card.suit}</div>
+                </div>
+            `;
+        }
 
-            document.getElementById('player-cards').innerText = pText;
-            document.getElementById('dealer-cards').innerText = dText;
+        function renderHands(showFullDealer) {
+            const playerArea = document.getElementById('player-cards');
+            const dealerArea = document.getElementById('dealer-cards');
+
+            // رندر كروت اللاعب
+            playerArea.innerHTML = playerHand.map(c => createCardHTML(c)).join('');
+            document.getElementById('player-score-label').innerText = `Your Hand (${calculateScore(playerHand)})`;
+
+            // رندر كروت الموزع
+            if (showFullDealer) {
+                dealerArea.innerHTML = dealerHand.map(c => createCardHTML(c)).join('');
+                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${calculateScore(dealerHand)})`;
+            } else {
+                // الكارت الأول ظاهر والكارت الثاني مخفي (ظهر الكارت)
+                dealerArea.innerHTML = createCardHTML(dealerHand[0]) + createCardHTML(null, true);
+                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerHand[0].value})`;
+            }
         }
 
         function bjHit() {
