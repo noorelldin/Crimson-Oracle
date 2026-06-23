@@ -31,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* شريط علوي */
         .top-navbar {
             background: var(--bg-nav);
             border-bottom: 2px solid var(--primary);
@@ -97,17 +96,17 @@
             animation: fadeInDown 0.6s ease;
         }
         .hero-banner p {
-            margin: 0 0 25px 0;
+            margin: 0;
             color: var(--text-muted);
             font-size: 0.85rem;
             animation: fadeIn 0.8s ease;
         }
 
-        /* أنيميشن كروت المينيو الرئيسي */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 14px;
+            margin-top: 25px;
         }
 
         .game-card {
@@ -121,10 +120,8 @@
             aspect-ratio: 1 / 1.1;
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            animation: scaleIn 0.5s ease back;
         }
         
-        /* تطفو وتتوهج عند المرور */
         .game-card:hover { 
             transform: translateY(-8px);
             border-color: var(--primary-hover);
@@ -178,7 +175,6 @@
         }
         input[type="number"]:focus { border-color: var(--primary-hover); box-shadow: 0 0 8px var(--primary); }
 
-        /* أنيميشن أزرار التحكم */
         .action-btn {
             width: 85%;
             background: var(--primary);
@@ -223,10 +219,9 @@
             min-height: 75px; 
             align-items: center;
             flex-wrap: wrap;
-            perspective: 1000px; /* لتفعيل الـ 3D لتقليب الكروت */
+            perspective: 1000px;
         }
 
-        /* كارت الكوتشينة مع تأثير الـ 3D Flip */
         .playing-card {
             background: #ffffff;
             color: #000000;
@@ -247,19 +242,16 @@
         .playing-card.red-suit { color: #d11a2a; }
         .playing-card .card-suit-center { font-size: 1.2rem; align-self: center; line-height: 1; }
 
-        /* ظهر الكارت */
         .playing-card.card-back {
             background: linear-gradient(135deg, #8b0000 25%, #4a0000 25%, #4a0000 50%, #8b0000 50%, #8b0000 75%, #4a0000 75%, #4a0000 100%);
             background-size: 10px 10px;
             border: 2px solid #fff;
         }
 
-        /* أنيميشن كشف الكارت المخفي */
         .playing-card.flip-reveal {
             animation: cardFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* ستايل شاشة نتيجة اللعبة المتحركة والتوهج الجذاب */
         .result-popup-banner {
             margin-top: 15px;
             font-size: 1.2rem;
@@ -275,7 +267,6 @@
         .result-popup-banner.lose { background: rgba(239, 68, 68, 0.15); color: #ff4444; border: 1px solid #ff4444; box-shadow: 0 0 15px var(--glow-red); }
         .result-popup-banner.tie { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
 
-        /* نافذة الـ Deposit */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;
@@ -286,7 +277,6 @@
             animation: popIn 0.3s ease;
         }
 
-        /* شريط سفلي */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-nav); border-top: 1px solid #300a0a;
             display: flex; justify-content: space-around; padding: 12px 0; z-index: 100;
@@ -296,7 +286,6 @@
         .nav-item.active { color: var(--primary-hover); }
         .nav-item-icon { font-size: 1.2rem; margin-bottom: 2px; }
 
-        /* تعريفات الأنيميشن Keyframes */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
@@ -314,7 +303,6 @@
         </div>
     </div>
 
-    <!-- مودال الـ Deposit التلقائي -->
     <div id="deposit-modal" class="modal" onclick="closeDeposit()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
@@ -328,7 +316,6 @@
 
     <div class="main-content">
 
-        <!-- القائمة الرئيسية -->
         <div id="main-menu" class="screen active">
             <div class="hero-banner">
                 <h2>CASINO ORIGINALS</h2>
@@ -354,7 +341,6 @@
             </div>
         </div>
 
-        <!-- شاشة Oracle -->
         <div id="screen-oracle" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
@@ -368,7 +354,6 @@
             </div>
         </div>
 
-        <!-- شاشة البلاك جاك المحدثة بالكامل -->
         <div id="screen-blackjack" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
@@ -398,7 +383,6 @@
                         <button class="action-btn" style="width:120px; background:#451010;" onclick="bjStand()">Stand</button>
                     </div>
                 </div>
-                <!-- بانر النتيجة المتوهج والمتحرك -->
                 <div id="bj-result-banner" class="result-popup-banner"></div>
             </div>
         </div>
@@ -459,7 +443,9 @@
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
             
             banner.className = "result-popup-banner";
-            let win = Math.random() < 0.45; 
+            
+            // هنا التعديل: خليناها 0.60 يعني فوز اللاعب بنسبة 60%
+            let win = Math.random() < 0.60; 
             if (win) {
                 balance += bet; banner.classList.add('win'); banner.innerText = `🔮 Win! +${bet} Xanax`;
             } else {
@@ -537,23 +523,19 @@
         }
 
         function bjStand() {
-            // إخفاء زراير التحكم عشان ميحصلش سبام أثناء الأنيميشن
             document.getElementById('bj-controls').style.display = "none";
-
-            // 1. كشف الكارت المخفي أولاً بالأنيميشن
             renderHands(true, 1);
 
-            // 2. استخدام setTimeout عشان الديلر يسحب ورا بعضه بشكل واقعي قدام عين اللاعب
             setTimeout(() => {
                 let checkDealerDraw = setInterval(() => {
                     if (calculateScore(dealerHand) < 17) {
                         dealerHand.push(drawCard());
-                        renderHands(true); // رندر أي كارت جديد فوراً
+                        renderHands(true);
                     } else {
                         clearInterval(checkDealerDraw);
-                        evaluateWinner(); // تقييم النتيجة النهائية بعد انتهاء السحب
+                        evaluateWinner();
                     }
-                }, 800); // يسحب كارت كل 800 مللي ثانية عشان المتابعة
+                }, 800);
             }, 600);
         }
 
