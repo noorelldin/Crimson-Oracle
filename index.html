@@ -6,7 +6,6 @@
     <title>Crimson Casino | Torn City</title>
     <style>
         :root {
-            /* ثيم أحمر داكن هادي وفخم للعين */
             --bg-main: #160404;
             --bg-card: #280808;
             --bg-nav: #0f0202;
@@ -29,7 +28,6 @@
             box-sizing: border-box;
         }
 
-        /* شريط علوي ثابث */
         .top-navbar {
             background: var(--bg-nav);
             border-bottom: 2px solid var(--primary);
@@ -77,7 +75,6 @@
         }
         .deposit-btn:hover { background: var(--primary-hover); }
 
-        /* المحتوى الرئيسي */
         .main-content {
             flex: 1;
             max-width: 480px;
@@ -104,7 +101,6 @@
             font-size: 0.85rem;
         }
 
-        /* شبكة الكروت للرئيسية */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -143,7 +139,6 @@
         .game-title { margin: 0; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; }
         .game-type { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
 
-        /* شاشات اللعب والتحكم في الظهور */
         .screen { display: none; }
         .screen.active { display: block; }
 
@@ -195,12 +190,10 @@
             font-size: 0.85rem;
         }
 
-        /* ستايل عرض ورق الكوتشينة بشكل حقيقي */
         .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .bj-box { background: var(--bg-nav); padding: 15px; border-radius: 10px; border: 1px solid #300a0a; }
         .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
         
-        /* حاوية أوراق اللعب */
         .bj-cards-display { 
             display: flex; 
             justify-content: center; 
@@ -210,7 +203,6 @@
             flex-wrap: wrap;
         }
 
-        /* تصميم الكارت الحقيقي */
         .playing-card {
             background: #ffffff;
             color: #000000;
@@ -227,7 +219,7 @@
             box-sizing: border-box;
         }
         .playing-card.red-suit {
-            color: #d11a2a; /* لون أحمر زاهي للكوتشينة */
+            color: #d11a2a; 
         }
         .playing-card .card-suit-center {
             font-size: 1.1rem;
@@ -235,14 +227,12 @@
             line-height: 1;
         }
 
-        /* تصميم ظهر الكارت المخفي للموزع */
         .playing-card.card-back {
             background: linear-gradient(135deg, #8b0000 25%, #4a0000 25%, #4a0000 50%, #8b0000 50%, #8b0000 75%, #4a0000 75%, #4a0000 100%);
             background-size: 10px 10px;
             border: 2px solid #fff;
         }
 
-        /* نافذة الـ Deposit (Modal) */
         .modal {
             display: none; 
             position: fixed;
@@ -263,7 +253,6 @@
             box-shadow: 0 0 20px var(--primary);
         }
 
-        /* الشريط السفلي */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: var(--bg-nav);
@@ -278,7 +267,6 @@
 </head>
 <body>
 
-    <!-- الشريط العلوي المستقر -->
     <div class="top-navbar">
         <div class="brand-logo">Crimson</div>
         <div class="wallet-zone">
@@ -287,7 +275,6 @@
         </div>
     </div>
 
-    <!-- نافذة الـ Deposit التلقائية للـ API -->
     <div id="deposit-modal" class="modal" onclick="closeDeposit()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h3 style="color:var(--primary); margin-top:0;">DEPOSIT XANAX</h3>
@@ -309,10 +296,8 @@
         </div>
     </div>
 
-    <!-- حاوية المحتوى والأنظمة -->
     <div class="main-content">
 
-        <!-- [0] الشاشة الرئيسية (المينيو) -->
         <div id="main-menu" class="screen active">
             <div class="hero-banner">
                 <h2>CASINO ORIGINALS</h2>
@@ -338,7 +323,6 @@
             </div>
         </div>
 
-        <!-- [1] شاشة CRIMSON ORACLE (PVC) -->
         <div id="screen-oracle" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
@@ -352,7 +336,6 @@
             </div>
         </div>
 
-        <!-- [2] شاشة BLACKJACK (HOUSE) -->
         <div id="screen-blackjack" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
@@ -388,7 +371,6 @@
 
     </div>
 
-    <!-- شريط سفلي جمالي متناسق -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="backToMenu()">
             <div class="nav-item-icon">⚔️</div>
@@ -408,7 +390,6 @@
         let balance = 50;
         let currentBjBet = 0;
         
-        // الأشكال والألوان المربوطة بها
         const suits = [
             { symbol: '♠', name: 'spades', isRed: false },
             { symbol: '♥', name: 'hearts', isRed: true },
@@ -486,15 +467,19 @@
             resultText.innerText = "";
 
             playerHand = [drawCard(), drawCard()];
-            dealerHand = [drawCard(), drawCard()]; // بنسحب كارتين للموزع من الأول
+            dealerHand = [drawCard(), drawCard()]; 
 
             document.getElementById('bj-setup').style.display = "none";
             document.getElementById('bj-play').style.display = "block";
 
             renderHands(false);
+
+            // لو اللاعب جاب 21 أوتوماتيك من أول كارتين (Natural Blackjack)
+            if (calculateScore(playerHand) === 21) {
+                bjStand(); 
+            }
         }
 
-        // دالة إنشاء كود الـ HTML لكل كارت بناءً على بياناته
         function createCardHTML(card, isBack = false) {
             if (isBack) {
                 return `<div class="playing-card card-back"></div>`;
@@ -512,16 +497,13 @@
             const playerArea = document.getElementById('player-cards');
             const dealerArea = document.getElementById('dealer-cards');
 
-            // رندر كروت اللاعب
             playerArea.innerHTML = playerHand.map(c => createCardHTML(c)).join('');
             document.getElementById('player-score-label').innerText = `Your Hand (${calculateScore(playerHand)})`;
 
-            // رندر كروت الموزع
             if (showFullDealer) {
                 dealerArea.innerHTML = dealerHand.map(c => createCardHTML(c)).join('');
                 document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${calculateScore(dealerHand)})`;
             } else {
-                // الكارت الأول ظاهر والكارت الثاني مخفي (ظهر الكارت)
                 dealerArea.innerHTML = createCardHTML(dealerHand[0]) + createCardHTML(null, true);
                 document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerHand[0].value})`;
             }
@@ -533,19 +515,28 @@
             if (calculateScore(playerHand) > 21) { endBj("Busted! House wins.", false); }
         }
 
+        // الحسابات الحقيقية والنزيهة 100% بدون أي تزوير في النسبة
         function bjStand() {
-            while (calculateScore(dealerHand) < 17) { dealerHand.push(drawCard()); }
+            // الديلر مجبر يسحب كروت طالما مجموعه أقل من 17 (قانون البلاك جاك الرسمي)
+            while (calculateScore(dealerHand) < 17) { 
+                dealerHand.push(drawCard()); 
+            }
             
             let pScore = calculateScore(playerHand);
             let dScore = calculateScore(dealerHand);
             renderHands(true);
 
-            if (Math.random() < 0.60) {
-                endBj(`Oracle wins by tactical draw (${dScore} vs ${pScore}).`, false);
+            if (pScore > 21) {
+                endBj("Busted! House wins.", false);
+            } else if (dScore > 21) {
+                endBj("Dealer busted! You win!", true);
+            } else if (pScore > dScore) {
+                endBj(`You win! (${pScore} vs ${dScore})`, true);
+            } else if (pScore < dScore) {
+                endBj(`House wins. (${dScore} vs ${pScore})`, false);
             } else {
-                if (dScore > 21 || pScore > dScore) { endBj("You win!", true); }
-                else if (pScore < dScore) { endBj("House wins.", false); }
-                else { balance += currentBjBet; endBj("Tie game! Bet returned.", null); }
+                balance += currentBjBet; // رجع الرهان في حالة التعادل
+                endBj(`Push! Tie game (${pScore} vs ${dScore}). Bet returned.`, null);
             }
         }
 
