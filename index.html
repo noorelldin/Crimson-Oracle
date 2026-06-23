@@ -18,5 +18,330 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* رصيد اللاعب فوق */
+        .balance-card {
+            background: rgba(255, 0, 51, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid #ff0033;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.3);
+            display: none;
+        }
+        .balance-card span {
+            color: #4caf50; /* خليت لون الرقم أخضر مريح */
+            text-shadow: 0 0 10px #4caf50;
+        }
+
+        /* الحاوية الزجاجية الرئيسية */
+        .casino-container {
+            background: rgba(5, 2, 2, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 0, 51, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0 0 5px 0;
+            color: #ff0033;
+            text-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        /* شاشات الألعاب والمينيو */
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        /* أزرار القائمة الرئيسية */
+        .menu-btn {
+            width: 100%;
+            background: rgba(20, 10, 11, 0.6);
+            color: white;
+            border: 1px solid #ff0033;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: 0.3s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .menu-btn:hover {
+            background: #ff0033;
+            box-shadow: 0 0 15px #ff0033;
+            transform: scale(1.02);
+        }
+        .menu-btn span {
+            font-size: 1.3rem;
+        }
+
+        /* أزرار وحقول الإدخال */
+        input[type="number"] {
+            width: 80%;
+            background: #110607;
+            border: 1px solid #ff0033;
+            border-radius: 6px;
+            padding: 12px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .action-btn {
+            width: 85%;
+            background: #ff0033;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 0, 51, 0.3);
+            margin: 5px 0;
+        }
+        .action-btn:hover {
+            background: #cc0029;
+            box-shadow: 0 4px 15px rgba(255, 0, 51, 0.6);
+        }
+
+        /* زرار الرجوع للمينيو الرئيسي */
+        .back-btn {
+            background: none;
+            border: none;
+            color: #ff0033;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        /* ستايلات ألعاب محددة */
+        .bj-zone {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .cards { font-size: 1.2rem; color: #ff0033; font-weight: bold; margin-top: 5px;}
+        .lottery-info { font-size: 0.9rem; color: #aaa; line-height: 1.4; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="balance-card" id="balance-card">
+        Your Balance: <span id="balance-display">50</span> Xanax
+    </div>
+
+    <div class="casino-container">
+        <h1>Crimson Casino</h1>
+        <div class="subtitle" id="casino-subtitle">The Oracle Awaits Your Fate</div>
+
+        <div id="main-menu" class="screen active">
+            <button class="menu-btn" onclick="goToScreen('oracle')">
+                🔮 Crimson Oracle <span>→</span>
+            </button>
+            <button class="menu-btn" onclick="goToScreen('blackjack')">
+                🃏 Blackjack <span>→</span>
+            </button>
+            <button class="menu-btn" onclick="goToScreen('lottery')">
+                🎫 Weekly Lottery <span>→</span>
+            </button>
+        </div>
+
+        <div id="screen-oracle" class="screen">
+            <h3 style="color:#ff0033; margin-top:0;">Crimson Oracle</h3>
+            <p style="color: #bbb; font-size: 0.9rem;">Double your Xanax or burn it to ashes.</p>
+            <input type="number" id="oracle-bet" placeholder="Bet Amount" min="1" value="5">
+            <button class="action-btn" onclick="playOracle()">Shake The Oracle</button>
+            <p id="oracle-result" style="font-weight: bold; margin-top: 15px;"></p>
+            <button class="back-btn" onclick="goToMenu()">← Back to Main Menu</button>
+        </div>
+
+        <div id="screen-blackjack" class="screen">
+            <h3 style="color:#ff0033; margin-top:0;">Blackjack</h3>
+            <div id="bj-setup">
+                <input type="number" id="bj-bet" placeholder="Bet Amount" min="1" value="5">
+                <button class="action-btn" onclick="startBlackjack()">Deal Cards</button>
+            </div>
+            <div id="bj-play" style="display: none;">
+                <div class="bj-zone">Oracle's Hand: <div class="cards" id="dealer-cards">?</div></div>
+                <div class="bj-zone">Your Hand: <div class="cards" id="player-cards">0</div></div>
+                <button class="action-btn" style="width: 40%; margin: 5px;" onclick="bjHit()">Hit</button>
+                <button class="action-btn" style="width: 40%; margin: 5px; background:#444;" onclick="bjStand()">Stand</button>
+            </div>
+            <p id="bj-result" style="font-weight: bold; margin-top: 15px;"></p>
+            <button class="back-btn" onclick="goToMenu()">← Back to Main Menu</button>
+        </div>
+
+        <div id="screen-lottery" class="screen">
+            <h3 style="color:#ff0033; margin-top:0;">Weekly Mega Lottery</h3>
+            <div class="lottery-info">
+                Ticket Cost: 1 Xanax<br>
+                Current Pool: <span style="color:#ff0033; font-weight:bold;">142 Xanax</span><br>
+                Draw opens every Sunday.
+            </div>
+            <input type="number" id="ticket-count" placeholder="Number of tickets" min="1" value="1">
+            <button class="action-btn" onclick="buyLottery()">Buy Tickets</button>
+            <p id="lottery-result" style="font-weight: bold; color: #4caf50; margin-top: 15px;"></p>
+            <button class="back-btn" onclick="goToMenu()">← Back to Main Menu</button>
+        </div>
+
+    </div>
+
+    <script>
+        let balance = 50;
+        let currentBjBet = 0;
+        let playerHand = [];
+        let dealerHand = [];
+
+        function goToScreen(screenName) {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('screen-' + screenName).classList.add('active');
+            document.getElementById('balance-card').style.display = 'block';
+            document.getElementById('casino-subtitle').style.display = 'none';
+        }
+
+        function goToMenu() {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('main-menu').classList.add('active');
+            document.getElementById('balance-card').style.display = 'none';
+            document.getElementById('casino-subtitle').style.display = 'block';
+            document.getElementById('oracle-result').innerText = "";
+            document.getElementById('bj-result').innerText = "";
+            document.getElementById('lottery-result').innerText = "";
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('balance-display').innerText = balance;
+        }
+
+        // --- تعديل نسبة الفوز لـ 60% في لعبة Oracle ---
+        function playOracle() {
+            let bet = parseInt(document.getElementById('oracle-bet').value);
+            let resultText = document.getElementById('oracle-result');
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Invalid bet!"; return;
+            }
             
+            // Math.random() بيدي رقم من 0 لـ 1، لو أقل من 0.60 يبقى كسبت (يعني 60% نسبة فوز)
+            let win = Math.random() < 0.60; 
+            if (win) {
+                balance += bet; resultText.style.color = "#4caf50";
+                resultText.innerText = `🔮 The Oracle smiles! (+${bet} Xanax)`;
+            } else {
+                balance -= bet; resultText.style.color = "#ff0033";
+                resultText.innerText = `🔥 Burned to ashes! (-${bet} Xanax)`;
+            }
+            updateBalanceDisplay();
+        }
+
+        // --- تعديل لعبة Blackjack لتكون نسبة حظك فيها أعلى ---
+        function getCardValue() { return Math.floor(Math.random() * 10) + 2; }
+        function sumHand(hand) { return hand.reduce((a, b) => a + b, 0); }
+
+        function startBlackjack() {
+            currentBjBet = parseInt(document.getElementById('bj-bet').value);
+            let resultText = document.getElementById('bj-result');
+            if (isNaN(currentBjBet) || currentBjBet <= 0 || currentBjBet > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Invalid bet!"; return;
+            }
+            balance -= currentBjBet; updateBalanceDisplay(); resultText.innerText = "";
+            
+            // تظبيط الكروت البدائية للاعب عشان تطلع قوية دايماً
+            playerHand = [getCardValue(), getCardValue()]; 
+            if (sumHand(playerHand) < 12) { playerHand.push(getCardValue()); } // دعم غش خفيف عشان متخسرش من أول كارتين
+            
+            dealerHand = [getCardValue()];
+            document.getElementById('bj-setup').style.display = "none";
+            document.getElementById('bj-play').style.display = "block";
+            document.getElementById('dealer-cards').innerText = dealerHand[0] + " + ?";
+            document.getElementById('player-cards').innerText = sumHand(playerHand);
+        }
+
+        function bjHit() {
+            playerHand.push(getCardValue());
+            let score = sumHand(playerHand);
+            document.getElementById('player-cards').innerText = score;
+            if (score > 21) { endBj("You Busted! Oracle wins.", false); }
+        }
+
+        function bjStand() {
+            // غش مخصص: الكمبيوتر بيلعب بذكاء أقل أو بيخاطر عشان يخسر بنسبة 60%
+            while (sumHand(dealerHand) < 17) { dealerHand.push(getCardValue()); }
+            let playerScore = sumHand(playerHand);
+            let dealerScore = sumHand(dealerHand);
+            document.getElementById('dealer-cards').innerText = dealerScore;
+            
+            // حقن نسبة الـ 60% فوز مباشرة لو النتيجة قريبة
+            if (Math.random() < 0.60 && playerScore <= 21) {
+                endBj(`You win! Oracle had ${dealerScore}.`, true);
+            } else {
+                if (dealerScore > 21 || playerScore > dealerScore) { endBj(`You win!`, true); }
+                else if (playerScore < dealerScore) { endBj(`Oracle wins.`, false); }
+                else { balance += currentBjBet; endBj("Push! Tie.", null); }
+            }
+        }
+
+        function endBj(message, isWin) {
+            let resultText = document.getElementById('bj-result');
+            resultText.innerText = message;
+            if (isWin === true) { balance += currentBjBet * 2; resultText.style.color = "#4caf50"; }
+            else if (isWin === false) { resultText.style.color = "#ff0033"; }
+            updateBalanceDisplay();
+            document.getElementById('bj-setup').style.display = "block";
+            document.getElementById('bj-play').style.display = "none";
+        }
+
+        // --- الـ Lottery ---
+        function buyLottery() {
+            let count = parseInt(document.getElementById('ticket-count').value);
+            let resultText = document.getElementById('lottery-result');
+            if (isNaN(count) || count <= 0 || count > balance) {
+                resultText.style.color = "orange"; resultText.innerText = "Check balance!"; return;
+            }
+            balance -= count; updateBalanceDisplay();
+            resultText.innerText = `🎫 Bought ${count} tickets!`;
+        }
+    </script>
+</body>
+</html>
