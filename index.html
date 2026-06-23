@@ -3,157 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crimson Oracle | Torn City Betting</title>
+    <title>Crimson Casino | Torn City</title>
     <style>
-        /* إعدادات الخلفية وضبط الصورة بالطول */
+        /* إعدادات الخلفية الثابتة */
         body {
-            background-image: url('file_00000000f62c71f4b232874cf0d45899.png'); /* اسم الصورة اللي رفعناها */
-            background-size: cover; /* تجعل الصورة تغطي الشاشة بالكامل */
-            background-position: center top; /* تظبط نص الصورة في الشاشة من فوق عشان ملامح الملك تبان */
+            background-image: url('1000151008.png'); /* لو غيرت اسم الصورة لـ bg.png عيرها هنا */
+            background-size: cover;
+            background-position: center top;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* تثبيت الخلفية أثناء التمرير */
+            background-attachment: fixed;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end; /* سحب المحتوى لأسفل الشاشة عشان يسيب مساحة للصورة فوق */
             min-height: 100vh;
             margin: 0;
-            padding: 30px 20px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
-        /* حاوية زجاجية مظلمة عشان الكلام يقرأ بوضوح فوق الصورة الصاخبة */
-        .main-container {
-            background: rgba(10, 5, 5, 0.75); /* أسود شفاف */
-            backdrop-filter: blur(8px); /* تأثير ضبابي زجاجي راقي */
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 0, 51, 0.3); /* إطار أحمر خفيف */
-            border-radius: 16px;
-            padding: 25px;
-            width: 100%;
-            max-width: 340px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 0, 51, 0.1);
+        /* رصيد اللاعب فوق */
+        .balance-card {
+            background: rgba(255, 0, 51, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid #ff0033;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.3);
+        }
+        .balance-card span {
+            color: #ff0033;
+            text-shadow: 0 0 10px #ff0033;
         }
 
-        /* اسم الموقع بالخط الأحمر الفاقع النيون */
+        /* الحاوية الزجاجية الرئيسية */
+        .casino-container {
+            background: rgba(10, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 0, 51, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
         h1 {
-            font-size: 2.2rem;
-            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+            margin: 0 0 15px 0;
             color: #ff0033;
-            text-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
+            text-shadow: 0 0 10px #ff0033;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* الوصف */
-        .description {
-            color: #cccccc;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0 0 25px 0;
+        /* أزرار التنقل بين الألعاب (Tabs) */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
         }
-
-        /* خانة إدخال الـ API */
-        .api-input {
-            width: 100%;
-            background-color: rgba(26, 13, 14, 0.8);
-            border: 2px solid #ff0033;
-            border-radius: 8px;
-            padding: 14px;
-            color: #ffffff;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            box-sizing: border-box;
-            box-shadow: 0 0 15px rgba(255, 0, 51, 0.1);
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 5px 10px;
             transition: 0.3s;
-            margin-bottom: 8px;
         }
-
-        .api-input:focus {
-            box-shadow: 0 0 25px rgba(255, 0, 51, 0.5);
-            background-color: #261012;
-        }
-
-        .api-input::placeholder {
-            color: #6b3e42;
-        }
-
-        /* لينك المساعدة */
-        .help-link {
+        .tab-btn.active {
             color: #ff0033;
-            text-decoration: none;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 25px;
-            opacity: 0.9;
-            transition: 0.3s;
-        }
-
-        .help-link:hover {
+            border-bottom: 2px solid #ff0033;
             text-shadow: 0 0 8px #ff0033;
         }
 
-        /* الزرار الرئيسي الكبير الفاقع */
-        .submit-btn {
-            width: 100%;
-            background-color: #ff0033;
-            color: #ffffff;
+        /* محتوى الألعاب */
+        .game-content {
+            display: none;
+            min-height: 200px;
+        }
+        .game-content.active {
+            display: block;
+        }
+
+        /* أزرار وحقول الإدخال المشتركة */
+        input[type="number"] {
+            width: 80%;
+            background: #1a0d0e;
+            border: 1px solid #ff0033;
+            border-radius: 6px;
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .action-btn {
+            width: 85%;
+            background: #ff0033;
+            color: white;
             border: none;
-            border-radius: 8px;
-            padding: 15px;
-            font-size: 1.1rem;
+            padding: 12px;
+            font-size: 1rem;
             font-weight: bold;
+            border-radius: 6px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 0, 51, 0.4);
-            transition: 0.3s;
             text-transform: uppercase;
-            box-sizing: border-box;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 0, 51, 0.3);
+            margin: 5px 0;
+        }
+        .action-btn:hover {
+            background: #cc0029;
+            box-shadow: 0 4px 15px rgba(255, 0, 51, 0.6);
         }
 
-        .submit-btn:hover {
-            background-color: #cc0029;
-            box-shadow: 0 4px 25px rgba(255, 0, 51, 0.7);
-            transform: translateY(-2px);
+        /* ستايل مخصص للـ Blackjack */
+        .bj-zone {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
         }
+        .cards { font-size: 1.2rem; color: #ff0033; font-weight: bold; margin-top: 5px;}
 
-        .footer-note {
-            color: #777;
-            font-size: 0.75rem;
-            margin: 20px 0 0 0;
-        }
-        .footer-note strong {
-            color: #ff0033;
+        /* ستايل اللوتري */
+        .lottery-info {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <!-- تم وضع العناصر داخل حاوية زجاجية لحمايتها من تفاصيل الخلفية الصاخبة -->
-    <div class="main-container">
-        <h1>Crimson Oracle</h1>
-        
-        <p class="description">
-            Bet your Xanax and consult the Crimson Oracle. It may double your stash... or burn it to ashes.
-        </p>
+    <!-- رصيد الـ Xanax العلوي -->
+    <div class="balance-card">
+        Your Balance: <span id="balance-display">50</span> Xanax
+    </div>
 
-        <input type="text" class="api-input" placeholder="Your PUBLIC API key" maxlength="16">
-        
-        <a href="https://www.torn.com/preferences.php#tab=api" target="_blank" class="help-link">Get your API key here →</a>
+    <div class="casino-container">
+        <h1>Crimson Casino</h1>
 
-        <button class="submit-btn" onclick="startOracle()">Consult the Oracle</button>
+        <!-- القائمة العلوية واختيار الألعاب -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('oracle')">Oracle</button>
+            <button class="tab-btn" onclick="switchTab('blackjack')">Blackjack</button>
+            <button class="tab-btn" onclick="switchTab('lottery')">Lottery</button>
+        </div>
 
-        <p class="footer-note">Only a <strong>public</strong> API key is needed.</p>
+        <!-- 1. لعبة CRIMSON ORACLE -->
+        <div id="oracle" class="game-content active">
+            <p style="color: #bbb; font-size: 0.9rem;">Double your Xanax or burn it to ashes.</p>
+            <input type="number" id="oracle-bet" placeholder="Bet Amount" min="1" value="5">
+            <button class="action-btn" onclick="playOracle()">Shake The Oracle</button>
+            <p id="oracle-result" style="font-weight: bold; margin-top: 15px;"></p>
+        </div>
+
+        <!-- 2. لعبة BLACKJACK -->
+        <div id="blackjack" class="game-content">
+            <div id="bj-setup">
+                <input type="number" id="bj-bet" placeholder="Bet Amount" min="1" value="5">
+                <button class="action-btn" onclick="startBlackjack()">Deal Cards</button>
+            </div>
+            <div id="bj-play" style="display: none;">
+                <div class="bj-zone">Oracle's Hand: <div class="cards" id="dealer-cards">?</div></div>
+                <div class="bj-zone">Your Hand: <div class="cards" id="player-cards">0</div></div>
+                <button class="action-btn" style="width: 40%; margin: 5px;" onclick="bjHit()">Hit</button>
+                <button class="action-btn" style="width: 40%; margin: 5px; background:#444;" onclick="bjStand()">Stand</button>
+            </div>
+            <p id="bj-result" style="font-weight: bold; margin-top: 15px;"></p>
+        </div>
+
+        <!-- 3. ركن الـ LOTTERY الأسبوعية -->
+        <div id="lottery" class="game-content">
+            <div class="lottery-info">
+                <strong>Weekly Mega Lottery!</strong><br>
+                Ticket Cost: 1 Xanax<br>
+                Current Pool: <span style="color:#ff0033; font-weight:bold;">142 Xanax</span><br>
+                Draw opens every Sunday.
+            </div>
+            <input type="number" id="ticket-count" placeholder="Number of tickets" min="1" value="1">
+            <button class="action-btn" onclick="buyLottery()">Buy Tickets</button>
+            <p id="lottery-result" style="font-weight: bold; color: #4caf50; margin-top: 15px;"></p>
+        </div>
+
     </div>
 
     <script>
-        function startOracle() {
-            alert("The Oracle is examining your luck...");
+        // الرصيد الافتراضي للتجربة
+        let balance = 50;
+        let currentBjBet = 0;
+        let playerHand = [];
+        let dealerHand = [];
+
+        function updateBalanceDisplay() {
+            document.getElementById('balance-display').innerText = balance;
+        }
+
+        function switchTab(gameId) {
+            document.querySelectorAll('.game-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(gameId).classList.add('active');
+            event.target.classList.add('active');
+            // تنظيف النتائج القديمة عند التنقل
+            document.getElementById('oracle-result').innerText = "";
+            document.getElementById('bj-result').innerText = "";
+            document.getElementById('lottery-result').innerText = "";
+        }
+
+        // منطق لعبة الـ Crimson Oracle
+        function playOracle() {
+            let betInput = document.getElementById('oracle-bet');
+            let bet = parseInt(betInput.value);
+            let resultText = document.getElementById('oracle-result');
+
+            if (isNaN(bet) || bet <= 0 || bet > balance) {
+                resultText.style.color = "orange";
+                resultText.innerText = "Invalid bet or insufficient Xanax!";
+                return;
+            }
+
+            // نسبة المكسب والخسارة 50/50
+            let win = Math.random() >= 0.5;
+            if (win) {
+                balance += bet;
+                resultText.style.color = "#4caf50";
+                resultText.innerText = `🔮 The Oracle smiles! You doubled your bet. (+${bet} Xanax)`;
+            } else {
+                balance -= bet;
+                resultText.style.color = "#ff0033";
+                resultText.innerText = `🔥 Burned to ashes! You lost ${bet} Xanax.`;
+            }
+            updateBalanceDisplay();
+        }
+
+        // منطق الـ Blackjack المبسط
+        function getCardValue() { return Math.floor(Math.random() * 10) + 2; }
+        function sumHand(hand) { return hand.reduce((a, b) => a + b, 0); }
+
+        function startBlackjack() {
+            let betInput = document.getElementById('bj-bet');
+            currentBjBet = parseInt(betInput.value);
+            let resultText = document.getElementById('bj-result');
+
+            if (isNaN(currentBjBet) || currentBjBet <= 0 || currentBjBet > balance) {
+                resultText.style.color = "orange";
+                resultText.innerText = "Invalid bet!";
+                return;
+            }
+
+            balance -= currentBjBet;
+            updateBalanceDisplay();
+            resultText.innerText = "";
+
+            playerHand = [getCardValue(), getCardValue()];
+            dealerHand = [getCardValue()];
+
+            document.getElementById('bj-setup').style.display = "none";
+            document.getElementById('bj-play').style.display = "block";
+            
+            document.getElementById('dealer-cards').innerText = dealerHand[0] + " + ?";
+            document.getElementById('player-cards').innerText = sumHand(playerHand);
+        }
+
+        function bjHit() {
+            playerHand.push(getCardValue());
+            let score = sumHand(playerHand);
+            document.getElementById('player-cards').innerText = score;
+
+            if (score > 21) {
+                endBj("You Busted! Oracle wins.", false);
+            }
+        }
+
+        function bjStand() {
+            while (sumHand(dealerHand) < 17) {
+                dealerHand.push(getCardValue());
+            }
+            let playerScore = sumHand(playerHand);
+            let dealerScore = sumHand(dealerHand);
+
+            document.getElementById('dealer-cards').innerText = dealerScore;
+
+            if (dealerScore > 21 || playerScore > dealerScore) {
+                endBj(`You win! Oracle had ${dealerScore}.`, true);
+            } else if (playerScore < dealerScore) {
+                endBj(`Oracle wins with ${dealerScore}.`, false);
+            } else {
+                balance += currentBjBet; // تعادل يرجع الرهان
+                endBj("Push! It's a tie.", null);
+            }
+        }
+
+        function endBj(message, isWin) {
+            let resultText = document.getElementById('bj-result');
+            resultText.innerText = message;
+            if (isWin === true) {
+                balance += currentBjBet * 2;
+                resultText.style.color = "#4caf50";
+            } else if (isWin === false) {
+                resultText.style.color = "#ff0033";
+            } else {
+                resultText.style.color = "white";
+            }
+            updateBalanceDisplay();
+            document.getElementById('bj-setup').style.display = "block";
+            document.getElementById('bj-play').style.display = "none";
+        }
+
+        // منطق شراء تذاكر اللوتري
+        function buyLottery() {
+            let countInput = document.getElementById('ticket-count');
+            let count = parseInt(countInput.value);
+            let resultText = document.getElementById('lottery-result');
+
+            if (isNaN(count) || count <= 0 || count > balance) {
+                resultText.style.color = "orange";
+                resultText.innerText = "Check your balance!";
+                return;
+            }
+
+            balance -= count;
+            updateBalanceDisplay();
+            resultText.innerText = `🎫 Successfully bought ${count} tickets! Good luck in Sunday's draw.`;
         }
     </script>
-
 </body>
 </html>
