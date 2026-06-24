@@ -187,16 +187,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        /* Layout scaling for inside the game view */
-        .panel-cover-img {
-            width: 100%;
-            max-height: 160px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
         input[type="number"] {
             width: 80%;
             background: #0f0202;
@@ -350,6 +340,7 @@
 
     <div class="main-content">
 
+        <!-- Main Menu -->
         <div id="main-menu" class="screen active">
             <div class="hero-banner">
                 <h2>GAMES</h2>
@@ -357,6 +348,7 @@
             </div>
              
             <div class="games-grid">
+                <!-- 🔮 Oracle Menu Card with image.png -->
                 <div class="game-card" onclick="openGame('oracle')">
                     <div class="card-img-area">
                         <img src="image.png" alt="Oracle Card">
@@ -367,8 +359,11 @@
                     </div>
                 </div>
 
+                <!-- 🃏 Blackjack Menu Card with blackjackpic.png -->
                 <div class="game-card" onclick="openGame('blackjack')">
-                    <div class="card-img-area">🃏</div>
+                    <div class="card-img-area">
+                        <img src="blackjackpic.png" alt="Blackjack Card">
+                    </div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Blackjack</h4>
                         <div class="game-type">PVC</div>
@@ -377,12 +372,12 @@
             </div>
         </div>
 
+        <!-- 🔮 Oracle Play Screen -->
         <div id="screen-oracle" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
             </div>
             <div class="game-play-panel">
-                <img src="image.png" alt="Oracle Front" class="panel-cover-img">
                 <div id="oracle-ball" class="oracle-display-icon">🔮</div>
                 <h3 style="margin-top:0;">CRIMSON ORACLE</h3>
                 <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. (Favors Player)</p>
@@ -392,6 +387,7 @@
             </div>
         </div>
 
+        <!-- 🃏 Blackjack Play Screen -->
         <div id="screen-blackjack" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
