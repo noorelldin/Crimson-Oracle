@@ -2,89 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crimson Casino</title>
+    <title>Crimson Casino - Adjusted Edge</title>
     <style>
-        :root { --bg-nav: rgba(15, 2, 2, 0.85); --primary: #8b0000; --primary-hover: #ff1a1a; --text-main: #fcebeb; --text-muted: #cca3a3; --green: #10b981; --glow-green: rgba(16, 185, 129, 0.4); --glow-red: rgba(239, 68, 68, 0.4); }
-        /* (تم الاحتفاظ بـ CSS الخاص بك بالكامل) */
-        body { margin: 0; padding: 0; min-height: 100vh; display: flex; flex-direction: column; box-sizing: border-box; overflow-x: hidden; background: radial-gradient(circle at 50% 50%, #5c0000 0%, #1a0404 50%, #050000 100%); background-size: 400% 400%; animation: nebulaMove 12s ease infinite; color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; }
-        @keyframes nebulaMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(white, transparent 1px); background-size: 60px 60px; opacity: 0.1; pointer-events: none; animation: starsTwinkle 4s infinite alternate; z-index: 0; }
-        @keyframes starsTwinkle { from { opacity: 0.03; } to { opacity: 0.2; } }
-        .top-navbar { background: var(--bg-nav); border-bottom: 2px solid var(--primary); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .brand-logo { font-weight: 900; font-size: 1.4rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px var(--primary); }
-        .wallet-zone { display: flex; align-items: center; gap: 12px; }
-        .wallet-balance { font-weight: 700; font-size: 0.9rem; }
-        .wallet-balance span { color: var(--green); text-shadow: 0 0 8px var(--glow-green); }
-        .deposit-btn { background: var(--primary); color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-weight: 800; font-size: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
-        .main-content { flex: 1; max-width: 480px; width: 100%; margin: 0 auto; padding: 20px; box-sizing: border-box; padding-bottom: 90px; }
-        .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 25px; }
-        .game-card { background: rgba(40, 8, 8, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; cursor: pointer; padding: 15px; text-align: center; transition: 0.4s; }
-        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .screen { display: none; animation: fadeIn 0.4s ease; } .screen.active { display: block; }
-        .game-play-panel { background: rgba(40, 8, 8, 0.6); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        input[type="number"] { width: 80%; background: #0f0202; border: 1px solid #5a1818; padding: 12px; color: #fff; margin-bottom: 15px; border-radius: 8px; text-align: center; }
-        .action-btn { width: 85%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .back-nav-btn { background: #451010; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; }
-        .result-popup-banner { margin-top: 15px; padding: 10px; border-radius: 8px; display: none; font-weight: bold; }
-        .win { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); }
-        .lose { background: rgba(239, 68, 68, 0.2); color: #ff4444; border: 1px solid #ff4444; }
-        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 15px 0; }
-        .mine-tile { aspect-ratio: 1; background: #330000; border-radius: 4px; cursor: pointer; }
+        :root { --primary: #8b0000; --bg: #050000; --text: #fff; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; text-align: center; margin: 0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; }
+        .card { background: #1a0404; padding: 20px; border: 1px solid var(--primary); cursor: pointer; border-radius: 10px; }
+        @keyframes shake { 0%, 100% {transform: translateX(0)} 25% {transform: translateX(-5px)} 75% {transform: translateX(5px)} }
+        .shake { animation: shake 0.2s infinite; }
+        .mines-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; width: 250px; margin: 20px auto; }
+        .cell { aspect-ratio: 1; background: #330000; transition: 0.3s; cursor: pointer; }
+        #road { height: 100px; background: #111; position: relative; overflow: hidden; margin: 20px auto; width: 300px; }
+        #chick { position: absolute; left: 0; bottom: 10px; font-size: 30px; transition: 1s; }
+        #car { position: absolute; right: -50px; bottom: 10px; font-size: 30px; transition: 0.5s; }
     </style>
 </head>
 <body>
-
-    <div class="top-navbar">
-        <div class="brand-logo">Crimson Casino</div>
-        <div class="wallet-zone"><div class="wallet-balance"><span id="balance-display">500</span> Xanax</div></div>
+    <h2>Crimson Casino | Balance: <span id="bal">500</span></h2>
+    <div id="menu" class="grid">
+        <div class="card" onclick="show('chicken')">🐔 Chicken</div>
+        <div class="card" onclick="show('mines')">💣 Mines</div>
+        <div class="card" onclick="show('bj')">🃏 Blackjack</div>
+        <div class="card" onclick="show('oracle')">🔮 Oracle</div>
     </div>
 
-    <div class="main-content">
-        <div id="main-menu" class="screen active">
-            <div class="games-grid">
-                <div class="game-card" onclick="openGame('oracle')"><h3>🔮</h3><p>Oracle</p></div>
-                <div class="game-card" onclick="openGame('blackjack')"><h3>🃏</h3><p>Blackjack</p></div>
-                <div class="game-card" onclick="openGame('chicken')"><h3>🐔</h3><p>Chicken</p></div>
-                <div class="game-card" onclick="openGame('mines')"><h3>💣</h3><p>Mines</p></div>
-            </div>
-        </div>
+    <div id="chicken" style="display:none">
+        <button onclick="back()">Back</button>
+        <div id="road"><div id="chick">🐔</div><div id="car">🚗</div></div>
+        <button onclick="playCh()">Cross (60% Edge)</button>
+    </div>
 
-        <div id="screen-chicken" class="screen"><div class="game-play-panel"><button class="back-nav-btn" onclick="backToMenu()">← Back</button><h3>CHICKEN</h3><input type="number" id="chicken-bet" value="5"><button class="action-btn" onclick="playChicken()">Step</button><div id="chicken-res" class="result-popup-banner"></div></div></div>
-        <div id="screen-mines" class="screen"><div class="game-play-panel"><button class="back-nav-btn" onclick="backToMenu()">← Back</button><h3>MINES</h3><input type="number" id="mines-bet" value="5"><div class="mines-grid" id="mines-grid"></div><button class="action-btn" onclick="initMines()">New Game</button><div id="mines-res" class="result-popup-banner"></div></div></div>
-        
-        <div id="screen-oracle" class="screen">... (كود Oracle الخاص بك) ...</div>
-        <div id="screen-blackjack" class="screen">... (كود Blackjack الخاص بك) ...</div>
+    <div id="mines" style="display:none">
+        <button onclick="back()">Back</button>
+        <div class="mines-grid" id="m-grid"></div>
+    </div>
+
+    <div id="bj" style="display:none">
+        <button onclick="back()">Back</button>
+        <h3>Blackjack</h3>
+        <button onclick="alert('Random Logic')">Deal</button>
+    </div>
+
+    <div id="oracle" style="display:none">
+        <button onclick="back()">Back</button>
+        <div id="ball" style="font-size:50px">🔮</div>
+        <button onclick="shake()">Shake (60% Edge)</button>
     </div>
 
     <script>
-        // دمج كل شيء هنا
-        let balance = 500;
-        function openGame(g) { document.getElementById('main-menu').style.display='none'; document.getElementById('screen-'+g).style.display='block'; }
-        function backToMenu() { document.querySelectorAll('.screen').forEach(s=>s.style.display='none'); document.getElementById('main-menu').style.display='block'; }
-        function updateUI() { document.getElementById('balance-display').innerText = balance; }
-
-        // Logic للـ Chicken
-        function playChicken() {
-            let bet = parseInt(document.getElementById('chicken-bet').value);
-            let res = document.getElementById('chicken-res');
-            if(Math.random() > 0.4) { balance += bet; res.className='result-popup-banner win'; res.innerText="WIN!"; }
-            else { balance -= bet; res.className='result-popup-banner lose'; res.innerText="CRASH!"; }
-            res.style.display="block"; updateUI();
-        }
-
-        // Logic للـ Mines
-        function initMines() {
-            let g = document.getElementById('mines-grid'); g.innerHTML='';
-            for(let i=0; i<25; i++) {
-                let t = document.createElement('div'); t.className='mine-tile';
-                t.onclick = () => { t.style.background = Math.random() > 0.2 ? '#10b981' : '#ef4444'; };
-                g.appendChild(t);
-            }
-        }
-        initMines();
+        let bal = 500;
         
-        // (ضع دوال الـ Oracle والـ Blackjack الأصلية هنا تحت هذا السطر)
+        function updateBal(amount) { bal += amount; document.getElementById('bal').innerText = bal; }
+
+        // Oracle & Chicken: House Edge 60% (يعني اللاعب بيكسب في 40% فقط)
+        function shake() {
+            let b = document.getElementById('ball');
+            b.classList.add('shake');
+            setTimeout(() => {
+                b.classList.remove('shake');
+                updateBal(Math.random() < 0.4 ? 50 : -50);
+            }, 1000);
+        }
+
+        function playCh() {
+            let c = document.getElementById('chick'), car = document.getElementById('car');
+            c.style.left = "80%";
+            setTimeout(() => {
+                if(Math.random() < 0.4) { alert("You crossed!"); updateBal(50); } 
+                else { alert("Crash!"); updateBal(-50); }
+                c.style.left = "0";
+            }, 1000);
+        }
+
+        // Mines: Random (50/50)
+        let g = document.getElementById('m-grid');
+        for(let i=0; i<25; i++) {
+            let d = document.createElement('div'); d.className='cell';
+            d.onclick = () => { d.style.background = Math.random() > 0.5 ? '#10b981' : '#8b0000'; };
+            g.appendChild(d);
+        }
+
+        function show(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
+        function back() { document.querySelectorAll('[id^=chicken], [id^=mines], [id^=bj], [id^=oracle]').forEach(s=>s.style.display='none'); document.getElementById('menu').style.display='grid'; }
     </script>
 </body>
 </html>
