@@ -156,8 +156,14 @@
             justify-content: center;
             font-size: 3.2rem;
             transition: transform 0.3s ease;
+            overflow: hidden; /* يحافظ على حواف الصورة داخل الكارد */
         }
-        .game-card:hover .card-img-area { transform: scale(1.2) rotate(5deg); }
+        .card-img-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .game-card:hover .card-img-area { transform: scale(1.1) rotate(2deg); }
 
         .game-footer-info {
             padding: 12px;
@@ -181,7 +187,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        /* 📸 Image layout scaling */
+        /* Layout scaling for inside the game view */
         .panel-cover-img {
             width: 100%;
             max-height: 160px;
@@ -204,7 +210,6 @@
             outline: none;
         }
 
-        /* زرار ينبض ويشع ضوءاً لجذب الضغط */
         .action-btn {
             width: 85%;
             background: var(--primary);
@@ -294,7 +299,6 @@
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
         .nav-item.active { color: var(--primary-hover); text-shadow: 0 0 5px var(--primary-hover); }
 
-        /* 🔮 Shaking Crystal Ball Animation */
         .oracle-display-icon {
             font-size: 3.5rem;
             margin-bottom: 10px;
@@ -354,7 +358,9 @@
              
             <div class="games-grid">
                 <div class="game-card" onclick="openGame('oracle')">
-                    <div class="card-img-area">🔮</div>
+                    <div class="card-img-area">
+                        <img src="image.png" alt="Oracle Card">
+                    </div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Oracle</h4>
                         <div class="game-type">PVC</div>
@@ -476,15 +482,11 @@
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
              
             banner.className = "result-popup-banner";
-             
-            // Add the shaking animation class when clicked
             ball.classList.add('shaking');
              
-            // Brief timeout to let it shake before showing results and stopping
             setTimeout(() => {
                 ball.classList.remove('shaking');
                  
-                // 60% احتمالية الفوز للاعب
                 let win = Math.random() < 0.40; 
                 if (win) {
                     balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
@@ -493,7 +495,7 @@
                 }
                 banner.style.display = "block";
                 updateBalanceDisplay();
-            }, 500); // 500ms match the aesthetic speed of a quick calculation shake
+            }, 500);
         }
 
         function drawCard() {
