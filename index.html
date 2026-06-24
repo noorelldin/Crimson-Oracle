@@ -284,6 +284,31 @@
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
         .nav-item.active { color: var(--primary-hover); text-shadow: 0 0 5px var(--primary-hover); }
 
+        /* 🔮 Shaking Crystal Ball Animation */
+        .oracle-display-icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: transform 0.1s;
+        }
+        .oracle-display-icon.shaking {
+            animation: oracleShake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes oracleShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-4px, -2px) rotate(-3deg); }
+            20% { transform: translate(3px, 1px) rotate(3deg); }
+            30% { transform: translate(-3px, 3px) rotate(-1deg); }
+            40% { transform: translate(2px, -1px) rotate(2deg); }
+            50% { transform: translate(-2px, 1px) rotate(-2deg); }
+            60% { transform: translate(3px, 2px) rotate(1deg); }
+            70% { transform: translate(-3px, -1px) rotate(-3deg); }
+            80% { transform: translate(2px, 3px) rotate(3deg); }
+            90% { transform: translate(-1px, -2px) rotate(-1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes cardDeal { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -341,7 +366,8 @@
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
             </div>
             <div class="game-play-panel">
-                <h3 style="margin-top:0;">🔮 CRIMSON ORACLE</h3>
+                <div id="oracle-ball" class="oracle-display-icon">🔮</div>
+                <h3 style="margin-top:0;">CRIMSON ORACLE</h3>
                 <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. (Favors Player)</p>
                 <input type="number" id="oracle-bet" min="1" value="5">
                 <button class="action-btn" onclick="playOracle()">Shake Oracle</button>
@@ -396,7 +422,7 @@
     </div>
 
     <script>
-        let balance = 500;
+        let balance = 50;
         let currentBjBet = 0;
         
         const suits = [
@@ -435,19 +461,28 @@
         function playOracle() {
             let bet = parseInt(document.getElementById('oracle-bet').value);
             let banner = document.getElementById('oracle-result-banner');
+            let ball = document.getElementById('oracle-ball');
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
             
             banner.className = "result-popup-banner";
             
-            // 60% احتمالية الفوز للاعب
-            let win = Math.random() < 0.40; 
-            if (win) {
-                balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
-            } else {
-                balance -= bet; banner.className = 'result-popup-banner lose'; banner.innerText = `🔥 Lost! -${bet} Xanax`;
-            }
-            banner.style.display = "block";
-            updateBalanceDisplay();
+            // Add the shaking animation class when clicked
+            ball.classList.add('shaking');
+            
+            // Brief timeout to let it shake before showing results and stopping
+            setTimeout(() => {
+                ball.classList.remove('shaking');
+                
+                // 60% احتمالية الفوز للاعب
+                let win = Math.random() < 0.40; 
+                if (win) {
+                    balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
+                } else {
+                    balance -= bet; banner.className = 'result-popup-banner lose'; banner.innerText = `🔥 Lost! -${bet} Xanax`;
+                }
+                banner.style.display = "block";
+                updateBalanceDisplay();
+            }, 500); // 500ms match the aesthetic speed of a quick calculation shake
         }
 
         function drawCard() {
