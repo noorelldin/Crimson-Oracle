@@ -380,7 +380,7 @@
             <div class="game-play-panel">
                 <div id="oracle-ball" class="oracle-display-icon">🔮</div>
                 <h3 style="margin-top:0;">CRIMSON ORACLE</h3>
-                <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. (Favors Player)</p>
+                <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Predict against the machine. (Favors House)</p>
                 <input type="number" id="oracle-bet" min="1" value="5">
                 <button class="action-btn" onclick="playOracle()">Shake Oracle</button>
                 <div id="oracle-result-banner" class="result-popup-banner"></div>
@@ -483,7 +483,8 @@
             setTimeout(() => {
                 ball.classList.remove('shaking');
                  
-                let win = Math.random() < 0.40; 
+                // 35% chance for player to win = 65% house advantage
+                let win = Math.random() < 0.35; 
                 if (win) {
                     balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
                 } else {
