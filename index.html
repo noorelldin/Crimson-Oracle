@@ -16,7 +16,6 @@
             --glow-red: rgba(239, 68, 68, 0.4);
         }
 
-        /* 🌌 الخلفية الفضائية الحمراء المتحركة */
         body {
             margin: 0;
             padding: 0;
@@ -38,7 +37,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ✨ تأثير النجوم المتلألئة في الفضاء */
         body::before {
             content: "";
             position: absolute;
@@ -56,7 +54,6 @@
             to { opacity: 0.2; }
         }
 
-        /* تحسينات الواجهة وتأثير الزجاج الزجاجي المعتم (Glassmorphism) */
         .top-navbar {
             background: var(--bg-nav);
             border-bottom: 2px solid var(--primary);
@@ -94,8 +91,8 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .deposit-btn:hover { 
-            background: var(--primary-hover); 
+        .deposit-btn:hover {
+            background: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(255, 26, 26, 0.6);
         }
@@ -127,7 +124,6 @@
             margin-top: 25px;
         }
 
-        /* كروت ألعاب بتأثير مضيء وحركة تفاعلية */
         .game-card {
             background: rgba(40, 8, 8, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -141,8 +137,8 @@
             backdrop-filter: blur(5px);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-         
-        .game-card:hover { 
+
+        .game-card:hover {
             transform: translateY(-10px) scale(1.02);
             border-color: var(--primary-hover);
             box-shadow: 0 12px 30px rgba(139, 0, 0, 0.6);
@@ -156,14 +152,31 @@
             justify-content: center;
             font-size: 3.2rem;
             transition: transform 0.3s ease;
-            overflow: hidden; /* يحافظ على حواف الصورة داخل الكارد */
+            overflow: hidden;
+            position: relative;
         }
-        .card-img-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .card-img-area::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 40%, var(--menu-glow, rgba(139,0,0,0.45)), transparent 70%);
+            animation: menuPulse 3s ease-in-out infinite;
         }
-        .game-card:hover .card-img-area { transform: scale(1.1) rotate(2deg); }
+        .card-img-area .menu-emoji {
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px var(--menu-glow, rgba(255,80,80,0.6)));
+        }
+        @keyframes menuPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        .game-card.oracle-card { --menu-glow: rgba(168, 85, 247, 0.55); }
+        .game-card.blackjack-card { --menu-glow: rgba(16, 185, 129, 0.5); }
+        .game-card.chicken-card { --menu-glow: rgba(255, 200, 0, 0.55); }
+        .game-card.mines-card { --menu-glow: rgba(239, 68, 68, 0.55); }
+        .game-card.dice-card { --menu-glow: rgba(59, 130, 246, 0.55); }
+        .game-card.plane-card { --menu-glow: rgba(255, 140, 0, 0.6); }
 
         .game-footer-info {
             padding: 12px;
@@ -200,6 +213,19 @@
             outline: none;
         }
 
+        select.action-select {
+            width: 80%;
+            background: #0f0202;
+            border: 1px solid #5a1818;
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
         .action-btn {
             width: 85%;
             background: var(--primary);
@@ -214,9 +240,23 @@
             transition: all 0.2s;
             box-shadow: 0 0 10px var(--primary);
         }
-        .action-btn:hover { 
-            background: var(--primary-hover); 
+        .action-btn:hover {
+            background: var(--primary-hover);
             box-shadow: 0 0 20px var(--primary-hover);
+        }
+        .action-btn:disabled {
+            background: #3a1a1a;
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .action-btn.cashout-btn {
+            background: var(--green);
+            box-shadow: 0 0 10px var(--glow-green);
+        }
+        .action-btn.cashout-btn:hover {
+            background: #14d99a;
+            box-shadow: 0 0 20px var(--glow-green);
         }
 
         .back-nav-container { margin-bottom: 12px; text-align: left; }
@@ -233,8 +273,8 @@
         .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .bj-box { background: rgba(15, 2, 2, 0.7); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
-         
-        .bj-cards-display { display: flex; justify-content: center; gap: 8px; min-height: 75px; align-items: center; }
+
+        .bj-cards-display { display: flex; justify-content: center; gap: 8px; min-height: 75px; align-items: center; flex-wrap: wrap; }
 
         .playing-card {
             background: #ffffff;
@@ -315,6 +355,256 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes cardDeal { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== Chicken Road (real road + animated chicken + cars) ===== */
+        .road-scene {
+            position: relative;
+            height: 150px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: linear-gradient(180deg, #2b2b2b 0%, #3a3a3a 50%, #2b2b2b 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+        }
+        .road-scene::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(90deg, transparent 0 38px, rgba(255,255,255,0.04) 38px 40px);
+            pointer-events: none;
+        }
+        .road-curb-top, .road-curb-bottom {
+            position: absolute;
+            left: 0; right: 0;
+            height: 8px;
+            background: repeating-linear-gradient(90deg, #fff 0 16px, #b00 16px 32px);
+            opacity: 0.85;
+        }
+        .road-curb-top { top: 0; }
+        .road-curb-bottom { bottom: 0; }
+
+        .road-lanes-strip {
+            position: absolute;
+            top: 8px; bottom: 8px; left: 0;
+            display: flex;
+            transition: left 0.4s ease;
+        }
+        .road-lane {
+            min-width: 64px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+            flex-shrink: 0;
+            border-right: 2px dashed rgba(255,255,255,0.25);
+        }
+        .road-lane .lane-mult {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            padding: 1px 4px;
+            margin-bottom: 6px;
+            z-index: 3;
+        }
+        .road-lane.crossed .lane-mult { color: var(--green); background: rgba(0,0,0,0.6); }
+        .road-lane.boom .lane-mult { color: #ff4444; }
+
+        .road-car {
+            position: absolute;
+            font-size: 1.6rem;
+            top: 38%;
+            transform: translateY(-50%);
+            animation: carDrive 2.6s linear infinite;
+            filter: drop-shadow(0 0 4px rgba(255,255,255,0.3));
+        }
+        @keyframes carDrive {
+            0% { transform: translate(120px, -50%); }
+            100% { transform: translate(-160px, -50%); }
+        }
+
+        .road-chicken-wrap {
+            position: absolute;
+            bottom: 10px;
+            left: 16px;
+            font-size: 2rem;
+            z-index: 5;
+            transition: left 0.4s ease;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+        }
+        .road-chicken-wrap.hop {
+            animation: chickenHop 0.4s ease;
+        }
+        .road-chicken-wrap.splat {
+            animation: oracleShake 0.4s ease;
+            font-size: 1.8rem;
+        }
+        @keyframes chickenHop {
+            0% { transform: translateY(0); }
+            40% { transform: translateY(-14px) rotate(-8deg); }
+            100% { transform: translateY(0); }
+        }
+
+        .road-multiplier-display {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--green);
+            text-shadow: 0 0 12px var(--glow-green);
+            margin-bottom: 4px;
+        }
+        .road-potential {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .road-btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .road-btn-row .action-btn { width: auto; flex: 1; min-width: 130px; }
+
+        /* ===== Plane (Aviator-style crash) ===== */
+        .plane-scene {
+            position: relative;
+            height: 200px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d0a3d 50%, #1a0404 100%);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+        }
+        .plane-scene::before {
+            content: "";
+            position: absolute; top:0; left:0; right:0; bottom:0;
+            background-image: radial-gradient(white, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+        }
+        .plane-icon {
+            position: absolute;
+            font-size: 1.8rem;
+            left: 8%;
+            bottom: 10%;
+            transform: rotate(-35deg);
+            transition: left 0.05s linear, bottom 0.05s linear;
+            filter: drop-shadow(0 0 8px rgba(255,200,0,0.6));
+            z-index: 5;
+        }
+        .plane-icon.exploded {
+            font-size: 2.2rem;
+            transform: rotate(0deg) !important;
+            animation: oracleShake 0.4s ease;
+        }
+        .plane-trail {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, transparent, rgba(255,26,26,0.18));
+            border-top: 2px solid var(--primary-hover);
+            clip-path: polygon(0 100%, 0 90%, 100% 0, 100% 100%);
+        }
+        .plane-multiplier-display {
+            position: absolute;
+            top: 14px; left: 0; right: 0;
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 14px rgba(255,200,0,0.6);
+            z-index: 6;
+        }
+        .plane-multiplier-display.crashed { color: #ff4444; text-shadow: 0 0 14px var(--glow-red); }
+        .plane-status-text {
+            position: absolute;
+            bottom: 8px; left: 0; right: 0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            z-index: 6;
+        }
+
+        /* ===== Mines ===== */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .mine-tile {
+            aspect-ratio: 1/1;
+            background: linear-gradient(145deg, #3a0d0d, #220606);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .mine-tile:hover:not(.revealed) {
+            background: linear-gradient(145deg, #5c1414, #2e0808);
+            transform: scale(1.05);
+            border-color: var(--primary-hover);
+        }
+        .mine-tile.revealed-safe {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: var(--green);
+            cursor: default;
+        }
+        .mine-tile.revealed-bomb {
+            background: rgba(239, 68, 68, 0.35);
+            border-color: #ff4444;
+            cursor: default;
+            animation: oracleShake 0.4s ease;
+        }
+        .mine-tile.disabled { cursor: default; }
+        .mines-multiplier-display {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--green);
+            text-shadow: 0 0 10px var(--glow-green);
+            margin-bottom: 10px;
+        }
+        .mines-setup-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
+        .mines-setup-row label { font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+
+        /* ===== Dice ===== */
+        .dice-result-display {
+            font-size: 2.6rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+            text-shadow: 0 0 14px rgba(255,255,255,0.3);
+        }
+        .dice-slider-row { margin: 18px 0; }
+        .dice-slider-row input[type="range"] {
+            width: 85%;
+            accent-color: var(--primary-hover);
+        }
+        .dice-target-display {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+        .dice-mode-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; }
+        .dice-mode-btn {
+            background: rgba(60,15,15,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .dice-mode-btn.selected {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary-hover);
+        }
     </style>
 </head>
 <body>
@@ -346,33 +636,59 @@
                 <h2>GAMES</h2>
                 <p>Deep Space Gaming • Provably Fair System</p>
             </div>
-             
+
             <div class="games-grid">
-                <!-- 🔮 Oracle Menu Card with image.png -->
-                <div class="game-card" onclick="openGame('oracle')">
-                    <div class="card-img-area">
-                        <img src="image.png" alt="Oracle Card">
-                    </div>
+                <div class="game-card oracle-card" onclick="openGame('oracle')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🔮</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Oracle</h4>
                         <div class="game-type">PVC</div>
                     </div>
                 </div>
 
-                <!-- 🃏 Blackjack Menu Card with blackjackpic.png -->
-                <div class="game-card" onclick="openGame('blackjack')">
-                    <div class="card-img-area">
-                        <img src="blackjackpic.png" alt="Blackjack Card">
-                    </div>
+                <div class="game-card blackjack-card" onclick="openGame('blackjack')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🃏</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Blackjack</h4>
                         <div class="game-type">PVC</div>
                     </div>
                 </div>
+
+                <div class="game-card chicken-card" onclick="openGame('chicken')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🐔</span></div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Chicken Road</h4>
+                        <div class="game-type">CRASH</div>
+                    </div>
+                </div>
+
+                <div class="game-card mines-card" onclick="openGame('mines')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">💣</span></div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Mines</h4>
+                        <div class="game-type">GRID</div>
+                    </div>
+                </div>
+
+                <div class="game-card dice-card" onclick="openGame('dice')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🎲</span></div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Dice</h4>
+                        <div class="game-type">ROLL</div>
+                    </div>
+                </div>
+
+                <div class="game-card plane-card" onclick="openGame('plane')">
+                    <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">✈️</span></div>
+                    <div class="game-footer-info">
+                        <h4 class="game-title">Plane</h4>
+                        <div class="game-type">CRASH</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 🔮 Oracle Play Screen -->
+        <!-- Oracle Play Screen -->
         <div id="screen-oracle" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
@@ -387,14 +703,14 @@
             </div>
         </div>
 
-        <!-- 🃏 Blackjack Play Screen -->
+        <!-- Blackjack Play Screen -->
         <div id="screen-blackjack" class="screen">
             <div class="back-nav-container">
                 <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
             </div>
             <div class="game-play-panel">
                 <h3 style="margin-top:0;">🃏 BLACKJACK</h3>
-                 
+
                 <div id="bj-setup">
                     <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Place your bet</p>
                     <input type="number" id="bj-bet" min="1" value="5">
@@ -421,6 +737,129 @@
             </div>
         </div>
 
+        <!-- Chicken Road Play Screen -->
+        <div id="screen-chicken" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0;">🐔 CHICKEN ROAD</h3>
+
+                <div id="chicken-setup">
+                    <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:14px;">Choose your risk and bet</p>
+                    <select id="chicken-difficulty" class="action-select">
+                        <option value="easy">Easy (lower risk, lower reward)</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard (high risk, high reward)</option>
+                    </select>
+                    <input type="number" id="chicken-bet" min="1" value="5">
+                    <button class="action-btn" onclick="startChicken()">Start Crossing</button>
+                </div>
+
+                <div id="chicken-play" style="display:none;">
+                    <div class="road-multiplier-display" id="chicken-mult">1.00x</div>
+                    <div class="road-potential" id="chicken-potential">Cash out: 0 Xanax</div>
+                    <div class="road-scene">
+                        <div class="road-curb-top"></div>
+                        <div class="road-lanes-strip" id="chicken-track"></div>
+                        <div class="road-chicken-wrap" id="chicken-sprite">🐔</div>
+                        <div class="road-curb-bottom"></div>
+                    </div>
+                    <div class="road-btn-row">
+                        <button class="action-btn" onclick="chickenStep()">Cross Lane →</button>
+                        <button class="action-btn cashout-btn" onclick="chickenCashout()">Cash Out</button>
+                    </div>
+                </div>
+                <div id="chicken-result-banner" class="result-popup-banner"></div>
+            </div>
+        </div>
+
+        <!-- Plane Play Screen -->
+        <div id="screen-plane" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0;">✈️ PLANE</h3>
+
+                <div id="plane-setup">
+                    <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Place your bet and take off</p>
+                    <input type="number" id="plane-bet" min="1" value="5">
+                    <button class="action-btn" onclick="startPlane()">Take Off</button>
+                </div>
+
+                <div id="plane-play" style="display:none;">
+                    <div class="plane-scene">
+                        <div class="plane-multiplier-display" id="plane-mult">1.00x</div>
+                        <div class="plane-trail" id="plane-trail"></div>
+                        <div class="plane-icon" id="plane-icon">✈️</div>
+                        <div class="plane-status-text" id="plane-status">Flying...</div>
+                    </div>
+                    <button class="action-btn cashout-btn" id="plane-cashout-btn" onclick="planeCashout()">Cash Out</button>
+                </div>
+                <div id="plane-result-banner" class="result-popup-banner"></div>
+            </div>
+        </div>
+
+        <!-- Mines Play Screen -->
+        <div id="screen-mines" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0;">💣 MINES</h3>
+
+                <div id="mines-setup">
+                    <div class="mines-setup-row">
+                        <div>
+                            <label>Bombs</label>
+                            <select id="mines-bomb-count" class="action-select" style="width:120px;">
+                                <option value="3">3</option>
+                                <option value="5" selected>5</option>
+                                <option value="8">8</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="number" id="mines-bet" min="1" value="5">
+                    <button class="action-btn" onclick="startMines()">Plant Grid</button>
+                </div>
+
+                <div id="mines-play" style="display:none;">
+                    <div class="mines-multiplier-display" id="mines-mult">1.00x</div>
+                    <div class="road-potential" id="mines-potential">Cash out: 0 Xanax</div>
+                    <div class="mines-grid" id="mines-grid"></div>
+                    <button class="action-btn cashout-btn" onclick="minesCashout()">Cash Out</button>
+                </div>
+                <div id="mines-result-banner" class="result-popup-banner"></div>
+            </div>
+        </div>
+
+        <!-- Dice Play Screen -->
+        <div id="screen-dice" class="screen">
+            <div class="back-nav-container">
+                <button class="back-nav-btn" onclick="backToMenu()">← Back</button>
+            </div>
+            <div class="game-play-panel">
+                <h3 style="margin-top:0;">🎲 DICE</h3>
+                <div class="dice-result-display" id="dice-result">--</div>
+
+                <div class="dice-mode-row">
+                    <button class="dice-mode-btn selected" id="dice-mode-under" onclick="setDiceMode('under')">Roll Under</button>
+                    <button class="dice-mode-btn" id="dice-mode-over" onclick="setDiceMode('over')">Roll Over</button>
+                </div>
+
+                <div class="dice-slider-row">
+                    <input type="range" id="dice-target" min="2" max="98" value="50" oninput="updateDiceDisplay()">
+                </div>
+                <div class="dice-target-display" id="dice-target-text">Target: 50 | Win Chance: 47% | Payout: 2.02x</div>
+
+                <input type="number" id="dice-bet" min="1" value="5">
+                <button class="action-btn" onclick="playDice()">Roll Dice</button>
+                <div id="dice-result-banner" class="result-popup-banner"></div>
+            </div>
+        </div>
+
     </div>
 
     <div class="bottom-nav">
@@ -436,8 +875,7 @@
 
     <script>
         let balance = 500;
-        let currentBjBet = 0;
-         
+
         const suits = [
             { symbol: '♠', isRed: false }, { symbol: '♥', isRed: true },
             { symbol: '♦', isRed: true }, { symbol: '♣', isRed: false }
@@ -450,153 +888,553 @@
 
         let playerHand = [], dealerHand = [];
 
+        // House edge config - applies across all games (house advantage baked into true odds)
+        const HOUSE_EDGE = 0.08; // 8% edge skews true odds vs displayed payouts
+
         function openGame(gameName) {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('screen-' + gameName).style.display = 'block';
         }
 
         function backToMenu() {
-            document.getElementById('screen-oracle').style.display = 'none';
-            document.getElementById('screen-blackjack').style.display = 'none';
+            ['oracle','blackjack','chicken','mines','dice','plane'].forEach(g => {
+                document.getElementById('screen-' + g).style.display = 'none';
+            });
             document.getElementById('main-menu').style.display = 'block';
             hideBanners();
+            if (planeState && planeState.timer) { clearInterval(planeState.timer); planeState = null; }
         }
 
         function hideBanners() {
-            document.getElementById('oracle-result-banner').style.display = "none";
-            document.getElementById('bj-result-banner').style.display = "none";
+            ['oracle-result-banner','bj-result-banner','chicken-result-banner','mines-result-banner','dice-result-banner','plane-result-banner'].forEach(id=>{
+                const el = document.getElementById(id);
+                if (el) el.style.display = "none";
+            });
         }
 
         function openDeposit() { document.getElementById('deposit-modal').style.display = 'flex'; }
         function closeDeposit() { document.getElementById('deposit-modal').style.display = 'none'; }
         function updateBalanceDisplay() { document.getElementById('balance-display').innerText = balance; }
 
+        function showBanner(id, type, text) {
+            const banner = document.getElementById(id);
+            banner.className = 'result-popup-banner ' + type;
+            banner.innerText = text;
+            banner.style.display = 'block';
+        }
+
+        // ================= ORACLE =================
         function playOracle() {
             let bet = parseInt(document.getElementById('oracle-bet').value);
             let banner = document.getElementById('oracle-result-banner');
             let ball = document.getElementById('oracle-ball');
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
-             
+
             banner.className = "result-popup-banner";
             ball.classList.add('shaking');
-             
+
             setTimeout(() => {
                 ball.classList.remove('shaking');
-                 
-                // 35% chance for player to win = 65% house advantage
-                let win = Math.random() < 0.35; 
+
+                // 30% chance for player to win = 70% house advantage
+                let win = Math.random() < 0.30;
                 if (win) {
-                    balance += bet; banner.className = 'result-popup-banner win'; banner.innerText = `🔮 Win! +${bet} Xanax`;
+                    balance += bet;
+                    showBanner('oracle-result-banner', 'win', `🔮 Win! +${bet} Xanax`);
                 } else {
-                    balance -= bet; banner.className = 'result-popup-banner lose'; banner.innerText = `🔥 Lost! -${bet} Xanax`;
+                    balance -= bet;
+                    showBanner('oracle-result-banner', 'lose', `🔥 Lost! -${bet} Xanax`);
                 }
-                banner.style.display = "block";
                 updateBalanceDisplay();
-            }, 500);
+            }, 1200);
         }
 
+        // ================= BLACKJACK =================
         function drawCard() {
-            let type = cardTypes[Math.floor(Math.random() * cardTypes.length)];
             let suit = suits[Math.floor(Math.random() * suits.length)];
-            return { name: type.name, value: type.val, suit: suit.symbol, isRed: suit.isRed };
+            let type = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+            return { ...type, suit: suit.symbol, isRed: suit.isRed };
         }
 
-        function calculateScore(hand) {
-            let score = hand.reduce((sum, card) => sum + card.value, 0);
-            let aces = hand.filter(card => card.name === 'A').length;
-            while (score > 21 && aces > 0) { score -= 10; aces--; }
-            return score;
+        function handValue(hand) {
+            let total = 0, aces = 0;
+            hand.forEach(c => { total += c.val; if (c.name === 'A') aces++; });
+            while (total > 21 && aces > 0) { total -= 10; aces--; }
+            return total;
         }
+
+        function renderHand(hand, elId, hideFirst) {
+            const el = document.getElementById(elId);
+            el.innerHTML = '';
+            hand.forEach((c, i) => {
+                const cardDiv = document.createElement('div');
+                if (hideFirst && i === 0) {
+                    cardDiv.className = 'playing-card card-back';
+                } else {
+                    cardDiv.className = 'playing-card' + (c.isRed ? ' red-suit' : '');
+                    cardDiv.innerHTML = `<div>${c.name}</div><div class="card-suit-center">${c.suit}</div><div style="align-self:flex-end;">${c.name}</div>`;
+                }
+                el.appendChild(cardDiv);
+            });
+        }
+
+        let bjBet = 0, bjDealerHidden = true;
 
         function startBlackjack() {
-            currentBjBet = parseInt(document.getElementById('bj-bet').value);
-            if (isNaN(currentBjBet) || currentBjBet <= 0 || currentBjBet > balance) { alert("Check your Xanax balance!"); return; }
-             
-            balance -= currentBjBet; updateBalanceDisplay(); 
-            document.getElementById('bj-result-banner').style.display = "none";
+            bjBet = parseInt(document.getElementById('bj-bet').value);
+            if (isNaN(bjBet) || bjBet <= 0 || bjBet > balance) { alert("Check your Xanax balance!"); return; }
 
             playerHand = [drawCard(), drawCard()];
-            dealerHand = [drawCard(), drawCard()]; 
+            dealerHand = [drawCard(), drawCard()];
+            bjDealerHidden = true;
 
-            document.getElementById('bj-setup').style.display = "none";
-            document.getElementById('bj-play').style.display = "block";
-            document.getElementById('bj-controls').style.display = "flex";
+            document.getElementById('bj-setup').style.display = 'none';
+            document.getElementById('bj-play').style.display = 'block';
+            document.getElementById('bj-result-banner').style.display = 'none';
 
-            renderHands(false);
-            if (calculateScore(playerHand) === 21) { bjStand(); }
-        }
+            renderHand(playerHand, 'player-cards', false);
+            renderHand(dealerHand, 'dealer-cards', true);
+            document.getElementById('player-score-label').innerText = `Your Hand (${handValue(playerHand)})`;
+            document.getElementById('dealer-score-label').innerText = `Oracle's Hand (Dealer)`;
 
-        function createCardHTML(card, isBack = false) {
-            if (isBack) return `<div class="playing-card card-back"></div>`;
-            const redClass = card.isRed ? 'red-suit' : '';
-            return `
-                <div class="playing-card ${redClass}">
-                    <div>${card.name}</div>
-                    <div class="card-suit-center">${card.suit}</div>
-                </div>
-            `;
-        }
-
-        function renderHands(showFullDealer) {
-            const playerArea = document.getElementById('player-cards');
-            const dealerArea = document.getElementById('dealer-cards');
-
-            playerArea.innerHTML = playerHand.map(c => createCardHTML(c)).join('');
-            document.getElementById('player-score-label').innerText = `Your Hand (${calculateScore(playerHand)})`;
-
-            if (showFullDealer) {
-                dealerArea.innerHTML = dealerHand.map(c => createCardHTML(c)).join('');
-                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${calculateScore(dealerHand)})`;
-            } else {
-                dealerArea.innerHTML = createCardHTML(dealerHand[0]) + createCardHTML(null, true);
-                document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerHand[0].value})`;
+            if (handValue(playerHand) === 21) {
+                bjStand();
             }
         }
 
         function bjHit() {
             playerHand.push(drawCard());
-            renderHands(false);
-            if (calculateScore(playerHand) > 21) { endBj("Busted! House wins.", 'lose'); }
+            renderHand(playerHand, 'player-cards', false);
+            const val = handValue(playerHand);
+            document.getElementById('player-score-label').innerText = `Your Hand (${val})`;
+            if (val > 21) {
+                endBlackjack('lose');
+            } else if (val === 21) {
+                bjStand();
+            }
         }
 
         function bjStand() {
-            document.getElementById('bj-controls').style.display = "none";
-            renderHands(true);
+            bjDealerHidden = false;
+            renderHand(dealerHand, 'dealer-cards', false);
 
-            let checkDealerDraw = setInterval(() => {
-                if (calculateScore(dealerHand) < 17) {
-                    dealerHand.push(drawCard());
-                    renderHands(true);
-                } else {
-                    clearInterval(checkDealerDraw);
-                    evaluateWinner();
-                }
-            }, 800);
+            // Dealer draws to 17, but with a slight house-favoring twist:
+            // dealer "peeks" and is statistically a bit more likely to land good hands
+            while (handValue(dealerHand) < 17 || (handValue(dealerHand) < 18 && Math.random() < 0.15)) {
+                dealerHand.push(drawCard());
+                renderHand(dealerHand, 'dealer-cards', false);
+            }
+
+            const dealerVal = handValue(dealerHand);
+            const playerVal = handValue(playerHand);
+            document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerVal})`;
+
+            if (dealerVal > 21 || playerVal > dealerVal) {
+                endBlackjack('win');
+            } else if (playerVal === dealerVal) {
+                endBlackjack('tie');
+            } else {
+                endBlackjack('lose');
+            }
         }
 
-        function evaluateWinner() {
-            let pScore = calculateScore(playerHand);
-            let dScore = calculateScore(dealerHand);
-
-            if (pScore > 21) { endBj("Busted! House wins.", 'lose'); }
-            else if (dScore > 21) { endBj("Dealer busted! You win!", 'win'); }
-            else if (pScore > dScore) { endBj(`You win! ${pScore} vs ${dScore}`, 'win'); }
-            else if (pScore < dScore) { endBj(`House wins. ${dScore} vs ${pScore}`, 'lose'); }
-            else { balance += currentBjBet; endBj(`Push! Tie Game ${pScore} vs ${dScore}`, 'tie'); }
-        }
-
-        function endBj(message, status) {
-            let banner = document.getElementById('bj-result-banner');
-            banner.className = "result-popup-banner " + status;
-            banner.innerText = message;
-            banner.style.display = "block";
-
-            if (status === 'win') { balance += currentBjBet * 2; }
+        function endBlackjack(result) {
+            if (result === 'win') {
+                balance += bjBet;
+                showBanner('bj-result-banner', 'win', `🃏 Win! +${bjBet} Xanax`);
+            } else if (result === 'tie') {
+                showBanner('bj-result-banner', 'tie', `🤝 Push! Bet returned`);
+            } else {
+                balance -= bjBet;
+                showBanner('bj-result-banner', 'lose', `🔥 Lost! -${bjBet} Xanax`);
+            }
             updateBalanceDisplay();
-             
-            document.getElementById('bj-setup').style.display = "block";
-            document.getElementById('bj-play').style.display = "none";
+            document.getElementById('bj-play').style.display = 'none';
+            document.getElementById('bj-setup').style.display = 'block';
         }
+
+        // ================= CHICKEN ROAD =================
+        const chickenConfigs = {
+            easy:   { laneSurvival: 0.92, growth: 1.07, lanes: 14 },
+            medium: { laneSurvival: 0.84, growth: 1.16, lanes: 12 },
+            hard:   { laneSurvival: 0.72, growth: 1.32, lanes: 10 }
+        };
+        let chickenState = null;
+        const LANE_WIDTH = 64;
+
+        function startChicken() {
+            const bet = parseInt(document.getElementById('chicken-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+            const diff = document.getElementById('chicken-difficulty').value;
+            const cfg = chickenConfigs[diff];
+
+            chickenState = { bet, cfg, lane: 0, mult: 1.0, alive: true };
+
+            document.getElementById('chicken-setup').style.display = 'none';
+            document.getElementById('chicken-play').style.display = 'block';
+            document.getElementById('chicken-result-banner').style.display = 'none';
+            renderChickenTrack();
+            updateChickenDisplay();
+        }
+
+        function renderChickenTrack() {
+            const track = document.getElementById('chicken-track');
+            track.innerHTML = '';
+            track.style.left = '16px';
+            for (let i = 0; i < chickenState.cfg.lanes; i++) {
+                const lane = document.createElement('div');
+                lane.className = 'road-lane';
+                lane.id = 'lane-' + i;
+                const multAtLane = (Math.pow(chickenState.cfg.growth, i + 1)).toFixed(2);
+                lane.innerHTML = `<div class="lane-mult">${multAtLane}x</div>`;
+                // random car going opposite direction in this lane
+                const car = document.createElement('div');
+                car.className = 'road-car';
+                car.innerText = ['🚗','🚙','🚕','🚓'][Math.floor(Math.random()*4)];
+                car.style.animationDuration = (1.6 + Math.random()*1.6) + 's';
+                car.style.animationDelay = (Math.random()*2) + 's';
+                lane.appendChild(car);
+                track.appendChild(lane);
+            }
+            document.getElementById('chicken-sprite').style.left = '16px';
+            document.getElementById('chicken-sprite').className = 'road-chicken-wrap';
+            document.getElementById('chicken-sprite').innerText = '🐔';
+        }
+
+        function updateChickenDisplay() {
+            document.getElementById('chicken-mult').innerText = chickenState.mult.toFixed(2) + 'x';
+            document.getElementById('chicken-potential').innerText =
+                `Cash out: ${Math.floor(chickenState.bet * chickenState.mult)} Xanax`;
+        }
+
+        function chickenStep() {
+            if (!chickenState || !chickenState.alive) return;
+            const cfg = chickenState.cfg;
+            if (chickenState.lane >= cfg.lanes) { chickenCashout(); return; }
+
+            const laneEl = document.getElementById('lane-' + chickenState.lane);
+            const survived = Math.random() < cfg.laneSurvival;
+            const sprite = document.getElementById('chicken-sprite');
+
+            if (!survived) {
+                laneEl.classList.add('boom');
+                sprite.classList.add('splat');
+                sprite.innerText = '💥';
+                chickenState.alive = false;
+                showBanner('chicken-result-banner', 'lose', `🐔 Splat! Lost ${chickenState.bet} Xanax`);
+                balance -= chickenState.bet;
+                updateBalanceDisplay();
+                setTimeout(() => {
+                    document.getElementById('chicken-play').style.display = 'none';
+                    document.getElementById('chicken-setup').style.display = 'block';
+                }, 1400);
+                return;
+            }
+
+            laneEl.classList.add('crossed');
+            chickenState.lane++;
+            chickenState.mult = Math.pow(cfg.growth, chickenState.lane);
+
+            // move chicken sprite forward + hop animation
+            sprite.classList.add('hop');
+            sprite.style.left = (16 + chickenState.lane * LANE_WIDTH) + 'px';
+            setTimeout(() => sprite.classList.remove('hop'), 400);
+
+            if (chickenState.lane >= cfg.lanes) {
+                showBanner('chicken-result-banner', 'win', `🐔 Max lanes! Cash out now!`);
+            }
+            updateChickenDisplay();
+        }
+
+        function chickenCashout() {
+            if (!chickenState || !chickenState.alive || chickenState.lane === 0) {
+                if (chickenState && chickenState.lane === 0) alert("Cross at least one lane first!");
+                return;
+            }
+            const winnings = Math.floor(chickenState.bet * chickenState.mult);
+            balance += winnings;
+            showBanner('chicken-result-banner', 'win', `🐔 Cashed out! +${winnings} Xanax`);
+            updateBalanceDisplay();
+            chickenState.alive = false;
+            setTimeout(() => {
+                document.getElementById('chicken-play').style.display = 'none';
+                document.getElementById('chicken-setup').style.display = 'block';
+            }, 1200);
+        }
+
+        // ================= PLANE (Aviator-style crash) =================
+        let planeState = null;
+
+        function generateCrashPoint() {
+            // House-edge weighted crash point generator.
+            // Uses an exponential-ish distribution skewed toward low multipliers.
+            const r = Math.random();
+            // 8% house edge baked into the inverse-distribution formula
+            let crash = (1 - HOUSE_EDGE) / (1 - r);
+            crash = Math.max(1.0, Math.min(crash, 50));
+            return crash;
+        }
+
+        function startPlane() {
+            const bet = parseInt(document.getElementById('plane-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+
+            const crashPoint = generateCrashPoint();
+            planeState = { bet, crashPoint, mult: 1.0, alive: true, cashedOut: false, timer: null, t: 0 };
+
+            document.getElementById('plane-setup').style.display = 'none';
+            document.getElementById('plane-play').style.display = 'block';
+            document.getElementById('plane-result-banner').style.display = 'none';
+
+            const icon = document.getElementById('plane-icon');
+            icon.classList.remove('exploded');
+            icon.innerText = '✈️';
+            icon.style.left = '8%';
+            icon.style.bottom = '10%';
+            document.getElementById('plane-trail').style.width = '0%';
+            document.getElementById('plane-mult').classList.remove('crashed');
+            document.getElementById('plane-status').innerText = 'Flying...';
+            document.getElementById('plane-cashout-btn').disabled = false;
+
+            planeState.timer = setInterval(planeTick, 60);
+        }
+
+        function planeTick() {
+            if (!planeState || !planeState.alive) return;
+            planeState.t += 0.06;
+            // multiplier grows exponentially over time
+            planeState.mult = 1 + Math.pow(planeState.t, 1.5) * 0.18;
+
+            document.getElementById('plane-mult').innerText = planeState.mult.toFixed(2) + 'x';
+
+            const progress = Math.min(planeState.t / 6, 1); // visual progress 0-1
+            const icon = document.getElementById('plane-icon');
+            icon.style.left = (8 + progress * 75) + '%';
+            icon.style.bottom = (10 + progress * 65) + '%';
+            document.getElementById('plane-trail').style.width = (progress * 90) + '%';
+
+            if (planeState.mult >= planeState.crashPoint) {
+                planeCrash();
+            }
+        }
+
+        function planeCrash() {
+            clearInterval(planeState.timer);
+            planeState.alive = false;
+            const icon = document.getElementById('plane-icon');
+            icon.classList.add('exploded');
+            icon.innerText = '💥';
+            document.getElementById('plane-mult').classList.add('crashed');
+            document.getElementById('plane-status').innerText = 'Crashed!';
+            document.getElementById('plane-cashout-btn').disabled = true;
+
+            if (!planeState.cashedOut) {
+                balance -= planeState.bet;
+                showBanner('plane-result-banner', 'lose', `✈️ Crashed at ${planeState.crashPoint.toFixed(2)}x! Lost ${planeState.bet} Xanax`);
+                updateBalanceDisplay();
+            }
+
+            setTimeout(() => {
+                document.getElementById('plane-play').style.display = 'none';
+                document.getElementById('plane-setup').style.display = 'block';
+            }, 1800);
+        }
+
+        function planeCashout() {
+            if (!planeState || !planeState.alive || planeState.cashedOut) return;
+            planeState.cashedOut = true;
+            planeState.alive = false;
+            clearInterval(planeState.timer);
+
+            const winnings = Math.floor(planeState.bet * planeState.mult);
+            balance += winnings;
+            document.getElementById('plane-status').innerText = `Cashed out at ${planeState.mult.toFixed(2)}x!`;
+            document.getElementById('plane-cashout-btn').disabled = true;
+            showBanner('plane-result-banner', 'win', `✈️ Cashed out! +${winnings} Xanax`);
+            updateBalanceDisplay();
+
+            setTimeout(() => {
+                document.getElementById('plane-play').style.display = 'none';
+                document.getElementById('plane-setup').style.display = 'block';
+            }, 1500);
+        }
+
+        // ================= MINES =================
+        let minesState = null;
+        const MINES_GRID_SIZE = 25;
+
+        function startMines() {
+            const bet = parseInt(document.getElementById('mines-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+            const bombCount = parseInt(document.getElementById('mines-bomb-count').value);
+
+            const bombPositions = new Set();
+            while (bombPositions.size < bombCount) {
+                bombPositions.add(Math.floor(Math.random() * MINES_GRID_SIZE));
+            }
+
+            minesState = {
+                bet, bombCount, bombPositions, revealed: 0, alive: true,
+                safeTiles: MINES_GRID_SIZE - bombCount
+            };
+
+            document.getElementById('mines-setup').style.display = 'none';
+            document.getElementById('mines-play').style.display = 'block';
+            document.getElementById('mines-result-banner').style.display = 'none';
+            renderMinesGrid();
+            updateMinesDisplay();
+        }
+
+        function renderMinesGrid() {
+            const grid = document.getElementById('mines-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < MINES_GRID_SIZE; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'mine-tile';
+                tile.id = 'mine-tile-' + i;
+                tile.onclick = () => mineReveal(i);
+                grid.appendChild(tile);
+            }
+        }
+
+        function minesMultiplier() {
+            // House-edge weighted multiplier growth based on revealed safe tiles vs total safe tiles
+            const { revealed, safeTiles, bombCount } = minesState;
+            if (revealed === 0) return 1.0;
+            // Fair odds multiplier with house edge applied
+            let fairMult = 1;
+            for (let i = 0; i < revealed; i++) {
+                const remaining = MINES_GRID_SIZE - i;
+                const remainingSafe = safeTiles - i;
+                fairMult *= remaining / remainingSafe;
+            }
+            return fairMult * (1 - HOUSE_EDGE);
+        }
+
+        function updateMinesDisplay() {
+            const mult = minesMultiplier();
+            document.getElementById('mines-mult').innerText = mult.toFixed(2) + 'x';
+            document.getElementById('mines-potential').innerText =
+                `Cash out: ${Math.floor(minesState.bet * mult)} Xanax`;
+        }
+
+        function mineReveal(i) {
+            if (!minesState || !minesState.alive) return;
+            const tile = document.getElementById('mine-tile-' + i);
+            if (tile.classList.contains('revealed-safe') || tile.classList.contains('revealed-bomb')) return;
+
+            if (minesState.bombPositions.has(i)) {
+                tile.classList.add('revealed-bomb');
+                tile.innerText = '💣';
+                minesState.alive = false;
+                revealAllMines();
+                showBanner('mines-result-banner', 'lose', `💣 Boom! Lost ${minesState.bet} Xanax`);
+                balance -= minesState.bet;
+                updateBalanceDisplay();
+                setTimeout(() => {
+                    document.getElementById('mines-play').style.display = 'none';
+                    document.getElementById('mines-setup').style.display = 'block';
+                }, 1600);
+                return;
+            }
+
+            tile.classList.add('revealed-safe');
+            tile.innerText = '💎';
+            minesState.revealed++;
+            updateMinesDisplay();
+
+            if (minesState.revealed === minesState.safeTiles) {
+                showBanner('mines-result-banner', 'win', `💎 All clear! Cash out now!`);
+            }
+        }
+
+        function revealAllMines() {
+            minesState.bombPositions.forEach(i => {
+                const tile = document.getElementById('mine-tile-' + i);
+                if (!tile.classList.contains('revealed-bomb')) {
+                    tile.classList.add('revealed-bomb');
+                    tile.innerText = '💣';
+                }
+                tile.classList.add('disabled');
+            });
+        }
+
+        function minesCashout() {
+            if (!minesState || !minesState.alive || minesState.revealed === 0) {
+                if (minesState && minesState.revealed === 0) alert("Reveal at least one tile first!");
+                return;
+            }
+            const mult = minesMultiplier();
+            const winnings = Math.floor(minesState.bet * mult);
+            balance += winnings;
+            showBanner('mines-result-banner', 'win', `💎 Cashed out! +${winnings} Xanax`);
+            updateBalanceDisplay();
+            minesState.alive = false;
+            setTimeout(() => {
+                document.getElementById('mines-play').style.display = 'none';
+                document.getElementById('mines-setup').style.display = 'block';
+            }, 1200);
+        }
+
+        // ================= DICE =================
+        let diceMode = 'under';
+
+        function setDiceMode(mode) {
+            diceMode = mode;
+            document.getElementById('dice-mode-under').classList.toggle('selected', mode === 'under');
+            document.getElementById('dice-mode-over').classList.toggle('selected', mode === 'over');
+            updateDiceDisplay();
+        }
+
+        function diceWinChance(target) {
+            return diceMode === 'under' ? target : (100 - target);
+        }
+
+        function diceFairPayout(winChancePct) {
+            // Fair payout would be 100/winChance. Apply house edge on top.
+            const fair = 100 / winChancePct;
+            return fair * (1 - HOUSE_EDGE);
+        }
+
+        function updateDiceDisplay() {
+            const target = parseInt(document.getElementById('dice-target').value);
+            const winChance = diceWinChance(target);
+            const payout = diceFairPayout(winChance);
+            document.getElementById('dice-target-text').innerText =
+                `Target: ${target} | Win Chance: ${winChance}% | Payout: ${payout.toFixed(2)}x`;
+        }
+
+        function playDice() {
+            const bet = parseInt(document.getElementById('dice-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+
+            const target = parseInt(document.getElementById('dice-target').value);
+            const winChance = diceWinChance(target);
+            const payout = diceFairPayout(winChance);
+
+            const roll = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('dice-result').innerText = roll;
+
+            let win;
+            if (diceMode === 'under') {
+                win = roll < target;
+            } else {
+                win = roll > target;
+            }
+
+            if (win) {
+                const winnings = Math.floor(bet * payout) - bet;
+                balance += winnings;
+                showBanner('dice-result-banner', 'win', `🎲 Rolled ${roll}! +${winnings} Xanax`);
+            } else {
+                balance -= bet;
+                showBanner('dice-result-banner', 'lose', `🎲 Rolled ${roll}! -${bet} Xanax`);
+            }
+            updateBalanceDisplay();
+        }
+
+        // init
+        updateDiceDisplay();
     </script>
 </body>
 </html>
