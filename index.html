@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crimson Casino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-nav: rgba(15, 2, 2, 0.85);
-            --primary: #8b0000;
-            --primary-hover: #ff1a1a;
-            --text-main: #fcebeb;
-            --text-muted: #cca3a3;
-            --green: #10b981;
-            --glow-green: rgba(16, 185, 129, 0.4);
-            --glow-red: rgba(239, 68, 68, 0.4);
+            --bg-nav: rgba(10, 9, 7, 0.9);
+            --onyx: #0b0a08;
+            --onyx-light: #161310;
+            --primary: #8a6a1f;       /* antique gold */
+            --primary-hover: #d4af37; /* bright champagne gold */
+            --wine: #5c1a2b;          /* deep wine accent */
+            --wine-hover: #8a2740;
+            --text-main: #f3ead8;     /* warm ivory */
+            --text-muted: #a89878;
+            --green: #2e7d5b;
+            --glow-green: rgba(46, 125, 91, 0.4);
+            --glow-red: rgba(138, 39, 64, 0.45);
+            --glow-gold: rgba(212, 175, 55, 0.45);
+            --font-display: 'Playfair Display', serif;
+            --font-accent: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', 'Segoe UI', sans-serif;
         }
 
         body {
@@ -24,77 +34,144 @@
             flex-direction: column;
             box-sizing: border-box;
             overflow-x: hidden;
-            background: radial-gradient(circle at 50% 50%, #5c0000 0%, #1a0404 50%, #050000 100%);
-            background-size: 400% 400%;
-            animation: nebulaMove 12s ease infinite;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(138,106,31,0.10), transparent 45%),
+                radial-gradient(circle at 80% 100%, rgba(92,26,43,0.16), transparent 50%),
+                linear-gradient(180deg, #0b0a08 0%, #100d0a 50%, #0b0a08 100%);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-body);
+            position: relative;
         }
 
-        @keyframes nebulaMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
+        /* fine gold-flecked texture instead of cartoony stars */
         body::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(white, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.1;
+            background-image: radial-gradient(rgba(212,175,55,0.5) 0.6px, transparent 1px);
+            background-size: 90px 90px;
+            opacity: 0.12;
             pointer-events: none;
-            animation: starsTwinkle 4s infinite alternate;
             z-index: 0;
-        }
-
-        @keyframes starsTwinkle {
-            from { opacity: 0.03; }
-            to { opacity: 0.2; }
         }
 
         .top-navbar {
             background: var(--bg-nav);
-            border-bottom: 2px solid var(--primary);
-            padding: 14px 20px;
+            border-bottom: 1px solid rgba(212,175,55,0.35);
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
 
         .brand-logo {
-            font-weight: 900;
-            font-size: 1.4rem;
-            color: var(--text-main);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary-hover);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--primary);
+            letter-spacing: 3px;
+            text-shadow: 0 0 14px var(--glow-gold);
         }
 
         .wallet-zone { display: flex; align-items: center; gap: 12px; }
-        .wallet-balance { font-weight: 700; font-size: 0.9rem; }
-        .wallet-balance span { color: var(--green); text-shadow: 0 0 8px var(--glow-green); }
+        .wallet-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(138,106,31,0.18), rgba(212,175,55,0.08));
+            border: 1px solid rgba(212,175,55,0.35);
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            font-family: var(--font-body);
+        }
+        .wallet-chip-icon { color: var(--primary-hover); font-size: 0.75rem; }
+        .wallet-chip span#balance-display { color: var(--primary-hover); font-weight: 700; text-shadow: 0 0 8px var(--glow-gold); }
+        .wallet-chip-unit { color: var(--text-muted); font-size: 0.72rem; }
 
-        .deposit-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 14px;
-            font-weight: 800;
-            font-size: 0.8rem;
+        .category-bar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 20px 4px;
+            max-width: 480px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        .category-pill {
+            background: rgba(22,19,16,0.7);
+            border: 1px solid rgba(212,175,55,0.18);
+            color: var(--text-muted);
+            padding: 7px 16px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             cursor: pointer;
+            white-space: nowrap;
+            font-family: var(--font-body);
             transition: all 0.2s ease;
         }
+        .category-pill.active {
+            background: linear-gradient(135deg, #8a6a1f, #d4af37);
+            color: #15110a;
+            border-color: transparent;
+        }
+        .category-pill:hover:not(.active) { border-color: rgba(212,175,55,0.45); color: var(--text-main); }
+
+        .search-bar-wrap {
+            max-width: 480px;
+            margin: 8px auto 0;
+            padding: 0 20px;
+            position: relative;
+        }
+        .search-icon {
+            position: absolute;
+            left: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .search-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(11,10,8,0.8);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 8px;
+            padding: 11px 14px 11px 36px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            outline: none;
+        }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { border-color: var(--primary-hover); }
+        .wallet-balance { font-weight: 600; font-size: 0.85rem; font-family: var(--font-body); letter-spacing: 0.3px; }
+        .wallet-balance span { color: var(--primary-hover); text-shadow: 0 0 8px var(--glow-gold); font-weight: 700; }
+
+        .deposit-btn {
+            background: linear-gradient(135deg, #8a6a1f, #d4af37);
+            color: #15110a;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 16px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
         .deposit-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 26, 26, 0.6);
+            background: linear-gradient(135deg, #d4af37, #f3ead8);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 18px rgba(212, 175, 55, 0.45);
         }
 
         .main-content {
@@ -102,47 +179,62 @@
             max-width: 480px;
             width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px 20px;
             box-sizing: border-box;
             padding-bottom: 90px;
             z-index: 1;
         }
 
-        .hero-banner h2 {
-            margin: 0 0 4px 0;
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+        .hero-banner {
+            text-align: center;
+            padding: 6px 0 18px;
+            border-bottom: 1px solid rgba(212,175,55,0.18);
+            margin-bottom: 22px;
         }
-        .hero-banner p { margin: 0; color: var(--text-muted); font-size: 0.85rem; }
+        .hero-banner h2 {
+            margin: 0 0 6px 0;
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            text-shadow: 0 0 18px rgba(212,175,55,0.25);
+        }
+        .hero-banner p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-family: var(--font-accent);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
 
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin-top: 25px;
+            margin-top: 8px;
         }
 
         .game-card {
-            background: rgba(40, 8, 8, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background: linear-gradient(160deg, rgba(22,19,16,0.9), rgba(11,10,8,0.9));
+            border: 1px solid rgba(212,175,55,0.22);
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             aspect-ratio: 1 / 1.1;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
         }
 
         .game-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-6px);
             border-color: var(--primary-hover);
-            box-shadow: 0 12px 30px rgba(139, 0, 0, 0.6);
-            background: rgba(69, 16, 16, 0.6);
+            box-shadow: 0 14px 28px rgba(212, 175, 55, 0.18);
+            background: linear-gradient(160deg, rgba(28,24,18,0.95), rgba(14,12,9,0.95));
         }
 
         .card-img-area {
@@ -159,175 +251,206 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 40%, var(--menu-glow, rgba(139,0,0,0.45)), transparent 70%);
-            animation: menuPulse 3s ease-in-out infinite;
+            background: radial-gradient(circle at 50% 40%, var(--menu-glow, rgba(212,175,55,0.25)), transparent 72%);
+            opacity: 0.85;
         }
         .card-img-area .menu-emoji {
             position: relative;
             z-index: 2;
-            filter: drop-shadow(0 0 10px var(--menu-glow, rgba(255,80,80,0.6)));
+            filter: drop-shadow(0 0 8px var(--menu-glow, rgba(212,175,55,0.4)));
         }
-        @keyframes menuPulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.15); }
-        }
-        .game-card.oracle-card { --menu-glow: rgba(168, 85, 247, 0.55); }
-        .game-card.blackjack-card { --menu-glow: rgba(16, 185, 129, 0.5); }
-        .game-card.chicken-card { --menu-glow: rgba(255, 200, 0, 0.55); }
-        .game-card.mines-card { --menu-glow: rgba(239, 68, 68, 0.55); }
-        .game-card.dice-card { --menu-glow: rgba(59, 130, 246, 0.55); }
-        .game-card.plane-card { --menu-glow: rgba(255, 140, 0, 0.6); }
+        .game-card.oracle-card { --menu-glow: rgba(168, 130, 230, 0.35); }
+        .game-card.blackjack-card { --menu-glow: rgba(46, 125, 91, 0.4); }
+        .game-card.chicken-card { --menu-glow: rgba(212, 175, 55, 0.45); }
+        .game-card.mines-card { --menu-glow: rgba(138, 39, 64, 0.4); }
+        .game-card.dice-card { --menu-glow: rgba(122, 162, 196, 0.35); }
+        .game-card.plane-card { --menu-glow: rgba(212, 140, 55, 0.4); }
+        .game-card:hover .card-img-area { transform: scale(1.06); }
 
         .game-footer-info {
             padding: 12px;
-            background: rgba(15, 2, 2, 0.8);
+            background: rgba(8, 7, 6, 0.85);
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(212,175,55,0.15);
         }
-        .game-title { margin: 0; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .game-type { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+        .game-title {
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+        .game-type {
+            font-size: 0.62rem;
+            color: var(--primary-hover);
+            margin-top: 3px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
 
         .screen { display: none; animation: fadeIn 0.4s ease; }
         .screen.active { display: block; }
 
         .game-play-panel {
-            background: rgba(40, 8, 8, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px 20px;
+            background: linear-gradient(160deg, rgba(22,19,16,0.85), rgba(11,10,8,0.92));
+            border: 1px solid rgba(212,175,55,0.22);
+            border-radius: 12px;
+            padding: 28px 22px;
             text-align: center;
             backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+        .game-play-panel h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         input[type="number"] {
             width: 80%;
-            background: #0f0202;
-            border: 1px solid #5a1818;
-            border-radius: 8px;
+            background: #0a0907;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 6px;
             padding: 12px;
-            color: #fff;
+            color: var(--text-main);
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 15px;
             outline: none;
+            font-family: var(--font-body);
         }
+        input[type="number"]:focus { border-color: var(--primary-hover); }
 
         select.action-select {
             width: 80%;
-            background: #0f0202;
-            border: 1px solid #5a1818;
-            border-radius: 8px;
+            background: #0a0907;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 6px;
             padding: 12px;
-            color: #fff;
+            color: var(--text-main);
             text-align: center;
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin-bottom: 15px;
             outline: none;
+            font-family: var(--font-body);
         }
 
         .action-btn {
             width: 85%;
-            background: var(--primary);
-            color: white;
+            background: linear-gradient(135deg, #8a6a1f, #d4af37);
+            color: #15110a;
             border: none;
             padding: 14px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.2s;
-            box-shadow: 0 0 10px var(--primary);
+            transition: all 0.25s;
+            box-shadow: 0 4px 14px rgba(212,175,55,0.25);
+            font-family: var(--font-body);
         }
         .action-btn:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 0 20px var(--primary-hover);
+            background: linear-gradient(135deg, #d4af37, #f3ead8);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.4);
         }
         .action-btn:disabled {
-            background: #3a1a1a;
-            color: #888;
+            background: #2a261d;
+            color: #71684f;
             cursor: not-allowed;
             box-shadow: none;
         }
         .action-btn.cashout-btn {
-            background: var(--green);
-            box-shadow: 0 0 10px var(--glow-green);
+            background: linear-gradient(135deg, #1f5c43, #2e7d5b);
+            color: #f3ead8;
+            box-shadow: 0 4px 14px var(--glow-green);
         }
         .action-btn.cashout-btn:hover {
-            background: #14d99a;
-            box-shadow: 0 0 20px var(--glow-green);
+            background: linear-gradient(135deg, #2e7d5b, #3fa279);
+            box-shadow: 0 6px 20px var(--glow-green);
         }
 
         .back-nav-container { margin-bottom: 12px; text-align: left; }
         .back-nav-btn {
-            background: rgba(40, 8, 8, 0.8);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(20, 17, 14, 0.85);
+            color: var(--text-main);
+            border: 1px solid rgba(212,175,55,0.25);
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-family: var(--font-body);
+            letter-spacing: 0.5px;
         }
+        .back-nav-btn:hover { border-color: var(--primary-hover); color: var(--primary-hover); }
 
         .bj-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-        .bj-box { background: rgba(15, 2, 2, 0.7); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .bj-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+        .bj-box { background: rgba(10, 9, 7, 0.7); padding: 15px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.12); }
+        .bj-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
         .bj-cards-display { display: flex; justify-content: center; gap: 8px; min-height: 75px; align-items: center; flex-wrap: wrap; }
 
         .playing-card {
-            background: #ffffff;
-            color: #000000;
+            background: #f3ead8;
+            color: #15110a;
             width: 48px;
             height: 68px;
-            border-radius: 6px;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 5px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
             box-sizing: border-box;
             animation: cardDeal 0.4s ease-out both;
+            font-family: var(--font-display);
+            border: 1px solid rgba(212,175,55,0.4);
         }
-        .playing-card.red-suit { color: #d11a2a; }
+        .playing-card.red-suit { color: #8a2740; }
         .playing-card .card-suit-center { font-size: 1.2rem; align-self: center; line-height: 1; }
         .playing-card.card-back {
-            background: linear-gradient(135deg, #8b0000 25%, #4a0000 25%, #4a0000 50%, #8b0000 50%, #8b0000 75%, #4a0000 75%, #4a0000 100%);
+            background: linear-gradient(135deg, #8a6a1f 25%, #15110a 25%, #15110a 50%, #8a6a1f 50%, #8a6a1f 75%, #15110a 75%, #15110a 100%);
             background-size: 10px 10px;
-            border: 2px solid #fff;
+            border: 2px solid #d4af37;
         }
 
         .result-popup-banner {
             margin-top: 15px;
-            font-size: 1.2rem;
-            font-weight: 900;
+            font-size: 1.05rem;
+            font-weight: 700;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 6px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             display: none;
+            font-family: var(--font-body);
         }
-        .result-popup-banner.win { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); box-shadow: 0 0 15px var(--glow-green); }
-        .result-popup-banner.lose { background: rgba(239, 68, 68, 0.2); color: #ff4444; border: 1px solid #ff4444; box-shadow: 0 0 15px var(--glow-red); }
-        .result-popup-banner.tie { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+        .result-popup-banner.win { background: rgba(46, 125, 91, 0.18); color: #5fcf9e; border: 1px solid var(--green); box-shadow: 0 0 15px var(--glow-green); }
+        .result-popup-banner.lose { background: rgba(138, 39, 64, 0.2); color: #e08098; border: 1px solid var(--wine-hover); box-shadow: 0 0 15px var(--glow-red); }
+        .result-popup-banner.tie { background: rgba(138, 106, 31, 0.2); color: var(--primary-hover); border: 1px solid var(--primary); }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;
+            background: rgba(0,0,0,0.88); justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-content {
-            background: #0f0202; padding: 25px; border-radius: 15px; width: 80%; max-width: 360px;
-            border: 2px solid var(--primary); text-align: center; box-shadow: 0 0 20px var(--primary);
+            background: #0e0c0a; padding: 26px; border-radius: 10px; width: 80%; max-width: 360px;
+            border: 1px solid rgba(212,175,55,0.4); text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.2);
+            font-family: var(--font-body);
         }
+        .modal-content h3 { font-family: var(--font-display); color: var(--primary-hover) !important; }
 
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-nav); border-top: 1px solid rgba(255,255,255,0.05);
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-nav); border-top: 1px solid rgba(212,175,55,0.18);
             display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; backdrop-filter: blur(10px);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
-        .nav-item.active { color: var(--primary-hover); text-shadow: 0 0 5px var(--primary-hover); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.68rem; cursor: pointer; font-family: var(--font-body); letter-spacing: 0.5px; }
+        .nav-item.active { color: var(--primary-hover); text-shadow: 0 0 6px rgba(212,175,55,0.4); }
 
         .oracle-display-icon {
             font-size: 3.5rem;
@@ -412,7 +535,7 @@
             z-index: 3;
         }
         .road-lane.crossed .lane-mult { color: var(--green); background: rgba(0,0,0,0.6); }
-        .road-lane.boom .lane-mult { color: #ff4444; }
+        .road-lane.boom .lane-mult { color: #c2455f; }
 
         .road-car {
             position: absolute;
@@ -516,7 +639,7 @@
             text-shadow: 0 0 14px rgba(255,200,0,0.6);
             z-index: 6;
         }
-        .plane-multiplier-display.crashed { color: #ff4444; text-shadow: 0 0 14px var(--glow-red); }
+        .plane-multiplier-display.crashed { color: #c2455f; text-shadow: 0 0 14px var(--glow-red); }
         .plane-status-text {
             position: absolute;
             bottom: 8px; left: 0; right: 0;
@@ -557,7 +680,7 @@
         }
         .mine-tile.revealed-bomb {
             background: rgba(239, 68, 68, 0.35);
-            border-color: #ff4444;
+            border-color: #c2455f;
             cursor: default;
             animation: oracleShake 0.4s ease;
         }
@@ -610,16 +733,32 @@
 <body>
 
     <div class="top-navbar">
-        <div class="brand-logo">Crimson Casino</div>
+        <div class="brand-logo">♛ Crimson Casino</div>
         <div class="wallet-zone">
-            <div class="wallet-balance"><span id="balance-display">500</span> Xanax</div>
+            <div class="wallet-chip">
+                <span class="wallet-chip-icon">◆</span>
+                <span id="balance-display">500</span>
+                <span class="wallet-chip-unit">Xanax</span>
+            </div>
             <button class="deposit-btn" onclick="openDeposit()">Deposit</button>
         </div>
     </div>
 
+    <div class="category-bar">
+        <button class="category-pill active" onclick="filterCategory('all', this)">Lobby</button>
+        <button class="category-pill" onclick="filterCategory('crash', this)">Crash</button>
+        <button class="category-pill" onclick="filterCategory('cards', this)">Cards</button>
+        <button class="category-pill" onclick="filterCategory('luck', this)">Luck</button>
+    </div>
+
+    <div class="search-bar-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="game-search" class="search-input" placeholder="Search games" oninput="searchGames()">
+    </div>
+
     <div id="deposit-modal" class="modal" onclick="closeDeposit()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="color:var(--primary); margin-top:0;">HOW TO DEPOSIT?</h3>
+            <h3 style="margin-top:0;">HOW TO DEPOSIT</h3>
             <p style="font-size:0.85rem;">Send your Xanax to:</p>
             <div style="background:#000; padding:10px; border-radius:6px; margin: 10px 0; border: 1px solid var(--primary); font-weight:bold;">noorelldin [4093821]</div>
             <p style="font-size:0.85rem;">Include this message:</p>
@@ -633,12 +772,12 @@
         <!-- Main Menu -->
         <div id="main-menu" class="screen active">
             <div class="hero-banner">
-                <h2>GAMES</h2>
-                <p>Deep Space Gaming • Provably Fair System</p>
+                <h2>VIP LOBBY</h2>
+                <p>Members-Only Tables • Provably Fair</p>
             </div>
 
-            <div class="games-grid">
-                <div class="game-card oracle-card" onclick="openGame('oracle')">
+            <div class="games-grid" id="games-grid">
+                <div class="game-card oracle-card" data-category="luck" data-name="oracle" onclick="openGame('oracle')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🔮</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Oracle</h4>
@@ -646,7 +785,7 @@
                     </div>
                 </div>
 
-                <div class="game-card blackjack-card" onclick="openGame('blackjack')">
+                <div class="game-card blackjack-card" data-category="cards" data-name="blackjack" onclick="openGame('blackjack')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🃏</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Blackjack</h4>
@@ -654,7 +793,7 @@
                     </div>
                 </div>
 
-                <div class="game-card chicken-card" onclick="openGame('chicken')">
+                <div class="game-card chicken-card" data-category="crash" data-name="chicken road" onclick="openGame('chicken')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🐔</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Chicken Road</h4>
@@ -662,7 +801,7 @@
                     </div>
                 </div>
 
-                <div class="game-card mines-card" onclick="openGame('mines')">
+                <div class="game-card mines-card" data-category="luck" data-name="mines" onclick="openGame('mines')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">💣</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Mines</h4>
@@ -670,7 +809,7 @@
                     </div>
                 </div>
 
-                <div class="game-card dice-card" onclick="openGame('dice')">
+                <div class="game-card dice-card" data-category="luck" data-name="dice" onclick="openGame('dice')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">🎲</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Dice</h4>
@@ -678,7 +817,7 @@
                     </div>
                 </div>
 
-                <div class="game-card plane-card" onclick="openGame('plane')">
+                <div class="game-card plane-card" data-category="crash" data-name="plane" onclick="openGame('plane')">
                     <div class="card-img-area"><span class="menu-emoji" style="font-size:3rem;">✈️</span></div>
                     <div class="game-footer-info">
                         <h4 class="game-title">Plane</h4>
@@ -728,9 +867,10 @@
                             <div class="bj-cards-display" id="player-cards"></div>
                         </div>
                     </div>
-                    <div id="bj-controls" style="display:flex; gap:10px; justify-content:center;">
-                        <button class="action-btn" style="width:120px;" onclick="bjHit()">Hit</button>
-                        <button class="action-btn" style="width:120px; background:#451010;" onclick="bjStand()">Stand</button>
+                    <div id="bj-controls" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                        <button class="action-btn" style="width:100px;" onclick="bjHit()">Hit</button>
+                        <button class="action-btn" id="bj-double-btn" style="width:100px; background:linear-gradient(135deg,#5c1a2b,#8a2740); color:#f3ead8;" onclick="bjDouble()">Double</button>
+                        <button class="action-btn cashout-btn" style="width:100px;" onclick="bjStand()">Stand</button>
                     </div>
                 </div>
                 <div id="bj-result-banner" class="result-popup-banner"></div>
@@ -916,6 +1056,23 @@
         function closeDeposit() { document.getElementById('deposit-modal').style.display = 'none'; }
         function updateBalanceDisplay() { document.getElementById('balance-display').innerText = balance; }
 
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('game-search').value = '';
+            document.querySelectorAll('#games-grid .game-card').forEach(card => {
+                card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none';
+            });
+        }
+
+        function searchGames() {
+            const q = document.getElementById('game-search').value.toLowerCase().trim();
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('#games-grid .game-card').forEach(card => {
+                card.style.display = (!q || card.dataset.name.includes(q)) ? '' : 'none';
+            });
+        }
+
         function showBanner(id, type, text) {
             const banner = document.getElementById(id);
             banner.className = 'result-popup-banner ' + type;
@@ -978,11 +1135,16 @@
             });
         }
 
-        let bjBet = 0, bjDealerHidden = true;
+        let bjBet = 0, bjDealerHidden = true, bjBusy = false, bjDoubled = false;
 
         function startBlackjack() {
             bjBet = parseInt(document.getElementById('bj-bet').value);
             if (isNaN(bjBet) || bjBet <= 0 || bjBet > balance) { alert("Check your Xanax balance!"); return; }
+
+            balance -= bjBet;
+            updateBalanceDisplay();
+            bjDoubled = false;
+            bjBusy = false;
 
             playerHand = [drawCard(), drawCard()];
             dealerHand = [drawCard(), drawCard()];
@@ -991,66 +1153,126 @@
             document.getElementById('bj-setup').style.display = 'none';
             document.getElementById('bj-play').style.display = 'block';
             document.getElementById('bj-result-banner').style.display = 'none';
+            setBjControlsEnabled(true);
 
             renderHand(playerHand, 'player-cards', false);
             renderHand(dealerHand, 'dealer-cards', true);
             document.getElementById('player-score-label').innerText = `Your Hand (${handValue(playerHand)})`;
             document.getElementById('dealer-score-label').innerText = `Oracle's Hand (Dealer)`;
 
+            // Double Down only available right after the deal, before any hit
+            document.getElementById('bj-double-btn').style.display = 'inline-block';
+
             if (handValue(playerHand) === 21) {
-                bjStand();
+                setTimeout(() => bjStand(), 600);
             }
         }
 
+        function setBjControlsEnabled(enabled) {
+            document.querySelectorAll('#bj-controls .action-btn').forEach(btn => btn.disabled = !enabled);
+        }
+
         function bjHit() {
+            if (bjBusy) return;
+            document.getElementById('bj-double-btn').style.display = 'none';
             playerHand.push(drawCard());
             renderHand(playerHand, 'player-cards', false);
             const val = handValue(playerHand);
             document.getElementById('player-score-label').innerText = `Your Hand (${val})`;
             if (val > 21) {
-                endBlackjack('lose');
+                bjBusy = true;
+                setBjControlsEnabled(false);
+                setTimeout(() => endBlackjack('lose'), 700);
             } else if (val === 21) {
-                bjStand();
+                bjBusy = true;
+                setBjControlsEnabled(false);
+                setTimeout(() => bjStand(), 700);
             }
         }
 
+        function bjDouble() {
+            if (bjBusy || bjDoubled) return;
+            if (bjBet > balance) { alert("Not enough Xanax to double down!"); return; }
+            balance -= bjBet;
+            bjBet *= 2;
+            bjDoubled = true;
+            updateBalanceDisplay();
+            document.getElementById('bj-double-btn').style.display = 'none';
+
+            bjBusy = true;
+            setBjControlsEnabled(false);
+            playerHand.push(drawCard());
+            renderHand(playerHand, 'player-cards', false);
+            const val = handValue(playerHand);
+            document.getElementById('player-score-label').innerText = `Your Hand (${val})`;
+
+            setTimeout(() => {
+                if (val > 21) {
+                    endBlackjack('lose');
+                } else {
+                    bjStand();
+                }
+            }, 900);
+        }
+
         function bjStand() {
+            if (bjBusy && document.getElementById('bj-play').style.display === 'none') return;
+            bjBusy = true;
+            setBjControlsEnabled(false);
+            document.getElementById('bj-double-btn').style.display = 'none';
             bjDealerHidden = false;
             renderHand(dealerHand, 'dealer-cards', false);
 
-            // Dealer draws to 17, but with a slight house-favoring twist:
-            // dealer "peeks" and is statistically a bit more likely to land good hands
-            while (handValue(dealerHand) < 17 || (handValue(dealerHand) < 18 && Math.random() < 0.15)) {
-                dealerHand.push(drawCard());
-                renderHand(dealerHand, 'dealer-cards', false);
-            }
+            const dealerDrawLoop = () => {
+                const shouldDraw = handValue(dealerHand) < 17 || (handValue(dealerHand) < 18 && Math.random() < 0.15);
+                if (shouldDraw && handValue(dealerHand) <= 21) {
+                    setTimeout(() => {
+                        dealerHand.push(drawCard());
+                        renderHand(dealerHand, 'dealer-cards', false);
+                        document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${handValue(dealerHand)})`;
+                        dealerDrawLoop();
+                    }, 700);
+                } else {
+                    finishBlackjackCompare();
+                }
+            };
 
+            document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${handValue(dealerHand)})`;
+            setTimeout(dealerDrawLoop, 600);
+        }
+
+        function finishBlackjackCompare() {
             const dealerVal = handValue(dealerHand);
             const playerVal = handValue(playerHand);
             document.getElementById('dealer-score-label').innerText = `Oracle's Hand (${dealerVal})`;
 
-            if (dealerVal > 21 || playerVal > dealerVal) {
-                endBlackjack('win');
-            } else if (playerVal === dealerVal) {
-                endBlackjack('tie');
-            } else {
-                endBlackjack('lose');
-            }
+            setTimeout(() => {
+                if (dealerVal > 21 || playerVal > dealerVal) {
+                    endBlackjack('win');
+                } else if (playerVal === dealerVal) {
+                    endBlackjack('tie');
+                } else {
+                    endBlackjack('lose');
+                }
+            }, 500);
         }
 
         function endBlackjack(result) {
             if (result === 'win') {
-                balance += bjBet;
+                balance += bjBet * 2;
                 showBanner('bj-result-banner', 'win', `🃏 Win! +${bjBet} Xanax`);
             } else if (result === 'tie') {
+                balance += bjBet;
                 showBanner('bj-result-banner', 'tie', `🤝 Push! Bet returned`);
             } else {
-                balance -= bjBet;
                 showBanner('bj-result-banner', 'lose', `🔥 Lost! -${bjBet} Xanax`);
             }
             updateBalanceDisplay();
-            document.getElementById('bj-play').style.display = 'none';
-            document.getElementById('bj-setup').style.display = 'block';
+            bjBusy = false;
+            setTimeout(() => {
+                document.getElementById('bj-play').style.display = 'none';
+                document.getElementById('bj-setup').style.display = 'block';
+            }, 1400);
         }
 
         // ================= CHICKEN ROAD =================
@@ -1067,6 +1289,9 @@
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
             const diff = document.getElementById('chicken-difficulty').value;
             const cfg = chickenConfigs[diff];
+
+            balance -= bet;
+            updateBalanceDisplay();
 
             chickenState = { bet, cfg, lane: 0, mult: 1.0, alive: true };
 
@@ -1122,7 +1347,6 @@
                 sprite.innerText = '💥';
                 chickenState.alive = false;
                 showBanner('chicken-result-banner', 'lose', `🐔 Splat! Lost ${chickenState.bet} Xanax`);
-                balance -= chickenState.bet;
                 updateBalanceDisplay();
                 setTimeout(() => {
                     document.getElementById('chicken-play').style.display = 'none';
@@ -1179,6 +1403,9 @@
             const bet = parseInt(document.getElementById('plane-bet').value);
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
 
+            balance -= bet;
+            updateBalanceDisplay();
+
             const crashPoint = generateCrashPoint();
             planeState = { bet, crashPoint, mult: 1.0, alive: true, cashedOut: false, timer: null, t: 0 };
 
@@ -1229,7 +1456,6 @@
             document.getElementById('plane-cashout-btn').disabled = true;
 
             if (!planeState.cashedOut) {
-                balance -= planeState.bet;
                 showBanner('plane-result-banner', 'lose', `✈️ Crashed at ${planeState.crashPoint.toFixed(2)}x! Lost ${planeState.bet} Xanax`);
                 updateBalanceDisplay();
             }
@@ -1267,6 +1493,9 @@
             const bet = parseInt(document.getElementById('mines-bet').value);
             if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
             const bombCount = parseInt(document.getElementById('mines-bomb-count').value);
+
+            balance -= bet;
+            updateBalanceDisplay();
 
             const bombPositions = new Set();
             while (bombPositions.size < bombCount) {
@@ -1329,7 +1558,6 @@
                 minesState.alive = false;
                 revealAllMines();
                 showBanner('mines-result-banner', 'lose', `💣 Boom! Lost ${minesState.bet} Xanax`);
-                balance -= minesState.bet;
                 updateBalanceDisplay();
                 setTimeout(() => {
                     document.getElementById('mines-play').style.display = 'none';
