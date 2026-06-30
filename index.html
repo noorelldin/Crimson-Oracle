@@ -284,6 +284,68 @@
             justify-content: center;
             font-size: 2.8rem;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+            background-size: cover;
+            background-position: center;
+        }
+
+        .image-name-section {
+            background: rgba(20,9,45,0.75);
+            border: 2px dashed var(--cyan);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+        }
+        .image-name-section h4 {
+            margin: 0 0 4px 0;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            color: var(--gold-bright);
+        }
+        .image-name-section p {
+            margin: 0 0 12px 0;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .image-name-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .image-name-row label {
+            width: 92px;
+            flex-shrink: 0;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .image-name-row input {
+            flex: 1;
+            background: #160832;
+            border: 2px solid #3a1a70;
+            border-radius: 8px;
+            padding: 7px 10px;
+            color: var(--text-main);
+            font-size: 0.78rem;
+            outline: none;
+            font-family: var(--font-body);
+        }
+        .image-name-row input:focus { border-color: var(--cyan); }
+        .image-name-apply-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-weight: 800;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 4px;
+            font-family: var(--font-body);
         }
         .game-card .card-label-area {
             position: relative;
@@ -744,7 +806,7 @@
         .wins-ticker-track {
             display: inline-flex;
             gap: 28px;
-            animation: tickerScroll 28s linear infinite;
+            animation: tickerScroll 65s linear infinite;
             padding-left: 100%;
         }
         @keyframes tickerScroll {
@@ -981,7 +1043,7 @@
         /* ===== Plinko ===== */
         .plinko-board {
             position: relative;
-            height: 220px;
+            height: 340px;
             background: linear-gradient(180deg, #1a0a2e, #2d0a3d);
             border-radius: 14px;
             border: 2px solid rgba(255,255,255,0.1);
@@ -990,33 +1052,34 @@
         }
         .plinko-peg {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(255,255,255,0.5);
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.55);
             border-radius: 50%;
+            box-shadow: 0 0 4px rgba(255,255,255,0.3);
         }
         .plinko-ball {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             background: var(--gold-bright);
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--glow-gold);
-            transition: top 0.18s linear, left 0.18s ease;
+            box-shadow: 0 0 10px var(--glow-gold);
+            transition: top 0.16s linear, left 0.16s ease;
             z-index: 5;
         }
         .plinko-slots {
             position: absolute;
             bottom: 0; left: 0; right: 0;
             display: flex;
-            height: 28px;
+            height: 36px;
         }
         .plinko-slot {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.55rem;
+            font-size: 0.62rem;
             font-weight: 800;
             color: #fff;
             border-right: 1px solid rgba(0,0,0,0.3);
@@ -1136,7 +1199,7 @@
             <div class="games-grid" id="games-grid">
                 <div class="game-card oracle-card" data-category="luck" data-name="oracle" onclick="openGame('oracle')">
                     <button class="fav-star-btn" data-game="oracle" onclick="toggleFavorite(event,'oracle')">★</button>
-                    <div class="card-emoji-bg">🔮</div>
+                    <div class="card-emoji-bg" id="card-img-oracle">🔮</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Oracle</h4>
                         <div class="game-type">Crimson</div>
@@ -1145,7 +1208,7 @@
 
                 <div class="game-card blackjack-card" data-category="cards" data-name="blackjack" onclick="openGame('blackjack')">
                     <button class="fav-star-btn" data-game="blackjack" onclick="toggleFavorite(event,'blackjack')">★</button>
-                    <div class="card-emoji-bg">🃏</div>
+                    <div class="card-emoji-bg" id="card-img-blackjack">🃏</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Blackjack</h4>
                         <div class="game-type">Crimson</div>
@@ -1154,7 +1217,7 @@
 
                 <div class="game-card chicken-card" data-category="crash" data-name="chicken road" onclick="openGame('chicken')">
                     <button class="fav-star-btn" data-game="chicken" onclick="toggleFavorite(event,'chicken')">★</button>
-                    <div class="card-emoji-bg">🐔</div>
+                    <div class="card-emoji-bg" id="card-img-chicken">🐔</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Chicken Road</h4>
                         <div class="game-type">Crimson</div>
@@ -1163,7 +1226,7 @@
 
                 <div class="game-card mines-card" data-category="luck" data-name="mines" onclick="openGame('mines')">
                     <button class="fav-star-btn" data-game="mines" onclick="toggleFavorite(event,'mines')">★</button>
-                    <div class="card-emoji-bg">💣</div>
+                    <div class="card-emoji-bg" id="card-img-mines">💣</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Mines</h4>
                         <div class="game-type">Crimson</div>
@@ -1172,7 +1235,7 @@
 
                 <div class="game-card dice-card" data-category="luck" data-name="dice" onclick="openGame('dice')">
                     <button class="fav-star-btn" data-game="dice" onclick="toggleFavorite(event,'dice')">★</button>
-                    <div class="card-emoji-bg">🎲</div>
+                    <div class="card-emoji-bg" id="card-img-dice">🎲</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Dice</h4>
                         <div class="game-type">Crimson</div>
@@ -1181,7 +1244,7 @@
 
                 <div class="game-card plane-card" data-category="crash" data-name="plane" onclick="openGame('plane')">
                     <button class="fav-star-btn" data-game="plane" onclick="toggleFavorite(event,'plane')">★</button>
-                    <div class="card-emoji-bg">✈️</div>
+                    <div class="card-emoji-bg" id="card-img-plane">✈️</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Plane</h4>
                         <div class="game-type">Crimson</div>
@@ -1190,7 +1253,7 @@
 
                 <div class="game-card plinko-card" data-category="luck" data-name="plinko" onclick="openGame('plinko')">
                     <button class="fav-star-btn" data-game="plinko" onclick="toggleFavorite(event,'plinko')">★</button>
-                    <div class="card-emoji-bg">⚪</div>
+                    <div class="card-emoji-bg" id="card-img-plinko">⚪</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Plinko</h4>
                         <div class="game-type">Crimson</div>
@@ -1199,7 +1262,7 @@
 
                 <div class="game-card limbo-card" data-category="crash" data-name="limbo" onclick="openGame('limbo')">
                     <button class="fav-star-btn" data-game="limbo" onclick="toggleFavorite(event,'limbo')">★</button>
-                    <div class="card-emoji-bg">🔥</div>
+                    <div class="card-emoji-bg" id="card-img-limbo">🔥</div>
                     <div class="card-label-area">
                         <h4 class="game-title">Limbo</h4>
                         <div class="game-type">Crimson</div>
@@ -1505,6 +1568,46 @@
 
         const HOUSE_EDGE = 0.08;
 
+        // =====================================================================
+        // 🖼️ GAME IMAGES — اكتب اسم ملف الصورة هنا لكل لعبة
+        // -----------------------------------------------------------------
+        // To use your own image instead of the emoji on a game card, type the
+        // file name (or full URL) between the quotes below. Leave it as ""
+        // (empty) to keep the emoji.
+        //
+        // عشان تحط صورتك بدل الإيموجي، اكتب اسم ملف الصورة بين علامات
+        // التنصيص "" تحت. سيبها فاضية "" لو عايز تسيب الإيموجي زي ما هو.
+        //
+        // Example / مثال:   oracle: "oracle.png",
+        //
+        // Make sure the image file is in the SAME FOLDER as this index.html
+        // file, or use a full web link (https://...) — لازم الصورة تكون في
+        // نفس الفولدر بتاع الملف ده، أو تحط لينك كامل من النت.
+        // =====================================================================
+        const GAME_IMAGES = {
+            oracle:    "",   // صورة الأوراكل / Oracle image
+            blackjack: "",   // صورة البلاكجاك / Blackjack image
+            chicken:   "",   // صورة تشيكن رود / Chicken Road image
+            mines:     "",   // صورة ماينز / Mines image
+            dice:      "",   // صورة الدايس / Dice image
+            plane:     "",   // صورة الطيارة / Plane image
+            plinko:    "",   // صورة بلينكو / Plinko image
+            limbo:     ""    // صورة ليمبو / Limbo image
+        };
+
+        function applyGameImages() {
+            Object.keys(GAME_IMAGES).forEach(key => {
+                const fileName = (GAME_IMAGES[key] || '').trim();
+                const cardImg = document.getElementById('card-img-' + key);
+                if (!cardImg) return;
+                if (fileName) {
+                    cardImg.style.backgroundImage = `url('${fileName}')`;
+                    cardImg.innerText = '';
+                } else {
+                    cardImg.style.backgroundImage = '';
+                }
+            });
+        }
         // ================= STATS TRACKING =================
         let stats = { wagered: 0, biggestWin: 0, gamesPlayed: 0, winStreak: 0, bestWinStreak: 0 };
 
@@ -1566,7 +1669,8 @@
             const stack = document.getElementById('toast-stack');
             const toast = document.createElement('div');
             toast.className = 'toast toast-' + type;
-            toast.innerText = text;
+            const prefix = type === 'win' ? '✅ ' : type === 'lose' ? '❌ ' : '';
+            toast.innerText = prefix + text;
             stack.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
@@ -1720,7 +1824,8 @@
         function showBanner(id, type, text) {
             const banner = document.getElementById(id);
             banner.className = 'result-popup-banner ' + type;
-            banner.innerText = text;
+            const prefix = type === 'win' ? '✅ ' : type === 'lose' ? '❌ ' : '';
+            banner.innerText = prefix + text;
             banner.style.display = 'block';
         }
 
@@ -2256,103 +2361,4 @@
 
         function minesCashout() {
             if (!minesState || !minesState.alive || minesState.revealed === 0) {
-                if (minesState && minesState.revealed === 0) alert("Reveal at least one tile first!");
-                return;
-            }
-            const mult = minesMultiplier();
-            const winnings = Math.round(minesState.bet * mult * 100) / 100;
-            balance += winnings;
-            showBanner('mines-result-banner', 'win', `💎 Cashed out! +${winnings.toFixed(2)} Xanax`);
-            showToast('win', `💎 Mines: +${winnings.toFixed(2)} Xanax`);
-            playWinSound();
-            trackResult(true, winnings);
-            updateBalanceDisplay();
-            minesState.alive = false;
-            setTimeout(() => {
-                document.getElementById('mines-play').style.display = 'none';
-                document.getElementById('mines-setup').style.display = 'block';
-            }, 1200);
-        }
-
-        // ================= DICE =================
-        let diceMode = 'under';
-
-        function setDiceMode(mode) {
-            diceMode = mode;
-            document.getElementById('dice-mode-under').classList.toggle('selected', mode === 'under');
-            document.getElementById('dice-mode-over').classList.toggle('selected', mode === 'over');
-            updateDiceDisplay();
-        }
-
-        function diceWinChance(target) {
-            return diceMode === 'under' ? target : (100 - target);
-        }
-
-        function diceFairPayout(winChancePct) {
-            const fair = 100 / winChancePct;
-            return fair * (1 - HOUSE_EDGE);
-        }
-
-        function updateDiceDisplay() {
-            const target = parseInt(document.getElementById('dice-target').value);
-            const winChance = diceWinChance(target);
-            const payout = diceFairPayout(winChance);
-            document.getElementById('dice-target-text').innerText =
-                `Target: ${target} | Win Chance: ${winChance}% | Payout: ${payout.toFixed(2)}x`;
-        }
-
-        function playDice() {
-            const bet = parseFloat(document.getElementById('dice-bet').value);
-            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
-
-            const target = parseInt(document.getElementById('dice-target').value);
-            const winChance = diceWinChance(target);
-            const payout = diceFairPayout(winChance);
-
-            const roll = Math.floor(Math.random() * 100) + 1;
-            document.getElementById('dice-result').innerText = roll;
-
-            let win;
-            if (diceMode === 'under') {
-                win = roll < target;
-            } else {
-                win = roll > target;
-            }
-
-            trackWager(bet);
-            if (win) {
-                const winnings = Math.round((bet * payout - bet) * 100) / 100;
-                balance += winnings;
-                showBanner('dice-result-banner', 'win', `🎲 Rolled ${roll}! +${winnings.toFixed(2)} Xanax`);
-                showToast('win', `🎲 Dice: +${winnings.toFixed(2)} Xanax`);
-                playWinSound();
-                trackResult(true, winnings);
-            } else {
-                balance -= bet;
-                showBanner('dice-result-banner', 'lose', `🎲 Rolled ${roll}! -${bet.toFixed(2)} Xanax`);
-                showToast('lose', `🎲 Dice: -${bet.toFixed(2)} Xanax`);
-                playLoseSound();
-                trackResult(false, 0);
-            }
-            updateBalanceDisplay();
-        }
-
-        // ================= PLINKO =================
-        const plinkoConfigs = {
-            low:    { rows: 9, multipliers: [5.6, 2.1, 1.1, 1.0, 0.5, 1.0, 1.1, 2.1, 5.6] },
-            medium: { rows: 9, multipliers: [13, 3, 1.3, 0.7, 0.4, 0.7, 1.3, 3, 13] },
-            high:   { rows: 9, multipliers: [29, 4, 1.5, 0.3, 0.2, 0.3, 1.5, 4, 29] }
-        };
-
-        function renderPlinkoBoard() {
-            const board = document.getElementById('plinko-board');
-            board.querySelectorAll('.plinko-peg, .plinko-ball').forEach(p => p.remove());
-            const rows = 9;
-            for (let r = 0; r < rows; r++) {
-                const pegCount = r + 3;
-                const spacing = 100 / (pegCount + 1);
-                for (let c = 0; c < pegCount; c++) {
-                    const peg = document.createElement('div');
-                    peg.className = 'plinko-peg';
-                    peg.style.left = (spacing * (c + 1)) + '%';
-                    peg.style.top = (12 + r * (16
+                if (minesState && minesState.revealed === 0) alert("Reveal at
