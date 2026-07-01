@@ -1587,7 +1587,7 @@
         const GAME_IMAGES = {
             oracle:    "",   // صورة الأوراكل / Oracle image
             blackjack: "",   // صورة البلاكجاك / Blackjack image
-            chicken:   "grok_image_xz8o51u.jpg",   // صورة تشيكن رود / Chicken Road image
+            chicken:   "",   // صورة تشيكن رود / Chicken Road image
             mines:     "",   // صورة ماينز / Mines image
             dice:      "",   // صورة الدايس / Dice image
             plane:     "",   // صورة الطيارة / Plane image
@@ -2361,4 +2361,251 @@
 
         function minesCashout() {
             if (!minesState || !minesState.alive || minesState.revealed === 0) {
-                if (minesState && minesState.revealed === 0) alert("Reveal at
+                if (minesState && minesState.revealed === 0) alert("Reveal at least one tile first!");
+                return;
+            }
+            const mult = minesMultiplier();
+            const winnings = Math.round(minesState.bet * mult * 100) / 100;
+            balance += winnings;
+            showBanner('mines-result-banner', 'win', `💎 Cashed out! +${winnings.toFixed(2)} Xanax`);
+            showToast('win', `💎 Mines: +${winnings.toFixed(2)} Xanax`);
+            playWinSound();
+            trackResult(true, winnings);
+            updateBalanceDisplay();
+            minesState.alive = false;
+            setTimeout(() => {
+                document.getElementById('mines-play').style.display = 'none';
+                document.getElementById('mines-setup').style.display = 'block';
+            }, 1200);
+        }
+
+        // ================= DICE =================
+        let diceMode = 'under';
+
+        function setDiceMode(mode) {
+            diceMode = mode;
+            document.getElementById('dice-mode-under').classList.toggle('selected', mode === 'under');
+            document.getElementById('dice-mode-over').classList.toggle('selected', mode === 'over');
+            updateDiceDisplay();
+        }
+
+        function diceWinChance(target) {
+            return diceMode === 'under' ? target : (100 - target);
+        }
+
+        function diceFairPayout(winChancePct) {
+            const fair = 100 / winChancePct;
+            return fair * (1 - HOUSE_EDGE);
+        }
+
+        function updateDiceDisplay() {
+            const target = parseInt(document.getElementById('dice-target').value);
+            const winChance = diceWinChance(target);
+            const payout = diceFairPayout(winChance);
+            document.getElementById('dice-target-text').innerText =
+                `Target: ${target} | Win Chance: ${winChance}% | Payout: ${payout.toFixed(2)}x`;
+        }
+
+        function playDice() {
+            const bet = parseFloat(document.getElementById('dice-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { alert("Check your Xanax balance!"); return; }
+
+            const target = parseInt(document.getElementById('dice-target').value);
+            const winChance = diceWinChance(target);
+            const payout = diceFairPayout(winChance);
+
+            const roll = Math.floor(Math.random() * 100) + 1;
+            document.getElementById('dice-result').innerText = roll;
+
+            let win;
+            if (diceMode === 'under') {
+                win = roll < target;
+            } else {
+                win = roll > target;
+            }
+
+            trackWager(bet);
+            if (win) {
+                const winnings = Math.round((bet * payout - bet) * 100) / 100;
+                balance += winnings;
+                showBanner('dice-result-banner', 'win', `🎲 Rolled ${roll}! +${winnings.toFixed(2)} Xanax`);
+                showToast('win', `🎲 Dice: +${winnings.toFixed(2)} Xanax`);
+                playWinSound();
+                trackResult(true, winnings);
+            } else {
+                balance -= bet;
+                showBanner('dice-result-banner', 'lose', `🎲 Rolled ${roll}! -${bet.toFixed(2)} Xanax`);
+                showToast('lose', `🎲 Dice: -${bet.toFixed(2)} Xanax`);
+                playLoseSound();
+                trackResult(false, 0);
+            }
+            updateBalanceDisplay();
+        }
+
+        // ================= PLINKO =================
+        // 12 rows -> 13 slots, true binomial random walk (each peg = 50/50 bounce)
+        const PLINKO_ROWS = 12;
+        const plinkoConfigs = {
+            low:    { multipliers: [8.4, 3, 1.6, 1.2, 1, 0.6, 0.4, 0.6, 1, 1.2, 1.6, 3, 8.4] },
+            medium: { multipliers: [24, 7, 3, 1.6, 0.9, 0.4, 0.2, 0.4, 0.9, 1.6, 3, 7, 24] },
+            high:   { multipliers: [76, 14, 4, 1.6, 0.6, 0.2, 0.1, 0.2, 0.6, 1.6, 4, 14, 76] }
+        };
+
+        function renderPlinkoBoard() {
+            const board = document.getElementById('plinko-board');
+            board.querySelectorAll('.plinko-peg, .plinko-ball').forEach(p => p.remove());
+            const boardHeight = 300;
+            const topMargin = 14;
+            for (let r = 0; r < PLINKO_ROWS; r++) {
+                const pegCount = r + 3;
+                const spacing = 100 / (pegCount + 1);
+                for (let c = 0; c < pegCount; c++) {
+                    const peg = document.createElement('div');
+                    peg.className = 'plinko-peg';
+                    peg.style.left = (spacing * (c + 1)) + '%';
+                    peg.style.top = (topMargin + r * (boardHeight / PLINKO_ROWS)) + 'px';
+                    board.appendChild(peg);
+                }
+            }
+            renderPlinkoSlots();
+        }
+
+        function renderPlinkoSlots() {
+            const risk = document.getElementById('plinko-risk').value;
+            const cfg = plinkoConfigs[risk];
+            const slotsEl = document.getElementById('plinko-slots');
+            slotsEl.innerHTML = cfg.multipliers.map(m =>
+                `<div class="plinko-slot" style="background:${m >= 5 ? 'rgba(255,210,63,0.4)' : m >= 1 ? 'rgba(46,230,168,0.3)' : 'rgba(255,45,149,0.25)'};">${m}x</div>`
+            ).join('');
+        }
+
+        function dropPlinkoBall() {
+            const bet = parseFloat(document.getElementById('plinko-bet').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { showToast('lose', "Check your Xanax balance!"); return; }
+            const risk = document.getElementById('plinko-risk').value;
+            const cfg = plinkoConfigs[risk];
+            const slotCount = cfg.multipliers.length; // 13
+
+            balance -= bet;
+            trackWager(bet);
+            updateBalanceDisplay();
+
+            const board = document.getElementById('plinko-board');
+            const ball = document.createElement('div');
+            ball.className = 'plinko-ball';
+            ball.style.left = '50%';
+            ball.style.top = '0px';
+            board.appendChild(ball);
+
+            // True binomial walk: at each of 12 pegs, ball bounces left (-1) or right (+1) with 50/50 odds.
+            // rightCount of 0..12 maps directly to the final slot index (0..12).
+            let rightCount = 0;
+            const path = [0]; // track position offset at each row for the visual path
+            let posOffset = 0;
+            for (let i = 0; i < PLINKO_ROWS; i++) {
+                const bounceRight = Math.random() < 0.5;
+                if (bounceRight) { rightCount++; posOffset++; } else { posOffset--; }
+                path.push(posOffset);
+            }
+            const finalSlot = rightCount; // 0 to 12, naturally bell-curved toward center
+
+            const boardHeight = 300;
+            let step = 0;
+            const totalSteps = PLINKO_ROWS;
+            const fallInterval = setInterval(() => {
+                step++;
+                const rowY = 14 + step * (boardHeight / PLINKO_ROWS);
+                // convert posOffset to a percentage position across the board, centered at 50%
+                const offsetPct = (path[step] / PLINKO_ROWS) * 38; // spread factor tuned to board width
+                ball.style.top = rowY + 'px';
+                ball.style.left = (50 + offsetPct) + '%';
+
+                if (step >= totalSteps) {
+                    clearInterval(fallInterval);
+                    const targetLeftPct = (100 / slotCount) * (finalSlot + 0.5);
+                    ball.style.top = (boardHeight + 10) + 'px';
+                    ball.style.left = targetLeftPct + '%';
+
+                    const mult = cfg.multipliers[finalSlot];
+                    const winnings = Math.round(bet * mult * 100) / 100;
+                    const won = mult >= 1;
+                    if (won) {
+                        balance += winnings;
+                        showBanner('plinko-result-banner', 'win', `⚪ Landed ${mult}x! +${winnings.toFixed(2)} Xanax`);
+                        showToast('win', `⚪ Plinko: +${winnings.toFixed(2)} Xanax`);
+                        playWinSound();
+                    } else {
+                        balance -= (bet - winnings);
+                        showBanner('plinko-result-banner', 'lose', `⚪ Landed ${mult}x! Lost ${(bet-winnings).toFixed(2)} Xanax`);
+                        showToast('lose', `⚪ Plinko: -${(bet-winnings).toFixed(2)} Xanax`);
+                        playLoseSound();
+                    }
+                    trackResult(won, winnings);
+                    updateBalanceDisplay();
+                    setTimeout(() => ball.remove(), 1000);
+                }
+            }, 140);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const riskSelect = document.getElementById('plinko-risk');
+            if (riskSelect) riskSelect.addEventListener('change', renderPlinkoSlots);
+        });
+
+        // ================= LIMBO =================
+        function updateLimboChanceText() {
+            const target = parseFloat(document.getElementById('limbo-target').value) || 1.01;
+            const winChance = ((1 - HOUSE_EDGE) / target * 100).toFixed(2);
+            document.getElementById('limbo-chance-text').innerText = `Win Chance: ${winChance}%`;
+        }
+
+        function playLimbo() {
+            const bet = parseFloat(document.getElementById('limbo-bet').value);
+            const target = parseFloat(document.getElementById('limbo-target').value);
+            if (isNaN(bet) || bet <= 0 || bet > balance) { showToast('lose', "Check your Xanax balance!"); return; }
+            if (isNaN(target) || target < 1.01) { showToast('lose', "Target must be at least 1.01x"); return; }
+
+            balance -= bet;
+            trackWager(bet);
+            updateBalanceDisplay();
+
+            const r = Math.random();
+            let resultMult = (1 - HOUSE_EDGE) / (1 - r);
+            resultMult = Math.max(1.0, Math.min(resultMult, 1000));
+
+            const display = document.getElementById('limbo-result');
+            display.className = 'limbo-display';
+            display.innerText = '...';
+
+            setTimeout(() => {
+                const won = resultMult >= target;
+                display.innerText = resultMult.toFixed(2) + 'x';
+                display.classList.add(won ? 'win' : 'lose');
+
+                if (won) {
+                    const winnings = Math.round(bet * target * 100) / 100;
+                    balance += winnings;
+                    showBanner('limbo-result-banner', 'win', `🔥 Hit ${resultMult.toFixed(2)}x! +${winnings.toFixed(2)} Xanax`);
+                    showToast('win', `🔥 Limbo: +${winnings.toFixed(2)} Xanax`);
+                    playWinSound();
+                    trackResult(true, winnings);
+                } else {
+                    showBanner('limbo-result-banner', 'lose', `🔥 Only ${resultMult.toFixed(2)}x! Lost ${bet.toFixed(2)} Xanax`);
+                    showToast('lose', `🔥 Limbo: -${bet.toFixed(2)} Xanax`);
+                    playLoseSound();
+                    trackResult(false, 0);
+                }
+                updateBalanceDisplay();
+            }, 700);
+        }
+
+        document.getElementById('limbo-target') && document.getElementById('limbo-target').addEventListener('input', updateLimboChanceText);
+
+        // init
+        updateDiceDisplay();
+        generateTickerFeed();
+        updateLimboChanceText();
+        applyGameImages();
+    </script>
+</body>
+</html>
